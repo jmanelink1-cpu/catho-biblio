@@ -263,7 +263,7 @@ export default function LandingPage() {
         </h1>
 
         <p className="cb-lead" style={{ fontSize: '1.1rem', maxWidth: 580, margin: '0 auto 12px', lineHeight: 1.7, color: '#6B7280' }}>
-          500+ ouvrages catholiques — Bible, saints, théologie, spiritualité — accessibles immédiatement.
+          500+ ouvrages catholiques — Bible, saints,<br />théologie, spiritualité et bien plus.
         </p>
         <p className="cb-lead-2" style={{ fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 36px', fontWeight: 700, color: V }}>
           Un seul paiement de {price} FCFA.
@@ -619,7 +619,7 @@ export default function LandingPage() {
           </div>
           <div>
             <h3 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1rem', marginBottom: 4, color: '#1E1032' }}>
-              Paiement 100% sécurisé — Accès garanti à vie
+              Paiement 100% sécurisé —<br />Accès garanti à vie
             </h3>
             <p style={{ fontSize: '.86rem', color: '#6B7280', lineHeight: 1.6, margin: 0, maxWidth: 520 }}>
               Tous les paiements sont traités par des prestataires certifiés (CinetPay, Stripe, PayPal).
