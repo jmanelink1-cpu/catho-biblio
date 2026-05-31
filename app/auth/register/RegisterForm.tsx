@@ -7,6 +7,16 @@ import { createClient } from '@/lib/supabase/client'
 import { PLANS, type PlanKey } from '@/lib/types'
 import { Suspense } from 'react'
 
+const CrossIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg>
+)
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+)
+const LockIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+)
+
 function RegisterForm() {
   const searchParams = useSearchParams()
   const planKey      = (searchParams.get('plan') as PlanKey) || null
@@ -52,7 +62,10 @@ function RegisterForm() {
   if (success) {
     return (
       <div className="text-center py-4">
-        <div className="text-5xl mb-4">✅</div>
+        <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center text-white"
+             style={{ background: '#16A34A' }}>
+          <span className="w-7 h-7"><CheckIcon /></span>
+        </div>
         <h3 className="text-xl font-bold mb-3" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>
           Compte créé avec succès !
         </h3>
@@ -73,8 +86,9 @@ function RegisterForm() {
     <>
       {plan && (
         <div className="flex items-center gap-2 px-4 py-3 rounded-xl mb-5 text-sm"
-             style={{ background: 'var(--color-brand-soft)', color: 'var(--color-brand)', border: '1px solid rgba(26,86,219,0.2)' }}>
-          📚 Plan sélectionné : <strong>{plan.label} — {plan.price.toLocaleString('fr-FR')} {plan.currency}</strong>
+             style={{ background: 'var(--color-brand-soft)', color: 'var(--color-brand)', border: '1px solid var(--color-brand-border)' }}>
+          <span className="w-4 h-4 flex-shrink-0"><CheckIcon /></span>
+          Accès sélectionné : <strong>{plan.label} — {plan.price.toLocaleString('fr-FR')} {plan.currency}</strong>
         </div>
       )}
 
@@ -122,10 +136,11 @@ function RegisterForm() {
                  className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
                  style={{ borderColor: 'var(--color-border)', background: 'var(--color-subtle)', color: 'var(--color-ink)' }} />
         </div>
-        <div className="px-4 py-3 rounded-xl text-xs leading-relaxed"
+        <div className="flex items-start gap-2 px-4 py-3 rounded-xl text-xs leading-relaxed"
              style={{ background: 'var(--color-subtle)', color: 'var(--color-muted)' }}>
-          🔒 En créant un compte, vous acceptez nos conditions d&apos;utilisation.
-          Votre accès sera activé après confirmation de votre paiement.
+          <span className="w-3.5 h-3.5 flex-shrink-0 mt-0.5"><LockIcon /></span>
+          <span>En créant un compte, vous acceptez nos conditions d&apos;utilisation.
+          Votre accès sera activé après confirmation de votre paiement.</span>
         </div>
         <button type="submit" disabled={loading}
                 className="w-full py-3.5 rounded-full font-bold text-white transition-all hover:opacity-90 disabled:opacity-60"
@@ -144,11 +159,14 @@ export default function RegisterFormPage() {
       <div className="w-full max-w-md rounded-3xl border p-10"
            style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)', boxShadow: '0 8px 32px rgba(13,27,42,0.1)' }}>
         <div className="text-center mb-8">
-          <div className="text-5xl mb-3">✝</div>
+          <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center text-white"
+               style={{ background: 'var(--color-brand)' }}>
+            <span className="w-7 h-7"><CrossIcon /></span>
+          </div>
           <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-brand)' }}>
             Catho Biblio
           </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--color-muted)' }}>Créez votre compte gratuit</p>
+          <p className="text-sm mt-1" style={{ color: 'var(--color-muted)' }}>Créez votre compte pour accéder à la bibliothèque</p>
         </div>
         <Suspense fallback={<div className="text-center py-8" style={{ color: 'var(--color-muted)' }}>Chargement...</div>}>
           <RegisterForm />

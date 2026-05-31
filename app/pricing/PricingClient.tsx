@@ -64,8 +64,8 @@ export default function PricingClient({ userId, userEmail }: Props) {
            style={{ background: '#F5F0FF' }}>
         <div className="text-center max-w-md p-12 rounded-3xl bg-white shadow-xl">
           <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center"
-               style={{ background: 'var(--color-brand)', color: '#fff', fontSize: '1.8rem' }}>
-            ✝
+               style={{ background: 'var(--color-brand)', color: '#fff' }}>
+            <span className="w-8 h-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg></span>
           </div>
           <h2 className="text-2xl font-extrabold mb-3" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>
             Accès activé !
@@ -90,7 +90,10 @@ export default function PricingClient({ userId, userEmail }: Props) {
               style={{ borderColor: 'rgba(109,40,217,0.12)' }}>
         <Link href="/" className="flex items-center gap-2 font-extrabold text-lg"
               style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-brand)' }}>
-          ✝ Catho Biblio
+          <span className="w-7 h-7 rounded-lg flex items-center justify-center text-white" style={{ background: 'var(--color-brand)' }}>
+            <span className="w-4 h-4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg></span>
+          </span>
+          Catho Biblio
         </Link>
         <span className="text-sm" style={{ color: 'var(--color-muted)' }}>{userEmail}</span>
       </header>
@@ -117,12 +120,15 @@ export default function PricingClient({ userId, userEmail }: Props) {
                 {price} FCFA
               </div>
             </div>
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl">✝</div>
+            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+              <span className="w-6 h-6 text-white"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg></span>
+            </div>
           </div>
           <div className="space-y-2">
             {['500+ livres catholiques', 'Accès permanent et illimité', 'Tous vos appareils', 'Nouveautés incluses à vie'].map(item => (
               <div key={item} className="flex items-center gap-2 text-sm text-white/75">
-                <span className="text-green-400">✓</span> {item}
+                <span className="w-4 h-4 text-green-400 flex-shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                {item}
               </div>
             ))}
           </div>

@@ -6,6 +6,25 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES, type Book, type Profile } from '@/lib/types'
 
+// ── SVG Icons ──
+const Ico = {
+  Cross:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg>,
+  Book:   () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  Arrow:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+  Settings: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
+  Logout: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>,
+  Sparkle: () => <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5z"/></svg>,
+}
+
+// Placeholder violet pour livres sans couverture
+const BookPlaceholder = () => (
+  <svg viewBox="0 0 60 90" fill="none" className="w-full h-full">
+    <rect width="60" height="90" fill="#F5F3FF"/>
+    <path d="M30 24v42M16 38h28" stroke="#6D28D9" strokeWidth="3" strokeLinecap="round"/>
+    <circle cx="30" cy="38" r="8" stroke="#B45309" strokeWidth="2" fill="none"/>
+  </svg>
+)
+
 interface Props {
   books:     Book[]
   profile:   Profile
@@ -58,7 +77,10 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
               style={{ background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(12px)', borderBottom: '1px solid var(--color-border)' }}>
         <Link href="/library" className="flex items-center gap-2 font-extrabold text-lg flex-shrink-0"
               style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-brand)' }}>
-          <span style={{ color: 'var(--color-gold)' }}>✝</span>
+          <span className="w-7 h-7 rounded-lg flex items-center justify-center text-white"
+                style={{ background: 'var(--color-brand)' }}>
+            <span className="w-4 h-4"><Ico.Cross /></span>
+          </span>
           <span className="hidden sm:inline">Catho Biblio</span>
         </Link>
 
@@ -92,13 +114,13 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
               {profile.is_admin && (
                 <Link href="/admin" className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors hover:bg-[--color-subtle]"
                       style={{ color: 'var(--color-brand)' }} onClick={() => setMenuOpen(false)}>
-                  ⚙️ Administration
+                  <span className="w-4 h-4"><Ico.Settings /></span> Administration
                 </Link>
               )}
               <button onClick={logout}
                       className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors hover:bg-[--color-subtle]"
                       style={{ color: 'var(--color-muted)' }}>
-                🚪 Se déconnecter
+                <span className="w-4 h-4"><Ico.Logout /></span> Se déconnecter
               </button>
             </div>
           )}
@@ -109,11 +131,14 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
 
         {/* ─── Hero banner ─── */}
         <div className="my-5 rounded-2xl p-6 md:p-8 relative overflow-hidden"
-             style={{ background: 'linear-gradient(135deg,var(--color-brand-dark),var(--color-brand) 60%,#2E6BE0)' }}>
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-8xl opacity-10 pointer-events-none select-none">✝</div>
+             style={{ background: 'linear-gradient(135deg,var(--color-brand-dark),var(--color-brand) 70%,#7C3AED)' }}>
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none select-none w-28 h-28 text-white">
+            <Ico.Cross />
+          </div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-3 text-white"
                style={{ background: 'rgba(255,255,255,0.15)' }}>
-            ✨ Bibliothèque complète
+            <span className="w-3.5 h-3.5" style={{ color: 'var(--color-gold-bright)' }}><Ico.Sparkle /></span>
+            Bibliothèque complète
           </div>
           <h2 className="text-xl md:text-2xl font-extrabold text-white mb-2"
               style={{ fontFamily: 'var(--font-sora)' }}>
@@ -125,7 +150,8 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
           <button onClick={() => document.getElementById('all-books')?.scrollIntoView({ behavior: 'smooth' })}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all hover:-translate-y-0.5"
                   style={{ background: '#fff', color: 'var(--color-brand)' }}>
-            📚 Voir tous les livres →
+            <span className="w-4 h-4"><Ico.Book /></span> Voir tous les livres
+            <span className="w-4 h-4"><Ico.Arrow /></span>
           </button>
         </div>
 
@@ -144,7 +170,7 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
                     style={activeCategory === c.value
                       ? { background: 'var(--color-brand)', color: '#fff', borderColor: 'var(--color-brand)' }
                       : { background: 'var(--color-surface)', color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
-              {c.emoji} {c.label}
+              {c.label}
             </button>
           ))}
         </div>
@@ -167,11 +193,11 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
                      className="flex-shrink-0 w-32 rounded-xl overflow-hidden border cursor-pointer transition-all hover:-translate-y-1"
                      style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
                      onClick={() => openBook(book)}>
-                  <div className="h-44 flex items-center justify-center text-3xl"
+                  <div className="h-44 flex items-center justify-center overflow-hidden"
                        style={{ background: 'var(--color-brand-soft)' }}>
                     {book.cover_url
                       ? <img src={book.cover_url} alt={book.title} className="w-full h-full object-cover" />
-                      : '📖'}
+                      : <BookPlaceholder />}
                   </div>
                   <div className="px-2 py-2 text-xs font-semibold leading-snug line-clamp-2"
                        style={{ color: 'var(--color-ink-2)' }}>
@@ -197,7 +223,7 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
 
           {filtered.length === 0 ? (
             <div className="text-center py-20" style={{ color: 'var(--color-muted)' }}>
-              <div className="text-5xl mb-4">📚</div>
+              <div className="w-14 h-14 mx-auto mb-4" style={{ color: 'var(--color-brand)', opacity: 0.5 }}><Ico.Book /></div>
               <h4 className="font-bold text-base mb-2" style={{ color: 'var(--color-ink)' }}>Aucun livre trouvé</h4>
               <p className="text-sm">Essayez une autre catégorie ou modifiez votre recherche.</p>
             </div>
@@ -208,11 +234,11 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
                      className="rounded-xl overflow-hidden border cursor-pointer transition-all hover:-translate-y-1"
                      style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
                      onClick={() => openBook(book)}>
-                  <div className="aspect-[2/3] flex items-center justify-center text-3xl overflow-hidden"
+                  <div className="aspect-[2/3] flex items-center justify-center overflow-hidden"
                        style={{ background: 'var(--color-brand-soft)' }}>
                     {book.cover_url
                       ? <img src={book.cover_url} alt={book.title} className="w-full h-full object-cover" />
-                      : '📖'}
+                      : <BookPlaceholder />}
                   </div>
                   <div className="p-3">
                     <div className="text-xs font-bold leading-snug line-clamp-2 mb-1"
@@ -223,7 +249,7 @@ export default function LibraryClient({ books, profile, userEmail }: Props) {
                     {book.category && (
                       <div className="mt-1.5 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
                            style={{ background: 'var(--color-brand-soft)', color: 'var(--color-brand)' }}>
-                        {CATEGORIES.find(c => c.value === book.category)?.emoji} {CATEGORIES.find(c => c.value === book.category)?.label}
+                        {CATEGORIES.find(c => c.value === book.category)?.label}
                       </div>
                     )}
                   </div>

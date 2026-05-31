@@ -5,6 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+const CrossIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg>
+)
+
 export default function LoginForm() {
   const router = useRouter()
   const supabase = createClient()
@@ -53,7 +57,10 @@ export default function LoginForm() {
 
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="text-5xl mb-3">✝</div>
+          <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center text-white"
+               style={{ background: 'var(--color-brand)' }}>
+            <span className="w-7 h-7"><CrossIcon /></span>
+          </div>
           <h1 className="text-2xl font-extrabold" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-brand)' }}>
             Catho Biblio
           </h1>
