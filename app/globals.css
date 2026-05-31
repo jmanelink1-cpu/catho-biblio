@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Brand Colors ── */
-  --color-brand:        #1A56DB;
-  --color-brand-hover:  #1245B5;
-  --color-brand-dark:   #0F3180;
-  --color-brand-soft:   #EBF2FF;
-  --color-gold:         #C9940A;
-  --color-gold-light:   #F5C842;
-  --color-gold-soft:    #FFF8E1;
+  /* ── Brand Colors — Violet liturgique + Or catholique ── */
+  --color-brand:        #6D28D9;
+  --color-brand-hover:  #5B21B6;
+  --color-brand-dark:   #3B0764;
+  --color-brand-soft:   #F5F3FF;
+  --color-brand-border: rgba(109,40,217,0.2);
+  --color-gold:         #B45309;
+  --color-gold-light:   #D97706;
+  --color-gold-bright:  #F59E0B;
+  --color-gold-soft:    #FFFBEB;
 
   /* ── UI Colors ── */
-  --color-bg:           #F5F8FF;
+  --color-bg:           #FDFBF7;
   --color-surface:      #FFFFFF;
-  --color-subtle:       #F0F4FD;
-  --color-dark:         #0D1F3C;
+  --color-subtle:       #F7F4FF;
+  --color-dark:         #1E1032;
 
   /* ── Text ── */
   --color-ink:          #0D1B2A;

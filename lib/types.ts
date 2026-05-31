@@ -63,10 +63,18 @@ export const CATEGORIES: { value: BookCategory; label: string; emoji: string }[]
   { value: 'famille',      label: 'Famille',               emoji: '👨‍👩‍👧' },
 ]
 
+// Accès unique à vie — un seul paiement
+export const SINGLE_PLAN = {
+  price:        10300,
+  currency:     'FCFA',
+  label:        'Accès à Vie',
+  description:  'Un seul paiement. Accès illimité et permanent à toute la bibliothèque.',
+  duration_days: null,
+} as const
+
+// Conserver pour compatibilité interne
 export const PLANS = {
-  monthly:  { label: 'Mensuel',  price: 2000,  duration_days: 30,  currency: 'FCFA' },
-  yearly:   { label: 'Annuel',   price: 15000, duration_days: 365, currency: 'FCFA' },
-  lifetime: { label: 'À Vie',    price: 35000, duration_days: null, currency: 'FCFA' },
+  lifetime: { label: 'Accès à Vie', price: 10300, duration_days: null, currency: 'FCFA' },
 } as const
 
 export type PlanKey = keyof typeof PLANS

@@ -12,7 +12,7 @@ export default function AdminUsersClient({ initialUsers }: Props) {
   const [search, setSearch] = useState('')
   const [modal,  setModal]  = useState(false)
   const [gEmail, setGEmail] = useState('')
-  const [gPlan,  setGPlan]  = useState<PlanKey>('monthly')
+  const [gPlan,  setGPlan]  = useState<PlanKey>('lifetime')
 
   const filtered = users.filter(u =>
     !search || (u.email ?? '').toLowerCase().includes(search.toLowerCase()) ||
@@ -130,13 +130,11 @@ export default function AdminUsersClient({ initialUsers }: Props) {
                        style={{ borderColor: 'var(--color-border)', background: 'var(--color-subtle)', color: 'var(--color-ink)' }} />
               </div>
               <div>
-                <label className="text-sm font-semibold block mb-1.5" style={{ color: 'var(--color-ink-2)' }}>Plan</label>
+                <label className="text-sm font-semibold block mb-1.5" style={{ color: 'var(--color-ink-2)' }}>Type d&apos;accès</label>
                 <select value={gPlan} onChange={e => setGPlan(e.target.value as PlanKey)}
                         className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
                         style={{ borderColor: 'var(--color-border)', background: 'var(--color-subtle)', color: 'var(--color-ink)' }}>
-                  <option value="monthly">Mensuel (30 jours)</option>
-                  <option value="yearly">Annuel (365 jours)</option>
-                  <option value="lifetime">À vie</option>
+                  <option value="lifetime">Accès à Vie (10 300 FCFA)</option>
                 </select>
               </div>
             </div>
