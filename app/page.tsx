@@ -269,7 +269,7 @@ export default function LandingPage() {
           500+ ouvrages catholiques — Bible, saints, théologie, spiritualité — accessibles immédiatement.
         </p>
         <p className="cb-lead-2" style={{ fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 36px', fontWeight: 700, color: V }}>
-          Un seul paiement de {price} FCFA. Accès à vie. Aucun abonnement.
+          Un seul paiement de {price} FCFA.
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 48 }}>
