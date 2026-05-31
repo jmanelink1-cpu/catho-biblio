@@ -49,21 +49,23 @@ export default function AdminBooksClient({ initialBooks }: Props) {
       year: form.year ? parseInt(form.year) : null, pages: form.pages ? parseInt(form.pages) : null,
       is_featured: form.is_featured,
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const db = supabase as any
     if (editId) {
-      await supabase.from('books').update(payload).eq('id', editId)
+      await db.from('books').update(payload).eq('id', editId)
     } else {
-      await supabase.from('books').insert(payload)
+      await db.from('books').insert(payload)
     }
     setSaving(false); setModal(false)
     router.refresh()
     // Optimistic update
-    const { data } = await supabase.from('books').select('*').order('created_at', { ascending: false })
+    const { data } = await (supabase as any).from('books').select('*').order('created_at', { ascending: false })
     if (data) setBooks(data as Book[])
   }
 
   async function deleteBook(id: string, title: string) {
     if (!confirm(`Supprimer "${title}" ?`)) return
-    await supabase.from('books').delete().eq('id', id)
+    await (supabase as any).from('books').delete().eq('id', id)
     setBooks(b => b.filter(x => x.id !== id))
   }
 

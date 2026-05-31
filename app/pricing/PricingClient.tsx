@@ -24,7 +24,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
   const plan = selectedPlan ? PLANS[selectedPlan] : null
 
   async function recordPayment(method: string) {
-    const { data } = await supabase.from('payments').insert({
+    const { data } = await (supabase as any).from('payments').insert({
       user_id: userId, amount: plan!.price, currency: 'XOF',
       payment_method: method, plan: selectedPlan, status: 'pending',
     }).select().single()
@@ -35,7 +35,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
     const expires = plan!.duration_days
       ? new Date(Date.now() + plan!.duration_days * 86400000).toISOString()
       : null
-    await supabase.from('profiles').update({
+    await (supabase as any).from('profiles').update({
       has_access: true, access_type: selectedPlan, access_expires_at: expires,
     }).eq('id', userId)
   }
@@ -66,7 +66,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
     // DEMO simulation — supprimer en production
     await new Promise(r => setTimeout(r, 1500))
     if (payment) {
-      await supabase.from('payments').update({ status: 'completed' }).eq('id', payment.id)
+      await (supabase as any).from('payments').update({ status: 'completed' }).eq('id', payment.id)
     }
     await activateAccess()
     setSuccess(true)

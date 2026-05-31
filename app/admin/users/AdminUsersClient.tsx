@@ -21,7 +21,7 @@ export default function AdminUsersClient({ initialUsers }: Props) {
 
   async function toggleAccess(u: Profile) {
     const newVal = !u.has_access
-    await supabase.from('profiles').update({ has_access: newVal }).eq('id', u.id)
+    await (supabase as any).from('profiles').update({ has_access: newVal }).eq('id', u.id)
     setUsers(prev => prev.map(x => x.id === u.id ? { ...x, has_access: newVal } : x))
   }
 
@@ -32,7 +32,7 @@ export default function AdminUsersClient({ initialUsers }: Props) {
     const expires = plan.duration_days
       ? new Date(Date.now() + plan.duration_days * 86400000).toISOString()
       : null
-    await supabase.from('profiles').update({
+    await (supabase as any).from('profiles').update({
       has_access: true, access_type: gPlan, access_expires_at: expires,
     }).eq('id', user.id)
     setUsers(prev => prev.map(u => u.id === user.id ? { ...u, has_access: true, access_type: gPlan, access_expires_at: expires } : u))

@@ -18,9 +18,9 @@ export default function AdminPaymentsClient({ initialPayments }: Props) {
       ? new Date(Date.now() + plan.duration_days * 86400000).toISOString()
       : null
 
-    await supabase.from('payments').update({ status: 'completed' }).eq('id', p.id)
+    await (supabase as any).from('payments').update({ status: 'completed' }).eq('id', p.id)
     if (p.user_id) {
-      await supabase.from('profiles').update({
+      await (supabase as any).from('profiles').update({
         has_access: true, access_type: p.plan, access_expires_at: expires,
       }).eq('id', p.user_id)
     }

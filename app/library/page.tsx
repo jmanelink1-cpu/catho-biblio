@@ -10,8 +10,8 @@ export default async function LibraryPage() {
   if (!user) redirect('/auth/login')
 
   const [{ data: books }, { data: profile }] = await Promise.all([
-    supabase.from('books').select('*').order('created_at', { ascending: false }),
-    supabase.from('profiles').select('*').eq('id', user.id).single(),
+    (supabase as any).from('books').select('*').order('created_at', { ascending: false }),
+    (supabase as any).from('profiles').select('*').eq('id', user.id).single(),
   ])
 
   return (

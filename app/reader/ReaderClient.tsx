@@ -19,8 +19,8 @@ export default function ReaderClient() {
 
   useEffect(() => {
     if (bookId) {
-      supabase.from('books').select('*').eq('id', bookId).single()
-        .then(({ data }) => { if (data) setBook(data as Book) })
+      (supabase as any).from('books').select('*').eq('id', bookId).single()
+        .then(({ data }: { data: Book | null }) => { if (data) setBook(data) })
     }
     const timer = setTimeout(() => setLoading(false), 4000)
     return () => clearTimeout(timer)

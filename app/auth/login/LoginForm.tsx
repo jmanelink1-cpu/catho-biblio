@@ -29,7 +29,8 @@ export default function LoginForm() {
     }
 
     // Check access level
-    const { data: profile } = await supabase
+    const db = supabase as any
+    const { data: profile } = await db
       .from('profiles')
       .select('has_access, access_type, access_expires_at, is_admin')
       .eq('id', data.user.id)
