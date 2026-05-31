@@ -165,6 +165,9 @@ export default function LandingPage() {
           .cb-herobtn   { width: auto !important; max-width: 92%; margin-left: auto !important; margin-right: auto !important; padding: 14px 26px !important; font-size: .9rem !important; white-space: nowrap !important; }
           .cb-microcopy { font-size: .74rem !important; }
 
+          /* Trust badges — clean centered stack */
+          .cb-trust     { flex-direction: column !important; gap: 12px !important; margin-top: 28px !important; }
+
           /* Stats grid — clean 2x2 */
           .cb-social      { grid-template-columns: 1fr 1fr !important; max-width: 300px !important; padding: 0 !important; }
           .cb-social-item { border-right: none !important; padding: 14px 6px !important; }
@@ -583,15 +586,15 @@ export default function LandingPage() {
             <p style={{ fontSize: '.78rem', color: '#9CA3AF', marginBottom: 14, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.08em' }}>
               Moyens de paiement acceptés
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 8 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8, maxWidth: 480, margin: '0 auto' }}>
               {['MTN Mobile Money','Orange Money','Wave','Moov Money','Visa / Mastercard','PayPal','CinetPay','Flutterwave'].map(name => (
                 <div key={name} style={{
-                  display: 'flex', alignItems: 'center', gap: 5,
-                  padding: '6px 12px', borderRadius: 8,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                  padding: '8px 12px', borderRadius: 8,
                   border: '1px solid #E5E7EB', background: '#fff',
                   fontSize: '.75rem', fontWeight: 500, color: '#6B7280'
                 }}>
-                  <div style={{ width: 12, height: 12, color: V }}>
+                  <div style={{ width: 12, height: 12, color: V, flexShrink: 0 }}>
                     {name.includes('Money') || name === 'Wave' ? <I.Phone /> : <I.Card />}
                   </div>
                   {name}
@@ -692,11 +695,7 @@ export default function LandingPage() {
           <div style={{ width: 20, height: 20, flexShrink: 0 }}><I.Arrow /></div>
         </Link>
 
-        <p style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem', marginTop: 16 }}>
-          Accès activé immédiatement · Garanti à vie · Paiement sécurisé
-        </p>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 40, marginTop: 48, flexWrap: 'wrap' }}>
+        <div className="cb-trust" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 32, marginTop: 28, flexWrap: 'wrap' }}>
           {[
             [I.Lock,     'Paiement sécurisé'],
             [I.Check,    'Accès immédiat'],
@@ -706,7 +705,7 @@ export default function LandingPage() {
             return (
               <div key={label as string} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 16, height: 16, color: '#FDE68A' }}><Comp /></div>
-                <span style={{ color: 'rgba(255,255,255,.5)', fontSize: '.82rem' }}>{label as string}</span>
+                <span style={{ color: 'rgba(255,255,255,.6)', fontSize: '.82rem' }}>{label as string}</span>
               </div>
             )
           })}
