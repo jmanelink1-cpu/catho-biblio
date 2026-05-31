@@ -134,10 +134,35 @@ export default function LandingPage() {
   const price = SINGLE_PLAN.price.toLocaleString('fr-FR')
 
   return (
-    <div style={{ background: '#FDFBF7', color: '#1E1032', fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div style={{ background: '#FDFBF7', color: '#1E1032', fontFamily: "'Inter', system-ui, sans-serif", overflowX: 'hidden' }}>
+
+      {/* ─── Responsive overrides (media queries beat inline styles via !important) ─── */}
+      <style>{`
+        @media (max-width: 900px) {
+          .cb-grid-2  { grid-template-columns: 1fr !important; gap: 24px !important; }
+        }
+        @media (max-width: 768px) {
+          .cb-nav       { padding: 0 16px !important; }
+          .cb-navlinks  { display: none !important; }
+          .cb-navcta    { padding: 9px 16px !important; font-size: .8rem !important; }
+          .cb-hero      { padding-top: 96px !important; padding-bottom: 56px !important; padding-left: 16px !important; padding-right: 16px !important; }
+          .cb-section   { padding-left: 16px !important; padding-right: 16px !important; }
+          .cb-herobtn   { width: 100% !important; max-width: 340px; margin-left: auto !important; margin-right: auto !important; padding: 15px 24px !important; font-size: .92rem !important; }
+          .cb-bigprice  { font-size: 2.8rem !important; }
+          .cb-grid-4    { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
+          .cb-watermark { font-size: 220px !important; }
+          .cb-h1        { font-size: 2rem !important; }
+          .cb-paycard   { padding: 36px 24px !important; }
+        }
+        @media (max-width: 420px) {
+          .cb-navcta-price { display: none; }
+          .cb-bigprice  { font-size: 2.3rem !important; }
+          .cb-herobtn   { font-size: .85rem !important; padding: 14px 18px !important; }
+        }
+      `}</style>
 
       {/* ─── Navbar ─── */}
-      <nav style={{
+      <nav className="cb-nav" style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50, height: 64,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 32px', background: 'rgba(253,251,247,0.97)',
@@ -150,37 +175,37 @@ export default function LandingPage() {
           <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: V }}>Catho Biblio</span>
         </Link>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }} className="hidden md:flex">
+        <div className="cb-navlinks" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {[['#fonctionnalites','Fonctionnalités'],['#tarif','Tarif'],['#faq','FAQ']].map(([h,l]) => (
             <a key={h} href={h} style={{ color: '#6B7280', fontSize: '.9rem', fontWeight: 500, textDecoration: 'none' }}>{l}</a>
           ))}
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Link href="/auth/login" style={{ color: V, fontSize: '.88rem', fontWeight: 600, textDecoration: 'none' }} className="hidden md:inline">
+          <Link href="/auth/login" style={{ color: V, fontSize: '.88rem', fontWeight: 600, textDecoration: 'none' }} className="cb-navlinks">
             Connexion
           </Link>
-          <Link href="#tarif" style={{
+          <Link href="#tarif" className="cb-navcta" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: V, color: '#fff', padding: '10px 20px',
             borderRadius: 999, fontSize: '.88rem', fontWeight: 700,
-            textDecoration: 'none'
+            textDecoration: 'none', whiteSpace: 'nowrap'
           }}>
-            Accéder — {price} FCFA
+            Accéder<span className="cb-navcta-price">&nbsp;— {price} FCFA</span>
             <div style={{ width: 14, height: 14 }}><I.ChevR /></div>
           </Link>
         </div>
       </nav>
 
       {/* ─── HERO ─── */}
-      <section style={{
+      <section className="cb-hero" style={{
         paddingTop: 120, paddingBottom: 80, paddingLeft: 24, paddingRight: 24,
         textAlign: 'center',
         background: 'linear-gradient(180deg, #F5F0FF 0%, #FAF8FF 50%, #FDFBF7 100%)',
         position: 'relative', overflow: 'hidden'
       }}>
         {/* Decorative cross watermark */}
-        <div style={{
+        <div className="cb-watermark" style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
           fontSize: 400, color: V, opacity: 0.025, pointerEvents: 'none', lineHeight: 1,
           fontFamily: 'serif', userSelect: 'none'
@@ -196,7 +221,7 @@ export default function LandingPage() {
           500+ livres catholiques en français
         </div>
 
-        <h1 style={{
+        <h1 className="cb-h1" style={{
           fontFamily: "'Sora', sans-serif", fontWeight: 800,
           fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1.15,
           maxWidth: 820, margin: '0 auto 20px', letterSpacing: '-0.02em',
@@ -215,16 +240,16 @@ export default function LandingPage() {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 48 }}>
-          <Link href="#tarif" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 10,
+          <Link href="#tarif" className="cb-herobtn" style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
             background: V, color: '#fff', padding: '16px 40px',
             borderRadius: 999, fontSize: '1rem', fontWeight: 800,
             textDecoration: 'none',
             boxShadow: '0 8px 28px rgba(109,40,217,0.4)',
-            letterSpacing: '0.01em'
+            letterSpacing: '0.01em', textAlign: 'center'
           }}>
             Accéder à ma bibliothèque — {price} FCFA
-            <div style={{ width: 18, height: 18 }}><I.Arrow /></div>
+            <div style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></div>
           </Link>
           <p style={{ fontSize: '.82rem', color: '#9CA3AF' }}>
             Paiement unique · Accès immédiat · Garanti à vie
@@ -295,7 +320,7 @@ export default function LandingPage() {
         padding: '28px 24px', background: '#fff',
         borderTop: '1px solid rgba(109,40,217,0.1)', borderBottom: '1px solid rgba(109,40,217,0.1)'
       }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }} className="grid-cols-2 md:grid-cols-4">
+        <div className="cb-grid-4" style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
           {[
             [I.Book,     '500+',       'Livres disponibles'],
             [I.Layers,   '10',         'Catégories'],
@@ -317,8 +342,8 @@ export default function LandingPage() {
       </section>
 
       {/* ─── Problem / Solution ─── */}
-      <section style={{ padding: '80px 24px', background: '#FDFBF7' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }} className="grid-cols-1 md:grid-cols-2">
+      <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }}>
+        <div className="cb-grid-2" style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
           {/* Problem */}
           <div style={{ background: '#FFF5F5', borderRadius: 20, padding: 36, border: '1px solid #FECACA' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
@@ -373,7 +398,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── Features ─── */}
-      <section style={{ padding: '80px 24px', background: '#fff' }} id="fonctionnalites">
+      <section className="cb-section" style={{ padding: '80px 24px', background: '#fff' }} id="fonctionnalites">
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Fonctionnalités
@@ -408,7 +433,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── Testimonials ─── */}
-      <section style={{ padding: '80px 24px', background: '#F5F0FF' }}>
+      <section className="cb-section" style={{ padding: '80px 24px', background: '#F5F0FF' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Témoignages
@@ -446,7 +471,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── PRICING ─── */}
-      <section style={{ padding: '80px 24px', background: '#fff' }} id="tarif">
+      <section className="cb-section" style={{ padding: '80px 24px', background: '#fff' }} id="tarif">
         <div style={{ maxWidth: 600, margin: '0 auto', textAlign: 'center' }}>
           <p style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Tarif
@@ -459,7 +484,7 @@ export default function LandingPage() {
           </p>
 
           {/* Pricing Card */}
-          <div style={{
+          <div className="cb-paycard" style={{
             background: 'linear-gradient(160deg, #3B0764 0%, #6D28D9 100%)',
             borderRadius: 24, padding: '48px 40px', position: 'relative', overflow: 'hidden',
             boxShadow: '0 20px 60px rgba(109,40,217,0.4)'
@@ -482,7 +507,7 @@ export default function LandingPage() {
             </div>
 
             <div style={{ marginBottom: 8 }}>
-              <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 900, fontSize: '4rem', color: '#fff', lineHeight: 1 }}>
+              <span className="cb-bigprice" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 900, fontSize: '4rem', color: '#fff', lineHeight: 1 }}>
                 {price}
               </span>
               <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.6)', marginLeft: 8 }}>
@@ -508,17 +533,17 @@ export default function LandingPage() {
               ))}
             </div>
 
-            <Link href="/auth/register?plan=lifetime" style={{
+            <Link href="/auth/register?plan=lifetime" className="cb-herobtn" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
               background: '#fff', color: V,
               padding: '18px 32px', borderRadius: 999,
               fontSize: '1rem', fontWeight: 900,
               textDecoration: 'none', fontFamily: "'Sora', sans-serif",
               boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-              letterSpacing: '0.01em'
+              letterSpacing: '0.01em', textAlign: 'center'
             }}>
               Accéder à ma bibliothèque — {price} FCFA
-              <div style={{ width: 18, height: 18 }}><I.Arrow /></div>
+              <div style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></div>
             </Link>
 
             <p style={{ color: 'rgba(255,255,255,.4)', fontSize: '.78rem', marginTop: 16 }}>
@@ -573,7 +598,7 @@ export default function LandingPage() {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section style={{ padding: '80px 24px', background: '#FDFBF7' }} id="faq">
+      <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }} id="faq">
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
           <p style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             FAQ
