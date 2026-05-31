@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand Colors ── */
+  --color-brand:        #1A56DB;
+  --color-brand-hover:  #1245B5;
+  --color-brand-dark:   #0F3180;
+  --color-brand-soft:   #EBF2FF;
+  --color-gold:         #C9940A;
+  --color-gold-light:   #F5C842;
+  --color-gold-soft:    #FFF8E1;
+
+  /* ── UI Colors ── */
+  --color-bg:           #F5F8FF;
+  --color-surface:      #FFFFFF;
+  --color-subtle:       #F0F4FD;
+  --color-dark:         #0D1F3C;
+
+  /* ── Text ── */
+  --color-ink:          #0D1B2A;
+  --color-ink-2:        #1E2D3D;
+  --color-muted:        #5A6B7C;
+  --color-muted-2:      #8A9BAD;
+
+  /* ── Borders ── */
+  --color-border:       #DCE4F0;
+  --color-border-2:     #C5D0E0;
+
+  /* ── Fonts ── */
+  --font-sans:  'Sora', 'Inter', system-ui, sans-serif;
+  --font-body:  'Inter', system-ui, sans-serif;
+
+  /* ── Radii ── */
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+  --radius-xl:  24px;
+  --radius-full: 9999px;
+}
+
+/* ── Base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted-2); }
+
+/* ── Focus ring ── */
+:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+
+/* ── Animations ── */
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes spin    { to { transform: rotate(360deg); } }
+
+.animate-fade-in  { animation: fadeIn  .3s ease forwards; }
+.animate-slide-in { animation: slideIn .25s ease forwards; }
