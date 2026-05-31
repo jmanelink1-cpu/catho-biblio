@@ -183,40 +183,40 @@ export default function AdminBooksClient({ initialBooks }: Props) {
             <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
               <Field label="Titre *">
                 <input value={form.title} onChange={e => setForm(f => ({...f, title: e.target.value}))}
-                       placeholder="Ex: La Bible de Jérusalem" className="input-base" />
+                       placeholder="Ex: La Bible de Jérusalem" className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }} />
               </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Auteur">
                   <input value={form.author} onChange={e => setForm(f => ({...f, author: e.target.value}))}
-                         placeholder="Auteur" className="input-base" />
+                         placeholder="Auteur" className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }} />
                 </Field>
                 <Field label="Catégorie *">
                   <select value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value as BookCategory}))}
-                          className="input-base">
+                          className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }}>
                     {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>)}
                   </select>
                 </Field>
               </div>
               <Field label="ID Google Drive *" hint="Lien Drive : drive.google.com/file/d/[ID ICI]/view">
                 <input value={form.drive_file_id} onChange={e => setForm(f => ({...f, drive_file_id: e.target.value}))}
-                       placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" className="input-base font-mono text-xs" />
+                       placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" className="w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none font-mono transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)" }} />
               </Field>
               <Field label="URL de la couverture" hint="drive.google.com/thumbnail?id=ID&sz=w400">
                 <input value={form.cover_url} onChange={e => setForm(f => ({...f, cover_url: e.target.value}))}
-                       placeholder="https://..." className="input-base" />
+                       placeholder="https://..." className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }} />
               </Field>
               <Field label="Description">
                 <textarea value={form.description} onChange={e => setForm(f => ({...f, description: e.target.value}))}
-                          rows={3} placeholder="Résumé du livre..." className="input-base resize-none" />
+                          rows={3} placeholder="Résumé du livre..." className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none resize-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }} />
               </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Année">
                   <input type="number" value={form.year} onChange={e => setForm(f => ({...f, year: e.target.value}))}
-                         placeholder="2024" className="input-base" />
+                         placeholder="2024" className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }} />
                 </Field>
                 <Field label="Nombre de pages">
                   <input type="number" value={form.pages} onChange={e => setForm(f => ({...f, pages: e.target.value}))}
-                         placeholder="300" className="input-base" />
+                         placeholder="300" className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }} />
                 </Field>
               </div>
               <label className="flex items-center gap-3 cursor-pointer">
@@ -246,18 +246,6 @@ export default function AdminBooksClient({ initialBooks }: Props) {
         </div>
       )}
 
-      {/* Global input styles */}
-      <style jsx global>{`
-        .input-base {
-          width: 100%; padding: 10px 14px; border-radius: 10px;
-          border: 1.5px solid var(--color-border);
-          background: var(--color-subtle); color: var(--color-ink);
-          font-size: .875rem; outline: none;
-          font-family: inherit;
-          transition: border-color .15s;
-        }
-        .input-base:focus { border-color: var(--color-brand); background: #fff; }
-      `}</style>
     </div>
   )
 }
