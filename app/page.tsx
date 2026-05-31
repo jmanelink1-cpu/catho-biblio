@@ -109,7 +109,7 @@ const BOOKS_PREVIEW = [
 
 const FEATURES = [
   { Icon: I.Book,     title: '500+ Livres catholiques en français', desc: 'Bible, Catéchisme, vies des saints, encycliques, théologie, spiritualité — toute la richesse de la Tradition catholique.' },
-  { Icon: I.Phone,    title: 'Lisez sur tous vos appareils',        desc: 'Téléphone, tablette ou ordinateur — votre bibliothèque vous suit partout. Pas de téléchargement nécessaire.' },
+  { Icon: I.Phone,    title: 'Livres PDF téléchargeables',          desc: 'Tous les livres sont au format PDF, téléchargeables et lisibles sur téléphone, tablette ou ordinateur — partout, à tout moment.' },
   { Icon: I.Search,   title: 'Trouvez n\'importe quel ouvrage',     desc: 'Recherche par titre, auteur ou catégorie. Retrouvez en secondes ce que vous cherchez parmi 500+ livres.' },
   { Icon: I.Layers,   title: '10 catégories organisées',           desc: 'Bible, Saints, Spiritualité, Théologie, Liturgie, Prière, Documents pontificaux — tout est classé avec soin.' },
   { Icon: I.Zap,      title: 'Accès instantané après paiement',    desc: 'Votre bibliothèque s\'ouvre en quelques minutes. Pas d\'attente, pas de livraison.' },
@@ -126,8 +126,8 @@ const FAQS = [
   { q: 'C\'est vraiment un paiement unique ? Pas d\'abonnement ?',  a: 'Oui, absolument. Vous payez 10 300 FCFA une seule et unique fois. Votre accès est permanent et illimité. Jamais de renouvellement, jamais de frais cachés.' },
   { q: 'Comment accéder aux livres après mon paiement ?',           a: 'Votre accès est activé immédiatement après confirmation du paiement. Créez votre compte, connectez-vous, et commencez à lire en quelques minutes.' },
   { q: 'Puis-je lire depuis plusieurs appareils ?',                  a: 'Oui. Votre compte fonctionne sur tous vos appareils — téléphone, tablette, ordinateur — en même temps.' },
-  { q: 'Quels moyens de paiement sont acceptés ?',                   a: 'MTN Mobile Money, Orange Money, Wave, Moov Money, Airtel Money, carte bancaire Visa/Mastercard, PayPal et CinetPay.' },
-  { q: 'Les livres sont-ils disponibles hors connexion ?',           a: 'Pour le moment, la lecture nécessite une connexion internet. Les livres sont sécurisés et toujours disponibles en ligne.' },
+  { q: 'Quels moyens de paiement sont acceptés ?',                   a: 'Vous pouvez payer par Mobile Money (MTN, Orange, Wave, Moov…) ou par carte bancaire Visa/Mastercard.' },
+  { q: 'Les livres sont-ils téléchargeables ?',                      a: 'Oui. Tous les livres sont au format PDF, téléchargeables sur votre appareil pour les lire à tout moment.' },
 ]
 
 export default function LandingPage() {
@@ -551,6 +551,7 @@ export default function LandingPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 40, textAlign: 'left' }}>
               {[
                 'Accès immédiat à 500+ livres catholiques',
+                'Tous les livres en PDF, téléchargeables',
                 'Toutes les nouvelles additions incluses à vie',
                 'Lecture sur tous vos appareils',
                 'Bible, Saints, Catéchisme, Spiritualité et plus',
@@ -586,20 +587,21 @@ export default function LandingPage() {
             <p style={{ fontSize: '.78rem', color: '#9CA3AF', marginBottom: 14, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '.08em' }}>
               Moyens de paiement acceptés
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 8, maxWidth: 480, margin: '0 auto' }}>
-              {['MTN Mobile Money','Orange Money','Wave','Moov Money','Visa / Mastercard','PayPal','CinetPay','Flutterwave'].map(name => (
-                <div key={name} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                  padding: '8px 12px', borderRadius: 8,
-                  border: '1px solid #E5E7EB', background: '#fff',
-                  fontSize: '.75rem', fontWeight: 500, color: '#6B7280'
-                }}>
-                  <div style={{ width: 12, height: 12, color: V, flexShrink: 0 }}>
-                    {name.includes('Money') || name === 'Wave' ? <I.Phone /> : <I.Card />}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, maxWidth: 360, margin: '0 auto' }}>
+              {[['Mobile Money', I.Phone], ['Carte bancaire', I.Card]].map(([name, Ic]) => {
+                const Comp = Ic as React.ComponentType
+                return (
+                  <div key={name as string} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                    padding: '12px 14px', borderRadius: 10,
+                    border: '1px solid #E5E7EB', background: '#fff',
+                    fontSize: '.82rem', fontWeight: 600, color: '#4B5563'
+                  }}>
+                    <div style={{ width: 16, height: 16, color: V, flexShrink: 0 }}><Comp /></div>
+                    {name as string}
                   </div>
-                  {name}
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>
@@ -714,8 +716,8 @@ export default function LandingPage() {
 
       {/* ─── Footer ─── */}
       <footer style={{ padding: '48px 24px 24px', background: '#0D0820' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 40, marginBottom: 40 }}>
-          <div>
+        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 32, marginBottom: 40 }}>
+          <div style={{ maxWidth: 340 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <div style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                 <div style={{ width: 15, height: 15 }}><I.Cross /></div>
@@ -725,14 +727,6 @@ export default function LandingPage() {
             <p style={{ fontSize: '.84rem', color: 'rgba(255,255,255,.4)', lineHeight: 1.7 }}>
               La bibliothèque catholique numérique pour l&apos;Afrique francophone.
             </p>
-          </div>
-          <div>
-            <div style={{ color: '#fff', fontWeight: 700, fontSize: '.88rem', marginBottom: 16 }}>Navigation</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[['#fonctionnalites','Fonctionnalités'],['#tarif','Tarif'],['#faq','FAQ'],['/auth/login','Connexion'],['/auth/register','Inscription']].map(([h,l]) => (
-                <a key={h} href={h} style={{ color: 'rgba(255,255,255,.4)', fontSize: '.86rem', textDecoration: 'none' }}>{l}</a>
-              ))}
-            </div>
           </div>
           <div>
             <div style={{ color: '#fff', fontWeight: 700, fontSize: '.88rem', marginBottom: 16 }}>Contact</div>
