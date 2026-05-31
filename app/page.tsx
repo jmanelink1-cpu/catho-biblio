@@ -152,23 +152,30 @@ export default function LandingPage() {
           .cb-hero      { padding-top: 78px !important; padding-bottom: 40px !important; padding-left: 18px !important; padding-right: 18px !important; }
           .cb-section   { padding-top: 48px !important; padding-bottom: 48px !important; padding-left: 18px !important; padding-right: 18px !important; }
 
-          /* Typography */
-          .cb-h1        { font-size: 1.5rem !important; line-height: 1.2 !important; margin-bottom: 12px !important; }
+          /* Typography — generous vertical rhythm */
+          .cb-h1        { font-size: 1.55rem !important; line-height: 1.25 !important; margin-bottom: 18px !important; }
           .cb-h2        { font-size: 1.25rem !important; margin-bottom: 8px !important; }
           .cb-eyebrow   { font-size: .68rem !important; margin-bottom: 8px !important; }
-          .cb-badge     { font-size: .64rem !important; padding: 5px 11px !important; margin-bottom: 14px !important; }
-          .cb-lead      { font-size: .88rem !important; line-height: 1.55 !important; margin-bottom: 6px !important; }
-          .cb-lead-2    { font-size: .9rem !important; margin-bottom: 22px !important; }
+          .cb-badge     { font-size: .64rem !important; padding: 5px 11px !important; margin-bottom: 20px !important; }
+          .cb-lead      { font-size: .9rem !important; line-height: 1.6 !important; margin-bottom: 16px !important; }
+          .cb-lead-2    { font-size: .92rem !important; margin-bottom: 28px !important; }
           .cb-sub       { font-size: .85rem !important; margin-bottom: 28px !important; }
 
-          /* Buttons */
-          .cb-herobtn   { width: 100% !important; max-width: 320px; margin-left: auto !important; margin-right: auto !important; padding: 13px 20px !important; font-size: .85rem !important; }
+          /* Buttons — always single line */
+          .cb-herobtn   { width: auto !important; max-width: 92%; margin-left: auto !important; margin-right: auto !important; padding: 14px 26px !important; font-size: .9rem !important; white-space: nowrap !important; }
           .cb-microcopy { font-size: .74rem !important; }
+
+          /* Stats grid — clean 2x2 */
+          .cb-social      { grid-template-columns: 1fr 1fr !important; max-width: 300px !important; padding: 0 !important; }
+          .cb-social-item { border-right: none !important; padding: 14px 6px !important; }
+          .cb-social-item:nth-child(odd)  { border-right: 1px solid rgba(109,40,217,0.1) !important; }
+          .cb-social-item:nth-child(1),
+          .cb-social-item:nth-child(2)    { border-bottom: 1px solid rgba(109,40,217,0.1) !important; }
 
           /* Grids & cards */
           .cb-grid-4    { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
           .cb-card      { padding: 20px !important; }
-          .cb-statval   { font-size: 1.1rem !important; }
+          .cb-statval   { font-size: 1.25rem !important; }
           .cb-statlabel { font-size: .72rem !important; }
 
           /* Pricing */
@@ -180,9 +187,9 @@ export default function LandingPage() {
         }
         @media (max-width: 420px) {
           .cb-navcta-price { display: none; }
-          .cb-h1        { font-size: 1.35rem !important; }
+          .cb-h1        { font-size: 1.4rem !important; }
           .cb-bigprice  { font-size: 2.2rem !important; }
-          .cb-herobtn   { font-size: .8rem !important; padding: 12px 16px !important; }
+          .cb-herobtn   { font-size: .82rem !important; padding: 13px 20px !important; }
           .cb-grid-4    { gap: 12px !important; }
         }
       `}</style>
@@ -270,11 +277,11 @@ export default function LandingPage() {
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
             background: V, color: '#fff', padding: '16px 40px',
             borderRadius: 999, fontSize: '1rem', fontWeight: 800,
-            textDecoration: 'none',
+            textDecoration: 'none', whiteSpace: 'nowrap',
             boxShadow: '0 8px 28px rgba(109,40,217,0.4)',
             letterSpacing: '0.01em', textAlign: 'center'
           }}>
-            Accéder à ma bibliothèque — {price} FCFA
+            Accéder à ma bibliothèque
             <div style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></div>
           </Link>
           <p className="cb-microcopy" style={{ fontSize: '.82rem', color: '#9CA3AF' }}>
@@ -282,12 +289,21 @@ export default function LandingPage() {
           </p>
         </div>
 
-        {/* Social proof */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap', marginBottom: 56 }}>
-          {[['500+','Livres'],['10','Catégories'],['24h/7','Disponible'],['1 paiement','Accès à vie']].map(([v,l]) => (
-            <div key={l} style={{ textAlign: 'center' }}>
-              <div className="cb-statval" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.4rem', color: V }}>{v}</div>
-              <div className="cb-statlabel" style={{ fontSize: '.8rem', color: '#9CA3AF', marginTop: 2 }}>{l}</div>
+        {/* Social proof — clean card grid */}
+        <div className="cb-social" style={{
+          maxWidth: 520, margin: '0 auto 56px',
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          background: '#fff', borderRadius: 18, padding: '20px 12px',
+          border: '1px solid rgba(109,40,217,0.12)',
+          boxShadow: '0 4px 20px rgba(109,40,217,0.06)'
+        }}>
+          {[['500+','Livres'],['10','Catégories'],['24h/7','Disponible'],['1 paiement','Accès à vie']].map(([v,l], i) => (
+            <div key={l} className="cb-social-item" style={{
+              textAlign: 'center',
+              borderRight: i < 3 ? '1px solid rgba(109,40,217,0.1)' : 'none'
+            }}>
+              <div className="cb-statval" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.35rem', color: V, whiteSpace: 'nowrap' }}>{v}</div>
+              <div className="cb-statlabel" style={{ fontSize: '.78rem', color: '#9CA3AF', marginTop: 2 }}>{l}</div>
             </div>
           ))}
         </div>
@@ -561,11 +577,11 @@ export default function LandingPage() {
               background: '#fff', color: V,
               padding: '18px 32px', borderRadius: 999,
               fontSize: '1rem', fontWeight: 900,
-              textDecoration: 'none', fontFamily: "'Sora', sans-serif",
+              textDecoration: 'none', fontFamily: "'Sora', sans-serif", whiteSpace: 'nowrap',
               boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
               letterSpacing: '0.01em', textAlign: 'center'
             }}>
-              Accéder à ma bibliothèque — {price} FCFA
+              Commencer ma lecture
               <div style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></div>
             </Link>
 
@@ -677,21 +693,21 @@ export default function LandingPage() {
           <span style={{ color: '#FDE68A' }}>Un seul paiement pour toujours.</span>
         </h2>
 
-        <p style={{ color: 'rgba(255,255,255,.65)', maxWidth: 440, margin: '0 auto 40px', fontSize: '1.05rem', lineHeight: 1.7 }}>
+        <p className="cb-sub" style={{ color: 'rgba(255,255,255,.65)', maxWidth: 440, margin: '0 auto 40px', fontSize: '1.05rem', lineHeight: 1.7 }}>
           Rejoignez des milliers de catholiques qui nourrissent leur foi chaque jour grâce à Catho Biblio.
         </p>
 
-        <Link href="/auth/register" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 12,
+        <Link href="/auth/register" className="cb-herobtn" style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 12,
           background: 'linear-gradient(135deg, #D97706, #F59E0B)',
           color: '#fff', padding: '20px 48px', borderRadius: 999,
           fontSize: '1.05rem', fontWeight: 900, textDecoration: 'none',
-          fontFamily: "'Sora', sans-serif",
+          fontFamily: "'Sora', sans-serif", whiteSpace: 'nowrap',
           boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
           letterSpacing: '0.01em'
         }}>
-          Accéder à ma bibliothèque — {price} FCFA
-          <div style={{ width: 20, height: 20 }}><I.Arrow /></div>
+          Accéder à ma bibliothèque
+          <div style={{ width: 20, height: 20, flexShrink: 0 }}><I.Arrow /></div>
         </Link>
 
         <p style={{ color: 'rgba(255,255,255,.4)', fontSize: '.8rem', marginTop: 16 }}>
