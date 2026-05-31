@@ -139,25 +139,51 @@ export default function LandingPage() {
       {/* ─── Responsive overrides (media queries beat inline styles via !important) ─── */}
       <style>{`
         @media (max-width: 900px) {
-          .cb-grid-2  { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .cb-grid-2  { grid-template-columns: 1fr !important; gap: 20px !important; }
         }
         @media (max-width: 768px) {
-          .cb-nav       { padding: 0 16px !important; }
+          /* Navbar */
+          .cb-nav       { padding: 0 14px !important; height: 56px !important; }
           .cb-navlinks  { display: none !important; }
-          .cb-navcta    { padding: 9px 16px !important; font-size: .8rem !important; }
-          .cb-hero      { padding-top: 96px !important; padding-bottom: 56px !important; padding-left: 16px !important; padding-right: 16px !important; }
-          .cb-section   { padding-left: 16px !important; padding-right: 16px !important; }
-          .cb-herobtn   { width: 100% !important; max-width: 340px; margin-left: auto !important; margin-right: auto !important; padding: 15px 24px !important; font-size: .92rem !important; }
-          .cb-bigprice  { font-size: 2.8rem !important; }
-          .cb-grid-4    { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
-          .cb-watermark { font-size: 220px !important; }
-          .cb-h1        { font-size: 2rem !important; }
-          .cb-paycard   { padding: 36px 24px !important; }
+          .cb-navcta    { padding: 8px 14px !important; font-size: .78rem !important; }
+          .cb-logo      { font-size: .98rem !important; }
+
+          /* Section spacing — much tighter on mobile */
+          .cb-hero      { padding-top: 78px !important; padding-bottom: 40px !important; padding-left: 18px !important; padding-right: 18px !important; }
+          .cb-section   { padding-top: 48px !important; padding-bottom: 48px !important; padding-left: 18px !important; padding-right: 18px !important; }
+
+          /* Typography */
+          .cb-h1        { font-size: 1.5rem !important; line-height: 1.2 !important; margin-bottom: 12px !important; }
+          .cb-h2        { font-size: 1.25rem !important; margin-bottom: 8px !important; }
+          .cb-eyebrow   { font-size: .68rem !important; margin-bottom: 8px !important; }
+          .cb-badge     { font-size: .64rem !important; padding: 5px 11px !important; margin-bottom: 14px !important; }
+          .cb-lead      { font-size: .88rem !important; line-height: 1.55 !important; margin-bottom: 6px !important; }
+          .cb-lead-2    { font-size: .9rem !important; margin-bottom: 22px !important; }
+          .cb-sub       { font-size: .85rem !important; margin-bottom: 28px !important; }
+
+          /* Buttons */
+          .cb-herobtn   { width: 100% !important; max-width: 320px; margin-left: auto !important; margin-right: auto !important; padding: 13px 20px !important; font-size: .85rem !important; }
+          .cb-microcopy { font-size: .74rem !important; }
+
+          /* Grids & cards */
+          .cb-grid-4    { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+          .cb-card      { padding: 20px !important; }
+          .cb-statval   { font-size: 1.1rem !important; }
+          .cb-statlabel { font-size: .72rem !important; }
+
+          /* Pricing */
+          .cb-bigprice  { font-size: 2.6rem !important; }
+          .cb-paycard   { padding: 32px 22px !important; }
+
+          /* Decorative */
+          .cb-watermark { font-size: 200px !important; }
         }
         @media (max-width: 420px) {
           .cb-navcta-price { display: none; }
-          .cb-bigprice  { font-size: 2.3rem !important; }
-          .cb-herobtn   { font-size: .85rem !important; padding: 14px 18px !important; }
+          .cb-h1        { font-size: 1.35rem !important; }
+          .cb-bigprice  { font-size: 2.2rem !important; }
+          .cb-herobtn   { font-size: .8rem !important; padding: 12px 16px !important; }
+          .cb-grid-4    { gap: 12px !important; }
         }
       `}</style>
 
@@ -172,7 +198,7 @@ export default function LandingPage() {
           <div style={{ width: 32, height: 32, borderRadius: 8, background: V, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
             <div style={{ width: 16, height: 16 }}><I.Cross /></div>
           </div>
-          <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: V }}>Catho Biblio</span>
+          <span className="cb-logo" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.1rem', color: V }}>Catho Biblio</span>
         </Link>
 
         <div className="cb-navlinks" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
@@ -211,7 +237,7 @@ export default function LandingPage() {
           fontFamily: 'serif', userSelect: 'none'
         }}>✝</div>
 
-        <div style={{
+        <div className="cb-badge" style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
           padding: '6px 16px', borderRadius: 999, marginBottom: 24,
           background: '#F5F3FF', border: '1px solid rgba(109,40,217,0.25)',
@@ -232,10 +258,10 @@ export default function LandingPage() {
           d&apos;Afrique francophone
         </h1>
 
-        <p style={{ fontSize: '1.1rem', maxWidth: 580, margin: '0 auto 12px', lineHeight: 1.7, color: '#6B7280' }}>
+        <p className="cb-lead" style={{ fontSize: '1.1rem', maxWidth: 580, margin: '0 auto 12px', lineHeight: 1.7, color: '#6B7280' }}>
           500+ ouvrages catholiques — Bible, saints, théologie, spiritualité — accessibles immédiatement.
         </p>
-        <p style={{ fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 36px', fontWeight: 700, color: V }}>
+        <p className="cb-lead-2" style={{ fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 36px', fontWeight: 700, color: V }}>
           Un seul paiement de {price} FCFA. Accès à vie. Aucun abonnement.
         </p>
 
@@ -251,7 +277,7 @@ export default function LandingPage() {
             Accéder à ma bibliothèque — {price} FCFA
             <div style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></div>
           </Link>
-          <p style={{ fontSize: '.82rem', color: '#9CA3AF' }}>
+          <p className="cb-microcopy" style={{ fontSize: '.82rem', color: '#9CA3AF' }}>
             Paiement unique · Accès immédiat · Garanti à vie
           </p>
         </div>
@@ -260,8 +286,8 @@ export default function LandingPage() {
         <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap', marginBottom: 56 }}>
           {[['500+','Livres'],['10','Catégories'],['24h/7','Disponible'],['1 paiement','Accès à vie']].map(([v,l]) => (
             <div key={l} style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.4rem', color: V }}>{v}</div>
-              <div style={{ fontSize: '.8rem', color: '#9CA3AF', marginTop: 2 }}>{l}</div>
+              <div className="cb-statval" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.4rem', color: V }}>{v}</div>
+              <div className="cb-statlabel" style={{ fontSize: '.8rem', color: '#9CA3AF', marginTop: 2 }}>{l}</div>
             </div>
           ))}
         </div>
@@ -332,9 +358,9 @@ export default function LandingPage() {
               <div key={l as string} style={{ textAlign: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
                   <div style={{ width: 18, height: 18, color: V }}><Comp /></div>
-                  <span style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.25rem', color: '#1E1032' }}>{v as string}</span>
+                  <span className="cb-statval" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.25rem', color: '#1E1032' }}>{v as string}</span>
                 </div>
-                <div style={{ fontSize: '.82rem', color: '#6B7280' }}>{l as string}</div>
+                <div className="cb-statlabel" style={{ fontSize: '.82rem', color: '#6B7280' }}>{l as string}</div>
               </div>
             )
           })}
@@ -345,7 +371,7 @@ export default function LandingPage() {
       <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }}>
         <div className="cb-grid-2" style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
           {/* Problem */}
-          <div style={{ background: '#FFF5F5', borderRadius: 20, padding: 36, border: '1px solid #FECACA' }}>
+          <div className="cb-card" style={{ background: '#FFF5F5', borderRadius: 20, padding: 36, border: '1px solid #FECACA' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#DC2626' }}></div>
               <span style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: '#DC2626' }}>
@@ -366,7 +392,7 @@ export default function LandingPage() {
           </div>
 
           {/* Solution */}
-          <div style={{ background: '#F0FDF4', borderRadius: 20, padding: 36, border: '1px solid #86EFAC' }}>
+          <div className="cb-card" style={{ background: '#F0FDF4', borderRadius: 20, padding: 36, border: '1px solid #86EFAC' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#16A34A' }}></div>
               <span style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: '#16A34A' }}>
@@ -400,10 +426,10 @@ export default function LandingPage() {
       {/* ─── Features ─── */}
       <section className="cb-section" style={{ padding: '80px 24px', background: '#fff' }} id="fonctionnalites">
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <p style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+          <p className="cb-eyebrow" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Fonctionnalités
           </p>
-          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 10, color: '#1E1032' }}>
+          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 10, color: '#1E1032' }}>
             Tout ce qu&apos;il vous faut pour nourrir votre foi
           </h2>
           <p style={{ textAlign: 'center', color: '#6B7280', marginBottom: 52, maxWidth: 520, margin: '0 auto 52px' }}>
@@ -411,10 +437,7 @@ export default function LandingPage() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
             {FEATURES.map(({ Icon: Ic, title, desc }) => (
-              <div key={title} style={{
-                padding: 28, borderRadius: 18, border: '1px solid rgba(109,40,217,0.12)',
-                background: '#FDFBF7', transition: 'all .2s'
-              }}>
+              <div key={title} className="cb-card" style={{ padding: 28, borderRadius: 18, border: '1px solid rgba(109,40,217,0.12)', background: '#FDFBF7', transition: 'all .2s' }}>
                 <div style={{
                   width: 46, height: 46, borderRadius: 12, marginBottom: 18,
                   background: '#F5F3FF', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -435,15 +458,15 @@ export default function LandingPage() {
       {/* ─── Testimonials ─── */}
       <section className="cb-section" style={{ padding: '80px 24px', background: '#F5F0FF' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <p style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+          <p className="cb-eyebrow" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Témoignages
           </p>
-          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 52, color: '#1E1032' }}>
+          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 52, color: '#1E1032' }}>
             Des catholiques qui ont transformé leur vie spirituelle
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
             {TESTIMONIALS.map(t => (
-              <div key={t.name} style={{ padding: 28, borderRadius: 18, background: '#fff', border: '1px solid rgba(109,40,217,0.1)' }}>
+              <div key={t.name} className="cb-card" style={{ padding: 28, borderRadius: 18, background: '#fff', border: '1px solid rgba(109,40,217,0.1)' }}>
                 <div style={{ display: 'flex', gap: 3, marginBottom: 16, color: G }}>
                   {[1,2,3,4,5].map(i => <div key={i} style={{ width: 15, height: 15 }}><I.Star /></div>)}
                 </div>
@@ -476,7 +499,7 @@ export default function LandingPage() {
           <p style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Tarif
           </p>
-          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', marginBottom: 12, color: '#1E1032' }}>
+          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', marginBottom: 12, color: '#1E1032' }}>
             Un seul paiement. Un accès à vie.
           </h2>
           <p style={{ color: '#6B7280', marginBottom: 48, lineHeight: 1.7 }}>
@@ -600,10 +623,10 @@ export default function LandingPage() {
       {/* ─── FAQ ─── */}
       <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }} id="faq">
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
-          <p style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+          <p className="cb-eyebrow" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             FAQ
           </p>
-          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.4rem,3vw,1.9rem)', textAlign: 'center', marginBottom: 48, color: '#1E1032' }}>
+          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.4rem,3vw,1.9rem)', textAlign: 'center', marginBottom: 48, color: '#1E1032' }}>
             Vos questions, nos réponses
           </h2>
           {FAQS.map(faq => (
@@ -626,12 +649,12 @@ export default function LandingPage() {
       </section>
 
       {/* ─── Final CTA ─── */}
-      <section style={{
+      <section className="cb-section" style={{
         padding: '100px 24px', textAlign: 'center',
         background: 'linear-gradient(160deg, #1E1032 0%, #3B0764 50%, #6D28D9 100%)',
         position: 'relative', overflow: 'hidden'
       }}>
-        <div style={{
+        <div className="cb-watermark" style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
           fontSize: 500, color: 'rgba(255,255,255,0.03)', pointerEvents: 'none',
           lineHeight: 1, fontFamily: 'serif'
@@ -645,7 +668,7 @@ export default function LandingPage() {
           <div style={{ width: 36, height: 36 }}><I.BookOpen /></div>
         </div>
 
-        <h2 style={{
+        <h2 className="cb-h2" style={{
           fontFamily: "'Sora', sans-serif", fontWeight: 900,
           fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: '#fff',
           maxWidth: 640, margin: '0 auto 20px', lineHeight: 1.2
