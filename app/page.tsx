@@ -237,12 +237,6 @@ export default function LandingPage() {
         background: 'linear-gradient(180deg, #F5F0FF 0%, #FAF8FF 50%, #FDFBF7 100%)',
         position: 'relative', overflow: 'hidden'
       }}>
-        {/* Decorative cross watermark */}
-        <div className="cb-watermark" style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-          fontSize: 400, color: V, opacity: 0.025, pointerEvents: 'none', lineHeight: 1,
-          fontFamily: 'serif', userSelect: 'none'
-        }}>✝</div>
 
         <div className="cb-badge" style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -528,12 +522,6 @@ export default function LandingPage() {
             borderRadius: 24, padding: '48px 40px', position: 'relative', overflow: 'hidden',
             boxShadow: '0 20px 60px rgba(109,40,217,0.4)'
           }}>
-            {/* Cross watermark */}
-            <div style={{
-              position: 'absolute', right: -20, top: -20,
-              fontSize: 160, color: 'rgba(255,255,255,0.06)',
-              fontFamily: 'serif', pointerEvents: 'none', lineHeight: 1
-            }}>✝</div>
 
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -670,12 +658,6 @@ export default function LandingPage() {
         background: 'linear-gradient(160deg, #1E1032 0%, #3B0764 50%, #6D28D9 100%)',
         position: 'relative', overflow: 'hidden'
       }}>
-        <div className="cb-watermark" style={{
-          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-          fontSize: 500, color: 'rgba(255,255,255,0.03)', pointerEvents: 'none',
-          lineHeight: 1, fontFamily: 'serif'
-        }}>✝</div>
-
         <div style={{
           width: 72, height: 72, borderRadius: 20, margin: '0 auto 28px',
           background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center',
