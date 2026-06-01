@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect }      from 'next/navigation'
-import LibraryClient     from './LibraryClient'
+import LibraryShell      from './LibraryShell'
 import { DEMO_BOOKS }    from '@/lib/demoBooks'
 import type { Book, Profile } from '@/lib/types'
 
@@ -19,7 +19,7 @@ export default async function LibraryPage() {
   const isDemo    = realBooks.length === 0
 
   return (
-    <LibraryClient
+    <LibraryShell
       books={isDemo ? DEMO_BOOKS : realBooks}
       profile={(profile ?? {}) as Profile}
       userEmail={user.email ?? ''}

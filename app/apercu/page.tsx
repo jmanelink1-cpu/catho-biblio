@@ -1,8 +1,6 @@
-import LibraryClient from '../library/LibraryClient'
+import LibraryShell from '../library/LibraryShell'
 import { DEMO_BOOKS } from '@/lib/demoBooks'
 import type { Profile } from '@/lib/types'
-
-export const dynamic = 'force-dynamic'
 
 // Public, login-free preview of the library (demo catalogue only).
 const guestProfile: Profile = {
@@ -11,5 +9,5 @@ const guestProfile: Profile = {
 }
 
 export default function ApercuPage() {
-  return <LibraryClient books={DEMO_BOOKS} profile={guestProfile} userEmail={guestProfile.email!} isDemo />
+  return <LibraryShell books={DEMO_BOOKS} profile={guestProfile} userEmail={guestProfile.email!} isDemo />
 }
