@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
-import { Inter, Sora } from 'next/font/google'
+import { Inter, Sora, Cormorant_Garamond } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const sora  = Sora({ subsets: ['latin'], variable: '--font-sora', weight: ['400','500','600','700','800'] })
+const cormorant = Cormorant_Garamond({ subsets: ['latin'], variable: '--font-cormorant', weight: ['400','500','600','700'], style: ['normal','italic'] })
 
 export const metadata: Metadata = {
   title: 'Catho Biblio — Bibliothèque Catholique Numérique',
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${sora.variable} scroll-smooth`}>
+    <html lang="fr" className={`${inter.variable} ${sora.variable} ${cormorant.variable} scroll-smooth`}>
       <body className="min-h-screen antialiased" style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
         {children}
       </body>
