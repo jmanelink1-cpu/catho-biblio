@@ -185,11 +185,15 @@ export default function Landing() {
           .sticky-bar{ display:flex; }
           .nav-links{ display:none !important; }
           .nav-cta-full{ display:none !important; }
-          .pad{ padding-left:20px !important; padding-right:20px !important; }
-          .sec{ padding-top:60px !important; padding-bottom:60px !important; }
+          .pad{ padding-left:18px !important; padding-right:18px !important; }
+          .sec{ padding-top:58px !important; padding-bottom:58px !important; padding-left:18px !important; padding-right:18px !important; }
+          #catalogue{ padding-top:58px !important; padding-bottom:46px !important; }
           .grid4{ grid-template-columns:1fr 1fr !important; }
-          .hero-wrap{ padding-top:120px !important; padding-bottom:64px !important; }
+          .hero-wrap{ padding-top:108px !important; padding-bottom:60px !important; }
           .hide-sm{ display:none !important; }
+          .heyebrow{ font-size:.58rem !important; letter-spacing:.06em !important; padding:6px 12px !important; }
+          .hero-h1{ font-size:clamp(2rem,8.5vw,2.6rem) !important; }
+          .herobtn{ padding:15px 26px !important; font-size:.92rem !important; }
         }
         @media (max-width:480px){ .grid4{ grid-template-columns:1fr !important; } }
       `}</style>
@@ -233,43 +237,41 @@ export default function Landing() {
         </div>
       </nav>
 
-      {/* ───────── HERO — cinematic ───────── */}
-      <header ref={heroRef} className="hero-wrap" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '160px 40px 90px', overflow: 'hidden' }}>
+      {/* ───────── HERO — cinematic, centered ───────── */}
+      <header ref={heroRef} className="hero-wrap" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '160px 0 90px', overflow: 'hidden' }}>
         <img src={IMG.stainedGlass} alt="Vitraux" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(120deg, ${PLUM} 8%, rgba(25,10,46,.92) 42%, rgba(42,18,72,.72) 100%)` }} />
-        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(80% 60% at 18% 50%, rgba(124,58,237,.28), transparent 70%)` }} />
+        <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, ${PLUM} 6%, rgba(25,10,46,.93) 50%, rgba(42,18,72,.8) 100%)` }} />
+        <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(70% 55% at 50% 42%, rgba(124,58,237,.26), transparent 72%)` }} />
 
-        <div className="pad" style={{ position: 'relative', maxWidth: 1240, margin: '0 auto', width: '100%', padding: '0 40px' }}>
-          <div style={{ maxWidth: 720 }}>
-            <div className="rv on" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '7px 16px', borderRadius: 999, border: `1px solid ${GOLD}55`, background: 'rgba(201,154,59,.1)', marginBottom: 30 }}>
-              <span style={{ width: 14, height: 14, color: GOLD_L }}><I.Book /></span>
-              <span style={{ fontSize: '.74rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: GOLD_L }}>Bibliothèque catholique numérique</span>
-            </div>
+        <div className="pad" style={{ position: 'relative', maxWidth: 860, margin: '0 auto', width: '100%', padding: '0 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div className="rv on heyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '7px 16px', borderRadius: 999, border: `1px solid ${GOLD}55`, background: 'rgba(201,154,59,.1)', marginBottom: 28, whiteSpace: 'nowrap' }}>
+            <span style={{ width: 14, height: 14, color: GOLD_L, flexShrink: 0 }}><I.Book /></span>
+            <span style={{ fontSize: '.74rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: GOLD_L }}>Bibliothèque catholique numérique</span>
+          </div>
 
-            <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.04, letterSpacing: '-.03em', color: '#fff', marginBottom: 26 }}>
-              Toute la sagesse<br />de l&apos;Église,{' '}
-              <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dans votre main.</span>
-            </h1>
+          <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.03em', color: '#fff', marginBottom: 24 }}>
+            Toute la sagesse de l&apos;Église,{' '}
+            <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dans votre main.</span>
+          </h1>
 
-            <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.18rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 540, marginBottom: 38 }}>
-              Plus de <strong style={{ color: '#fff' }}>500 ouvrages catholiques</strong> — Bible, Catéchisme,
-              saints, spiritualité, théologie — réunis dans une bibliothèque que vous gardez à vie.
-            </p>
+          <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.18rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
+            Plus de <strong style={{ color: '#fff' }}>500 ouvrages catholiques</strong> — Bible, Catéchisme,
+            saints, spiritualité, théologie — réunis dans une bibliothèque que vous gardez à vie.
+          </p>
 
-            <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 26 }}>
-              <Link href="#tarif" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '17px 40px', borderRadius: 999, fontWeight: 800, fontSize: '1rem', textDecoration: 'none', boxShadow: '0 14px 40px rgba(201,154,59,.4)' }}>
-                Accéder à la bibliothèque <span style={{ width: 18, height: 18 }}><I.Arrow /></span>
-              </Link>
-              <a href="#catalogue" className="disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: '#fff', fontWeight: 600, fontSize: '.95rem', textDecoration: 'none', padding: '15px 4px', borderBottom: `1px solid rgba(255,255,255,.35)` }}>
-                Découvrir le catalogue
-              </a>
-            </div>
+          <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
+            <Link href="#tarif" className="btn disp herobtn" style={{ display: 'inline-flex', alignItems: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '17px 38px', borderRadius: 999, fontWeight: 800, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 14px 40px rgba(201,154,59,.4)' }}>
+              Accéder à la bibliothèque <span style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></span>
+            </Link>
+            <a href="#catalogue" className="disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: '#fff', fontWeight: 600, fontSize: '.95rem', textDecoration: 'none', padding: '14px 4px', borderBottom: `1px solid rgba(255,255,255,.35)`, whiteSpace: 'nowrap' }}>
+              Découvrir le catalogue
+            </a>
+          </div>
 
-            <div className="rv on d4" style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.84rem' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L }}><I.Inf /></span> Paiement unique · {price} FCFA</span>
-              <span className="hide-sm" style={{ opacity: .4 }}>·</span>
-              <span className="hide-sm" style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L }}><I.Lock /></span> Accès garanti à vie</span>
-            </div>
+          <div className="rv on d4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.84rem' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span> Paiement unique · {price} FCFA</span>
+            <span className="hide-sm" style={{ opacity: .4 }}>·</span>
+            <span className="hide-sm" style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Lock /></span> Accès garanti à vie</span>
           </div>
         </div>
 
@@ -296,7 +298,7 @@ export default function Landing() {
       </div>
 
       {/* ───────── CATALOGUE showcase ───────── */}
-      <section id="catalogue" className="sec" style={{ padding: '96px 0 80px', background: IVORY }}>
+      <section id="catalogue" style={{ padding: '96px 0 80px', background: IVORY }}>
         <div className="pad" style={{ maxWidth: 1240, margin: '0 auto', padding: '0 40px', textAlign: 'center' }}>
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>Le catalogue</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,3rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 18, lineHeight: 1.1 }}>
@@ -310,11 +312,11 @@ export default function Landing() {
         <div style={{ marginTop: 48 }}>
           {SHOWCASE.map((shelf) => (
             <div key={shelf.label} className="rv" style={{ marginBottom: 34 }}>
-              <div className="pad" style={{ maxWidth: 1240, margin: '0 auto', padding: '0 40px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div className="pad" style={{ maxWidth: 1180, margin: '0 auto', padding: '0 40px 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                 <span style={{ width: 22, height: 2, background: GOLD }} />
                 <h3 className="disp" style={{ fontWeight: 700, fontSize: '1.1rem', color: INK }}>{shelf.label}</h3>
               </div>
-              <div className="shelf pad" style={{ display: 'flex', gap: 18, overflowX: 'auto', padding: '8px 40px 18px', maxWidth: 1320, margin: '0 auto' }}>
+              <div className="shelf pad" style={{ display: 'flex', gap: 18, overflowX: 'auto', justifyContent: 'safe center', padding: '8px 40px 18px', maxWidth: 1180, margin: '0 auto' }}>
                 {shelf.books.map(b => (
                   <div key={b.title} className="bk" style={{ flexShrink: 0, width: 138, cursor: 'pointer' }}>
                     <div style={{ width: '100%', aspectRatio: '2/3', borderRadius: 13, overflow: 'hidden', boxShadow: '0 12px 30px rgba(25,10,46,.2)', border: '1px solid rgba(0,0,0,.06)' }}>
@@ -337,7 +339,7 @@ export default function Landing() {
       </section>
 
       {/* ───────── Scripture cinematic band ───────── */}
-      <section style={{ position: 'relative', minHeight: 460, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '90px 24px' }}>
+      <section className="sec" style={{ position: 'relative', minHeight: 460, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '90px 24px' }}>
         <img src={IMG.cathedral} alt="Cathédrale" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, rgba(25,10,46,.9), rgba(42,18,72,.78))` }} />
         <div className="rv" style={{ position: 'relative', textAlign: 'center', maxWidth: 760 }}>
@@ -355,7 +357,7 @@ export default function Landing() {
 
       {/* ───────── Avantages ───────── */}
       <section id="avantages" className="sec" style={{ padding: '96px 40px', background: IVORY }}>
-        <div className="pad" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>Pourquoi Catho Biblio</p>
             <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, lineHeight: 1.12 }}>
@@ -378,7 +380,7 @@ export default function Landing() {
 
       {/* ───────── How it works ───────── */}
       <section className="sec" style={{ padding: '90px 40px', background: '#fff' }}>
-        <div className="pad" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>En 3 étapes</p>
             <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, lineHeight: 1.12 }}>Commencez en quelques minutes</h2>
@@ -397,7 +399,7 @@ export default function Landing() {
 
       {/* ───────── Testimonials ───────── */}
       <section className="sec" style={{ padding: '96px 40px', background: PLUM, color: '#fff' }}>
-        <div className="pad" style={{ maxWidth: 1140, margin: '0 auto' }}>
+        <div style={{ maxWidth: 1140, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 54 }}>
             <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD_L, marginBottom: 16 }}>Ils en témoignent</p>
             <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.12 }}>Une grâce pour des milliers<br />de catholiques</h2>
@@ -424,7 +426,7 @@ export default function Landing() {
 
       {/* ───────── PRICING ───────── */}
       <section id="tarif" className="sec" style={{ padding: '100px 40px', background: IVORY }}>
-        <div className="pad" style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>L&apos;offre</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 14, lineHeight: 1.12 }}>Un seul paiement.<br />Un accès pour la vie.</h2>
           <p className="rv d1" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
@@ -478,7 +480,7 @@ export default function Landing() {
 
       {/* ───────── FAQ ───────── */}
       <section id="faq" className="sec" style={{ padding: '90px 40px', background: '#fff' }}>
-        <div className="pad" style={{ maxWidth: 740, margin: '0 auto' }}>
+        <div style={{ maxWidth: 740, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>Questions fréquentes</p>
             <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.7rem,4vw,2.5rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK }}>Tout ce qu&apos;il faut savoir</h2>
@@ -496,7 +498,7 @@ export default function Landing() {
       </section>
 
       {/* ───────── Final CTA — cinematic ───────── */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '110px 40px', textAlign: 'center' }}>
+      <section className="sec" style={{ position: 'relative', overflow: 'hidden', padding: '110px 40px', textAlign: 'center' }}>
         <img src={IMG.prayer} alt="Prière" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, rgba(25,10,46,.92), rgba(42,18,72,.82))` }} />
         <div className="rv" style={{ position: 'relative', maxWidth: 680, margin: '0 auto' }}>
@@ -519,9 +521,9 @@ export default function Landing() {
       </section>
 
       {/* ───────── Footer ───────── */}
-      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '52px 40px 26px' }}>
-        <div className="pad cols2" style={{ maxWidth: 1140, margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 32, marginBottom: 36 }}>
-          <div style={{ maxWidth: 320 }}>
+      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '52px 0 26px' }}>
+        <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '0 40px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 32, marginBottom: 36 }}>
+          <div style={{ maxWidth: 340 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <span style={{ width: 32, height: 32, borderRadius: 9, background: `linear-gradient(135deg,${VIO},${VIO_DK})`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><span style={{ width: 15, height: 15 }}><I.Cross /></span></span>
               <span className="disp" style={{ fontWeight: 800, color: '#fff', fontSize: '1.05rem' }}>Catho Biblio</span>
@@ -530,22 +532,12 @@ export default function Landing() {
               La bibliothèque catholique numérique pour l&apos;Afrique francophone.
             </p>
           </div>
-          <div style={{ display: 'flex', gap: 56, flexWrap: 'wrap' }}>
-            <div>
-              <div className="disp" style={{ color: '#fff', fontWeight: 700, fontSize: '.86rem', marginBottom: 14 }}>Navigation</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[['#catalogue', 'Catalogue'], ['#tarif', 'Tarif'], ['#faq', 'FAQ'], ['/auth/login', 'Connexion']].map(([h, l]) => (
-                  <a key={h} href={h} className="nav-a" style={{ color: 'rgba(255,255,255,.55)', fontSize: '.86rem', textDecoration: 'none' }}>{l}</a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <div className="disp" style={{ color: '#fff', fontWeight: 700, fontSize: '.86rem', marginBottom: 14 }}>Contact</div>
-              <a href="mailto:support@catho-biblio.com" className="nav-a" style={{ color: 'rgba(255,255,255,.55)', fontSize: '.86rem', textDecoration: 'none' }}>support@catho-biblio.com</a>
-            </div>
+          <div>
+            <div className="disp" style={{ color: '#fff', fontWeight: 700, fontSize: '.86rem', marginBottom: 14 }}>Contact</div>
+            <a href="mailto:support@catho-biblio.com" className="nav-a" style={{ color: 'rgba(255,255,255,.55)', fontSize: '.86rem', textDecoration: 'none' }}>support@catho-biblio.com</a>
           </div>
         </div>
-        <div style={{ maxWidth: 1140, margin: '0 auto', borderTop: '1px solid rgba(201,154,59,.18)', paddingTop: 22, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: '.78rem', color: 'rgba(255,255,255,.4)' }}>
+        <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '22px 40px 0', borderTop: '1px solid rgba(201,154,59,.18)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: '.78rem', color: 'rgba(255,255,255,.4)' }}>
           <span>© 2026 Catho Biblio. Tous droits réservés.</span>
           <span className="serif" style={{ fontStyle: 'italic', fontSize: '.92rem' }}>Ad majorem Dei gloriam</span>
         </div>
