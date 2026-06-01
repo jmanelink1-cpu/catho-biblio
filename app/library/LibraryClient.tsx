@@ -25,8 +25,6 @@ interface Props {
 
 export default function LibraryClient({ books, profile, userEmail, isDemo = false }: Props) {
   const router   = useRouter()
-  const supabase = createClient()
-
   const [search, setSearch]         = useState('')
   const [activeCategory, setCategory] = useState<string>('all')
   const [menuOpen, setMenuOpen]     = useState(false)
@@ -59,6 +57,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   }, [books, activeCategory, search])
 
   async function logout() {
+    const supabase = createClient()
     await supabase.auth.signOut()
     router.push('/')
   }
