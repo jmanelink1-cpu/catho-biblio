@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { SINGLE_PLAN } from '@/lib/types'
 
@@ -132,70 +132,195 @@ const FAQS = [
 
 export default function LandingPage() {
   const price = SINGLE_PLAN.price.toLocaleString('fr-FR')
+  const [showStickyCta, setShowStickyCta] = useState(false)
+  const heroRef = useRef<HTMLElement | null>(null)
+
+  // Scroll-reveal — elements fade/slide in as they enter the viewport
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal')
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in')
+            io.unobserve(e.target)
+          }
+        })
+      },
+      { threshold: 0.14, rootMargin: '0px 0px -8% 0px' }
+    )
+    els.forEach((el) => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+
+  // Sticky conversion bar appears once the hero is scrolled past
+  useEffect(() => {
+    const hero = heroRef.current
+    if (!hero) return
+    const io = new IntersectionObserver(
+      ([entry]) => setShowStickyCta(!entry.isIntersecting),
+      { threshold: 0, rootMargin: '-120px 0px 0px 0px' }
+    )
+    io.observe(hero)
+    return () => io.disconnect()
+  }, [])
 
   return (
     <div style={{ background: '#FDFBF7', color: '#1E1032', fontFamily: "'Inter', system-ui, sans-serif", overflowX: 'hidden' }}>
 
       {/* ─── Responsive overrides (media queries beat inline styles via !important) ─── */}
       <style>{`
+        /* ═══ Foundations ═══ */
+        html { scroll-behavior: smooth; }
+        ::selection { background: rgba(109,40,217,0.18); color: #1E1032; }
+
+        /* ═══ Motion primitives ═══ */
+        @keyframes cbReveal      { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+        @keyframes cbFloat       { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        @keyframes cbGradient    { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes cbGlow        { 0%,100% { opacity: .5; transform: scale(1); } 50% { opacity: .85; transform: scale(1.06); } }
+        @keyframes cbShimmer     { to { transform: translateX(220%); } }
+        @keyframes cbCaret       { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+
+        /* ═══ Scroll-reveal (staggered) ═══ */
+        .reveal { opacity: 0; }
+        .reveal.in { animation: cbReveal .7s cubic-bezier(.22,.61,.36,1) both; }
+        .reveal.in.d1 { animation-delay: .08s; }
+        .reveal.in.d2 { animation-delay: .16s; }
+        .reveal.in.d3 { animation-delay: .24s; }
+        .reveal.in.d4 { animation-delay: .32s; }
+        .reveal.in.d5 { animation-delay: .40s; }
+        @media (prefers-reduced-motion: reduce) {
+          .reveal, .reveal.in { opacity: 1 !important; animation: none !important; }
+          html { scroll-behavior: auto; }
+        }
+
+        /* ═══ Animated gradient keyword ═══ */
+        .cb-grad-word {
+          background: linear-gradient(100deg, #6D28D9, #9333EA, #B45309, #9333EA, #6D28D9);
+          background-size: 200% auto;
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
+          animation: cbGradient 6s linear infinite;
+        }
+
+        /* ═══ Primary button — crafted hover with light sweep ═══ */
+        .cb-cta { position: relative; overflow: hidden; transition: transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease, filter .35s ease; will-change: transform; isolation: isolate; }
+        .cb-cta::after {
+          content: ''; position: absolute; top: 0; left: 0; width: 40%; height: 100%;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+          transform: translateX(-160%); pointer-events: none;
+        }
+        .cb-cta:hover { transform: translateY(-3px); }
+        .cb-cta:hover::after { animation: cbShimmer .9s cubic-bezier(.22,.61,.36,1); }
+        .cb-cta:active { transform: translateY(-1px) scale(.99); }
+        .cb-cta svg { transition: transform .35s cubic-bezier(.22,.61,.36,1); }
+        .cb-cta:hover svg { transform: translateX(4px); }
+
+        /* ═══ Cards — considered hover ═══ */
+        .cb-lift { transition: transform .4s cubic-bezier(.22,.61,.36,1), box-shadow .4s ease, border-color .4s ease; will-change: transform; }
+        .cb-lift:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(109,40,217,0.14); border-color: rgba(109,40,217,0.35) !important; }
+
+        /* ═══ Book showcase — gentle float + hover focus ═══ */
+        .cb-book { transition: transform .4s cubic-bezier(.22,.61,.36,1), box-shadow .4s ease; }
+        .cb-book:hover { transform: translateY(-8px) rotate(-1deg); box-shadow: 0 22px 48px rgba(109,40,217,.22); z-index: 2; }
+
+        /* ═══ Nav link underline ═══ */
+        .cb-navlink { position: relative; }
+        .cb-navlink::after { content: ''; position: absolute; left: 0; bottom: -4px; height: 2px; width: 100%; background: #6D28D9; transform: scaleX(0); transform-origin: right; transition: transform .3s cubic-bezier(.22,.61,.36,1); border-radius: 2px; }
+        .cb-navlink:hover { color: #6D28D9 !important; }
+        .cb-navlink:hover::after { transform: scaleX(1); transform-origin: left; }
+
+        /* ═══ Hero ambient glows ═══ */
+        .cb-glow { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; animation: cbGlow 9s ease-in-out infinite; }
+
+        /* ═══ FAQ rows ═══ */
+        .cb-faq { transition: background .25s ease; border-radius: 12px; }
+        .cb-faq summary { transition: color .2s ease; }
+        .cb-faq[open] summary { color: #6D28D9 !important; }
+        .cb-faq summary span { transition: transform .3s cubic-bezier(.22,.61,.36,1); }
+        .cb-faq[open] summary span { transform: rotate(45deg); }
+
+        /* ═══ Sticky conversion bar (mobile) ═══ */
+        .cb-sticky {
+          position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+          display: none; align-items: center; justify-content: space-between; gap: 12px;
+          padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+          background: rgba(255,255,255,.92); backdrop-filter: blur(14px);
+          border-top: 1px solid rgba(109,40,217,.14);
+          box-shadow: 0 -8px 30px rgba(30,16,50,.08);
+          transform: translateY(120%); transition: transform .45s cubic-bezier(.22,.61,.36,1);
+        }
+        .cb-sticky.show { transform: translateY(0); }
+
+        /* ═══ Trust pill row ═══ */
+        .cb-trustpill { transition: background .3s ease, transform .3s ease; }
+
         @media (max-width: 900px) {
           .cb-grid-2  { grid-template-columns: 1fr !important; gap: 20px !important; }
         }
         @media (max-width: 768px) {
-          /* Navbar */
+          .cb-sticky    { display: flex; }
           .cb-nav       { padding: 0 14px !important; height: 56px !important; }
           .cb-navlinks  { display: none !important; }
           .cb-navcta    { padding: 8px 14px !important; font-size: .78rem !important; }
           .cb-logo      { font-size: .98rem !important; }
 
-          /* Section spacing — much tighter on mobile */
           .cb-hero      { padding-top: 78px !important; padding-bottom: 40px !important; padding-left: 18px !important; padding-right: 18px !important; }
-          .cb-section   { padding-top: 48px !important; padding-bottom: 48px !important; padding-left: 18px !important; padding-right: 18px !important; }
+          .cb-section   { padding-top: 52px !important; padding-bottom: 52px !important; padding-left: 18px !important; padding-right: 18px !important; }
 
-          /* Typography — generous vertical rhythm */
-          .cb-h1        { font-size: 1.55rem !important; line-height: 1.25 !important; margin-bottom: 18px !important; }
-          .cb-h2        { font-size: 1.25rem !important; margin-bottom: 8px !important; }
+          .cb-h1        { font-size: 1.62rem !important; line-height: 1.22 !important; margin-bottom: 18px !important; letter-spacing: -.03em !important; }
+          .cb-h2        { font-size: 1.3rem !important; margin-bottom: 8px !important; }
           .cb-eyebrow   { font-size: .68rem !important; margin-bottom: 8px !important; }
           .cb-badge     { font-size: .64rem !important; padding: 5px 11px !important; margin-bottom: 20px !important; }
           .cb-lead      { font-size: .9rem !important; line-height: 1.6 !important; margin-bottom: 16px !important; }
           .cb-lead-2    { font-size: .92rem !important; margin-bottom: 28px !important; }
           .cb-sub       { font-size: .85rem !important; margin-bottom: 28px !important; }
 
-          /* Buttons — always single line */
-          .cb-herobtn   { width: auto !important; max-width: 92%; margin-left: auto !important; margin-right: auto !important; padding: 14px 26px !important; font-size: .9rem !important; white-space: nowrap !important; }
+          .cb-herobtn   { width: auto !important; max-width: 92%; margin-left: auto !important; margin-right: auto !important; padding: 15px 28px !important; font-size: .9rem !important; white-space: nowrap !important; }
           .cb-microcopy { font-size: .74rem !important; }
 
-          /* Trust badges — clean centered stack */
           .cb-trust     { flex-direction: column !important; gap: 12px !important; margin-top: 28px !important; }
 
-          /* Stats grid — clean 2x2 */
           .cb-social      { grid-template-columns: 1fr 1fr !important; max-width: 300px !important; padding: 0 !important; }
           .cb-social-item { border-right: none !important; padding: 14px 6px !important; }
           .cb-social-item:nth-child(odd)  { border-right: 1px solid rgba(109,40,217,0.1) !important; }
           .cb-social-item:nth-child(1),
           .cb-social-item:nth-child(2)    { border-bottom: 1px solid rgba(109,40,217,0.1) !important; }
 
-          /* Grids & cards */
           .cb-grid-4    { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
-          .cb-card      { padding: 20px !important; }
+          .cb-card      { padding: 22px !important; }
           .cb-statval   { font-size: 1.25rem !important; }
           .cb-statlabel { font-size: .72rem !important; }
 
-          /* Pricing */
-          .cb-bigprice  { font-size: 2.6rem !important; }
-          .cb-paycard   { padding: 32px 22px !important; }
-
-          /* Decorative */
-          .cb-watermark { font-size: 200px !important; }
+          .cb-bigprice  { font-size: 2.7rem !important; }
+          .cb-paycard   { padding: 34px 22px !important; }
         }
         @media (max-width: 420px) {
           .cb-navcta-price { display: none; }
-          .cb-h1        { font-size: 1.4rem !important; }
-          .cb-bigprice  { font-size: 2.2rem !important; }
-          .cb-herobtn   { font-size: .82rem !important; padding: 13px 20px !important; }
+          .cb-h1        { font-size: 1.46rem !important; }
+          .cb-bigprice  { font-size: 2.3rem !important; }
+          .cb-herobtn   { font-size: .84rem !important; padding: 14px 22px !important; }
           .cb-grid-4    { gap: 12px !important; }
         }
       `}</style>
+
+      {/* ─── Sticky mobile conversion bar ─── */}
+      <div className={`cb-sticky${showStickyCta ? ' show' : ''}`}>
+        <div style={{ lineHeight: 1.15 }}>
+          <div style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1rem', color: '#1E1032' }}>{price} FCFA</div>
+          <div style={{ fontSize: '.72rem', color: '#8A6FB0' }}>Paiement unique · à vie</div>
+        </div>
+        <Link href="/auth/register?plan=lifetime" className="cb-cta" style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          background: 'linear-gradient(135deg,#6D28D9,#9333EA)', color: '#fff',
+          padding: '12px 22px', borderRadius: 999, fontSize: '.86rem', fontWeight: 800,
+          textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 8px 22px rgba(109,40,217,.36)'
+        }}>
+          Accéder
+          <div style={{ width: 15, height: 15 }}><I.Arrow /></div>
+        </Link>
+      </div>
 
       {/* ─── Navbar ─── */}
       <nav className="cb-nav" style={{
@@ -213,7 +338,7 @@ export default function LandingPage() {
 
         <div className="cb-navlinks" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {[['#fonctionnalites','Fonctionnalités'],['#tarif','Tarif'],['#faq','FAQ']].map(([h,l]) => (
-            <a key={h} href={h} style={{ color: '#6B7280', fontSize: '.9rem', fontWeight: 500, textDecoration: 'none' }}>{l}</a>
+            <a key={h} href={h} className="cb-navlink" style={{ color: '#6B7280', fontSize: '.9rem', fontWeight: 500, textDecoration: 'none' }}>{l}</a>
           ))}
         </div>
 
@@ -221,7 +346,7 @@ export default function LandingPage() {
           <Link href="/auth/login" style={{ color: V, fontSize: '.88rem', fontWeight: 600, textDecoration: 'none' }} className="cb-navlinks">
             Connexion
           </Link>
-          <Link href="#tarif" className="cb-navcta" style={{
+          <Link href="#tarif" className="cb-navcta cb-cta" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             background: V, color: '#fff', padding: '10px 20px',
             borderRadius: 999, fontSize: '.88rem', fontWeight: 700,
@@ -234,48 +359,54 @@ export default function LandingPage() {
       </nav>
 
       {/* ─── HERO ─── */}
-      <section className="cb-hero" style={{
+      <section ref={heroRef} className="cb-hero" style={{
         paddingTop: 120, paddingBottom: 80, paddingLeft: 24, paddingRight: 24,
         textAlign: 'center',
-        background: 'linear-gradient(180deg, #F5F0FF 0%, #FAF8FF 50%, #FDFBF7 100%)',
+        background: 'linear-gradient(180deg, #F3EEFF 0%, #FAF8FF 52%, #FDFBF7 100%)',
         position: 'relative', overflow: 'hidden'
       }}>
+        {/* Ambient glows */}
+        <div className="cb-glow" style={{ width: 360, height: 360, top: -80, left: '-8%', background: 'radial-gradient(circle, rgba(147,51,234,.30), transparent 70%)' }} />
+        <div className="cb-glow" style={{ width: 320, height: 320, top: 40, right: '-6%', background: 'radial-gradient(circle, rgba(180,83,9,.18), transparent 70%)', animationDelay: '2s' }} />
 
-        <div className="cb-badge" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          padding: '6px 16px', borderRadius: 999, marginBottom: 24,
-          background: '#F5F3FF', border: '1px solid rgba(109,40,217,0.25)',
-          fontSize: '.78rem', fontWeight: 700, color: V, textTransform: 'uppercase', letterSpacing: '.08em'
-        }}>
-          <div style={{ width: 14, height: 14 }}><I.Book /></div>
-          500+ livres catholiques en français
+        <div className="reveal in" style={{ position: 'relative' }}>
+          <div className="cb-badge" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '6px 16px', borderRadius: 999, marginBottom: 24,
+            background: 'rgba(255,255,255,.7)', border: '1px solid rgba(109,40,217,0.22)',
+            fontSize: '.78rem', fontWeight: 700, color: V, textTransform: 'uppercase', letterSpacing: '.08em',
+            backdropFilter: 'blur(6px)', boxShadow: '0 2px 12px rgba(109,40,217,.08)'
+          }}>
+            <div style={{ width: 14, height: 14 }}><I.Book /></div>
+            500+ livres catholiques en français
+          </div>
         </div>
 
-        <h1 className="cb-h1" style={{
+        <h1 className="cb-h1 reveal in d1" style={{
           fontFamily: "'Sora', sans-serif", fontWeight: 800,
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1.15,
-          maxWidth: 820, margin: '0 auto 20px', letterSpacing: '-0.02em',
-          color: '#1E1032'
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1.12,
+          maxWidth: 840, margin: '0 auto 20px', letterSpacing: '-0.03em',
+          color: '#1E1032', position: 'relative'
         }}>
           La plus grande bibliothèque{' '}
-          <span style={{ color: V }}>catholique numérique</span>{' '}
+          <span className="cb-grad-word">catholique numérique</span>{' '}
           d&apos;Afrique francophone
         </h1>
 
-        <p className="cb-lead" style={{ fontSize: '1.1rem', maxWidth: 580, margin: '0 auto 12px', lineHeight: 1.7, color: '#6B7280' }}>
+        <p className="cb-lead reveal in d2" style={{ fontSize: '1.12rem', maxWidth: 580, margin: '0 auto 12px', lineHeight: 1.7, color: '#5B5470', position: 'relative' }}>
           500+ ouvrages catholiques — Bible, saints,<br />théologie, spiritualité et bien plus.
         </p>
-        <p className="cb-lead-2" style={{ fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 36px', fontWeight: 700, color: V }}>
+        <p className="cb-lead-2 reveal in d2" style={{ fontSize: '1.05rem', maxWidth: 480, margin: '0 auto 36px', fontWeight: 700, color: V, position: 'relative' }}>
           Un seul paiement de {price} FCFA.
         </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 48 }}>
-          <Link href="#tarif" className="cb-herobtn" style={{
+        <div className="reveal in d3" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 48, position: 'relative' }}>
+          <Link href="#tarif" className="cb-herobtn cb-cta" style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-            background: V, color: '#fff', padding: '16px 40px',
+            background: 'linear-gradient(135deg, #6D28D9 0%, #9333EA 100%)', color: '#fff', padding: '17px 42px',
             borderRadius: 999, fontSize: '1rem', fontWeight: 800,
             textDecoration: 'none', whiteSpace: 'nowrap',
-            boxShadow: '0 8px 28px rgba(109,40,217,0.4)',
+            boxShadow: '0 12px 34px rgba(109,40,217,0.42)',
             letterSpacing: '0.01em', textAlign: 'center'
           }}>
             Accéder à ma bibliothèque
@@ -287,12 +418,12 @@ export default function LandingPage() {
         </div>
 
         {/* Social proof — clean card grid */}
-        <div className="cb-social" style={{
+        <div className="cb-social reveal in d4" style={{
           maxWidth: 520, margin: '0 auto 56px',
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-          background: '#fff', borderRadius: 18, padding: '20px 12px',
-          border: '1px solid rgba(109,40,217,0.12)',
-          boxShadow: '0 4px 20px rgba(109,40,217,0.06)'
+          background: 'rgba(255,255,255,.75)', borderRadius: 18, padding: '20px 12px',
+          border: '1px solid rgba(109,40,217,0.12)', backdropFilter: 'blur(6px)',
+          boxShadow: '0 6px 26px rgba(109,40,217,0.08)'
         }}>
           {[['500+','Livres'],['10','Catégories'],['24h/7','Disponible'],['1 paiement','Accès à vie']].map(([v,l], i) => (
             <div key={l} className="cb-social-item" style={{
@@ -306,11 +437,11 @@ export default function LandingPage() {
         </div>
 
         {/* Book Preview */}
-        <div style={{
+        <div className="reveal in d5" style={{
           maxWidth: 780, margin: '0 auto',
-          background: '#fff', borderRadius: 20, overflow: 'hidden',
+          background: '#fff', borderRadius: 22, overflow: 'hidden',
           border: '1px solid rgba(109,40,217,0.15)',
-          boxShadow: '0 24px 80px rgba(109,40,217,0.18)'
+          boxShadow: '0 32px 90px rgba(109,40,217,0.22)'
         }}>
           {/* App top bar */}
           <div style={{
@@ -332,17 +463,17 @@ export default function LandingPage() {
             display: 'flex', gap: 14, overflowX: 'auto', padding: '20px 20px 16px',
             scrollbarWidth: 'none', background: '#F7F5FF'
           }}>
-            {BOOKS_PREVIEW.map(({ Icon: Ic, title, subtitle, bg, border }) => (
-              <div key={title} style={{
+            {BOOKS_PREVIEW.map(({ Icon: Ic, title, subtitle, bg, border }, bi) => (
+              <div key={title} className="cb-book" style={{
                 flexShrink: 0, width: 110, borderRadius: 14, overflow: 'hidden',
                 border: `1.5px solid ${border}`, background: '#fff',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.06)'
+                boxShadow: '0 2px 12px rgba(0,0,0,0.06)', cursor: 'pointer'
               }}>
                 <div style={{
                   height: 130, background: bg,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16
                 }}>
-                  <div style={{ width: 64, height: 64 }}><Ic /></div>
+                  <div style={{ width: 64, height: 64, animation: `cbFloat ${4 + bi * 0.4}s ease-in-out ${bi * 0.2}s infinite` }}><Ic /></div>
                 </div>
                 <div style={{ padding: '10px 10px 12px', background: '#fff' }}>
                   <div style={{ fontSize: '.72rem', fontWeight: 700, lineHeight: 1.3, color: '#1E1032', marginBottom: 4 }}>{title}</div>
@@ -384,7 +515,7 @@ export default function LandingPage() {
       <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }}>
         <div className="cb-grid-2" style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
           {/* Problem */}
-          <div className="cb-card" style={{ background: '#FFF5F5', borderRadius: 20, padding: 36, border: '1px solid #FECACA' }}>
+          <div className="cb-card reveal" style={{ background: '#FFF5F5', borderRadius: 20, padding: 36, border: '1px solid #FECACA' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#DC2626' }}></div>
               <span style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: '#DC2626' }}>
@@ -405,7 +536,7 @@ export default function LandingPage() {
           </div>
 
           {/* Solution */}
-          <div className="cb-card" style={{ background: '#F0FDF4', borderRadius: 20, padding: 36, border: '1px solid #86EFAC' }}>
+          <div className="cb-card reveal d1" style={{ background: '#F0FDF4', borderRadius: 20, padding: 36, border: '1px solid #86EFAC' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#16A34A' }}></div>
               <span style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: '#16A34A' }}>
@@ -439,18 +570,18 @@ export default function LandingPage() {
       {/* ─── Features ─── */}
       <section className="cb-section" style={{ padding: '80px 24px', background: '#fff' }} id="fonctionnalites">
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <p className="cb-eyebrow" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+          <p className="cb-eyebrow reveal" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Fonctionnalités
           </p>
-          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 10, color: '#1E1032' }}>
+          <h2 className="cb-h2 reveal d1" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 10, color: '#1E1032' }}>
             Tout ce qu&apos;il vous faut pour nourrir votre foi
           </h2>
           <p style={{ textAlign: 'center', color: '#6B7280', marginBottom: 52, maxWidth: 520, margin: '0 auto 52px' }}>
             Une bibliothèque conçue spécialement pour les catholiques francophones d&apos;Afrique.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
-            {FEATURES.map(({ Icon: Ic, title, desc }) => (
-              <div key={title} className="cb-card" style={{ padding: 28, borderRadius: 18, border: '1px solid rgba(109,40,217,0.12)', background: '#FDFBF7', transition: 'all .2s' }}>
+            {FEATURES.map(({ Icon: Ic, title, desc }, fi) => (
+              <div key={title} className={`cb-card cb-lift reveal d${(fi % 3) + 1}`} style={{ padding: 28, borderRadius: 18, border: '1px solid rgba(109,40,217,0.12)', background: '#fff' }}>
                 <div style={{
                   width: 46, height: 46, borderRadius: 12, marginBottom: 18,
                   background: '#F5F3FF', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -471,15 +602,15 @@ export default function LandingPage() {
       {/* ─── Testimonials ─── */}
       <section className="cb-section" style={{ padding: '80px 24px', background: '#F5F0FF' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <p className="cb-eyebrow" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+          <p className="cb-eyebrow reveal" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Témoignages
           </p>
-          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 52, color: '#1E1032' }}>
+          <h2 className="cb-h2 reveal d1" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 52, color: '#1E1032' }}>
             Des catholiques qui ont transformé leur vie spirituelle
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 24 }}>
-            {TESTIMONIALS.map(t => (
-              <div key={t.name} className="cb-card" style={{ padding: 28, borderRadius: 18, background: '#fff', border: '1px solid rgba(109,40,217,0.1)' }}>
+            {TESTIMONIALS.map((t, ti) => (
+              <div key={t.name} className={`cb-card cb-lift reveal d${ti + 1}`} style={{ padding: 28, borderRadius: 18, background: '#fff', border: '1px solid rgba(109,40,217,0.1)' }}>
                 <div style={{ display: 'flex', gap: 3, marginBottom: 16, color: G }}>
                   {[1,2,3,4,5].map(i => <div key={i} style={{ width: 15, height: 15 }}><I.Star /></div>)}
                 </div>
@@ -512,7 +643,7 @@ export default function LandingPage() {
           <p style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             Tarif
           </p>
-          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', marginBottom: 12, color: '#1E1032' }}>
+          <h2 className="cb-h2 reveal d1" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', marginBottom: 12, color: '#1E1032' }}>
             Un seul paiement. Un accès à vie.
           </h2>
           <p style={{ color: '#6B7280', marginBottom: 48, lineHeight: 1.7 }}>
@@ -520,7 +651,7 @@ export default function LandingPage() {
           </p>
 
           {/* Pricing Card */}
-          <div className="cb-paycard" style={{
+          <div className="cb-paycard reveal" style={{
             background: 'linear-gradient(160deg, #3B0764 0%, #6D28D9 100%)',
             borderRadius: 24, padding: '48px 40px', position: 'relative', overflow: 'hidden',
             boxShadow: '0 20px 60px rgba(109,40,217,0.4)'
@@ -564,7 +695,7 @@ export default function LandingPage() {
               ))}
             </div>
 
-            <Link href="/auth/register?plan=lifetime" className="cb-herobtn" style={{
+            <Link href="/auth/register?plan=lifetime" className="cb-herobtn cb-cta" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
               background: '#fff', color: V,
               padding: '18px 32px', borderRadius: 999,
@@ -632,22 +763,22 @@ export default function LandingPage() {
       {/* ─── FAQ ─── */}
       <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }} id="faq">
         <div style={{ maxWidth: 680, margin: '0 auto' }}>
-          <p className="cb-eyebrow" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+          <p className="cb-eyebrow reveal" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
             FAQ
           </p>
-          <h2 className="cb-h2" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.4rem,3vw,1.9rem)', textAlign: 'center', marginBottom: 48, color: '#1E1032' }}>
+          <h2 className="cb-h2 reveal d1" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.4rem,3vw,1.9rem)', textAlign: 'center', marginBottom: 48, color: '#1E1032' }}>
             Vos questions, nos réponses
           </h2>
           {FAQS.map(faq => (
             <details key={faq.q} style={{ borderBottom: '1px solid rgba(109,40,217,0.12)', paddingBottom: 0 }}
-                     className="group">
+                     className="cb-faq reveal">
               <summary style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 cursor: 'pointer', fontWeight: 600, fontSize: '.92rem',
-                color: '#1E1032', padding: '20px 0', listStyle: 'none'
+                color: '#1E1032', padding: '20px 4px', listStyle: 'none'
               }}>
                 {faq.q}
-                <span style={{ color: V, fontSize: '1.4rem', fontWeight: 300, flexShrink: 0, marginLeft: 16 }}>+</span>
+                <span style={{ color: V, fontSize: '1.4rem', fontWeight: 300, flexShrink: 0, marginLeft: 16, lineHeight: 1 }}>+</span>
               </summary>
               <p style={{ fontSize: '.88rem', color: '#6B7280', lineHeight: 1.7, paddingBottom: 20, margin: 0 }}>
                 {faq.a}
@@ -671,7 +802,7 @@ export default function LandingPage() {
           <div style={{ width: 36, height: 36 }}><I.BookOpen /></div>
         </div>
 
-        <h2 className="cb-h2" style={{
+        <h2 className="cb-h2 reveal d1" style={{
           fontFamily: "'Sora', sans-serif", fontWeight: 900,
           fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', color: '#fff',
           maxWidth: 640, margin: '0 auto 20px', lineHeight: 1.2
@@ -684,7 +815,7 @@ export default function LandingPage() {
           Rejoignez des milliers de catholiques qui nourrissent leur foi chaque jour grâce à Catho Biblio.
         </p>
 
-        <Link href="/auth/register" className="cb-herobtn" style={{
+        <Link href="/auth/register" className="cb-herobtn cb-cta" style={{
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 12,
           background: 'linear-gradient(135deg, #D97706, #F59E0B)',
           color: '#fff', padding: '20px 48px', borderRadius: 999,
