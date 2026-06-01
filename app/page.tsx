@@ -132,20 +132,6 @@ const I = {
 const V = '#6D28D9'   // violet
 const G = '#B45309'   // gold
 
-const PAIN_POINTS = [
-  'Les bons livres catholiques sont introuvables ou hors de prix en Afrique',
-  'Les ressources catholiques en français sont rares et dispersées',
-  'Acheter chaque livre séparément coûte une fortune',
-  'Aucune bibliothèque catholique numérique centralisée n\'existe pour l\'Afrique',
-]
-
-const SOLUTIONS = [
-  '500+ livres catholiques en français réunis en un seul endroit',
-  'Accès immédiat après paiement — aucune attente, aucune livraison',
-  'Un seul paiement de 10 300 FCFA — accès à vie garanti',
-  'Lisez depuis votre téléphone, tablette ou ordinateur, partout en Afrique',
-]
-
 const FEATURES = [
   { Icon: I.Book,     title: '500+ Livres catholiques en français', desc: 'Bible, Catéchisme, vies des saints, encycliques, théologie, spiritualité — toute la richesse de la Tradition catholique.' },
   { Icon: I.Phone,    title: 'Livres PDF téléchargeables',          desc: 'Tous les livres sont au format PDF, téléchargeables et lisibles sur téléphone, tablette ou ordinateur — partout, à tout moment.' },
@@ -533,85 +519,20 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── Stats band ─── */}
-      <section style={{
-        padding: '28px 24px', background: '#fff',
-        borderTop: '1px solid rgba(109,40,217,0.1)', borderBottom: '1px solid rgba(109,40,217,0.1)'
-      }}>
-        <div className="cb-grid-4" style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
-          {[
-            [I.Book,     '500+',       'Livres disponibles'],
-            [I.Layers,   '10',         'Catégories'],
-            [I.Clock,    '24h / 7',    'Accès permanent'],
-            [I.Infinity, '1 paiement', 'Accès à vie'],
-          ].map(([Ic, v, l]) => {
-            const Comp = Ic as React.ComponentType
-            return (
-              <div key={l as string} style={{ textAlign: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
-                  <div style={{ width: 18, height: 18, color: V }}><Comp /></div>
-                  <span className="cb-statval" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.25rem', color: '#1E1032' }}>{v as string}</span>
-                </div>
-                <div className="cb-statlabel" style={{ fontSize: '.82rem', color: '#6B7280' }}>{l as string}</div>
-              </div>
-            )
-          })}
-        </div>
-      </section>
-
-      {/* ─── Problem / Solution ─── */}
-      <section className="cb-section" style={{ padding: '80px 24px', background: '#FDFBF7' }}>
-        <div className="cb-grid-2" style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64 }}>
-          {/* Problem */}
-          <div className="cb-card reveal" style={{ background: '#FFF5F5', borderRadius: 20, padding: 36, border: '1px solid #FECACA' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#DC2626' }}></div>
-              <span style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: '#DC2626' }}>
-                Le problème
-              </span>
-            </div>
-            <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.3rem', marginBottom: 24, lineHeight: 1.3, color: '#1E1032' }}>
-              Trouver de bons livres catholiques en Afrique est presque impossible
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {PAIN_POINTS.map(t => (
-                <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                  <div style={{ width: 18, height: 18, color: '#DC2626', flexShrink: 0, marginTop: 2 }}><I.X /></div>
-                  <p style={{ fontSize: '.88rem', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>{t}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Solution */}
-          <div className="cb-card reveal d1" style={{ background: '#F0FDF4', borderRadius: 20, padding: 36, border: '1px solid #86EFAC' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#16A34A' }}></div>
-              <span style={{ fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.1em', color: '#16A34A' }}>
-                La solution
-              </span>
-            </div>
-            <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: '1.3rem', marginBottom: 24, lineHeight: 1.3, color: '#1E1032' }}>
-              Catho Biblio réunit tout en un seul endroit
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {SOLUTIONS.map(t => (
-                <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                  <div style={{ width: 18, height: 18, color: '#16A34A', flexShrink: 0, marginTop: 2 }}><I.Check /></div>
-                  <p style={{ fontSize: '.88rem', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>{t}</p>
-                </div>
-              ))}
-            </div>
-            <Link href="#tarif" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              marginTop: 28, background: V, color: '#fff',
-              padding: '12px 24px', borderRadius: 999, fontSize: '.88rem', fontWeight: 700,
-              textDecoration: 'none'
-            }}>
-              Je veux accéder maintenant
-              <div style={{ width: 16, height: 16 }}><I.Arrow /></div>
-            </Link>
-          </div>
+      {/* ─── Cinematic image band ─── */}
+      <section style={{ position: 'relative', minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '72px 24px' }}>
+        <img src={IMG.cathedral} alt="Intérieur de cathédrale" loading="lazy"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(30,16,50,.86), rgba(59,7,100,.72))' }} />
+        <div className="reveal" style={{ position: 'relative', textAlign: 'center', maxWidth: 680 }}>
+          <div style={{ width: 44, height: 44, margin: '0 auto 20px', color: '#FDE68A' }}><I.BookOpen /></div>
+          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3.4vw,2.2rem)', color: '#fff', lineHeight: 1.25, marginBottom: 16 }}>
+            Toute la richesse de la Tradition catholique,<br />dans votre poche.
+          </h2>
+          <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
+            Des Pères de l&apos;Église aux saints d&apos;aujourd&apos;hui — un trésor spirituel
+            que vous emportez partout, à lire et méditer chaque jour.
+          </p>
         </div>
       </section>
 
@@ -682,23 +603,6 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ─── Cinematic image band ─── */}
-      <section style={{ position: 'relative', minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '72px 24px' }}>
-        <img src={IMG.cathedral} alt="Intérieur de cathédrale" loading="lazy"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(30,16,50,.86), rgba(59,7,100,.72))' }} />
-        <div className="reveal" style={{ position: 'relative', textAlign: 'center', maxWidth: 680 }}>
-          <div style={{ width: 44, height: 44, margin: '0 auto 20px', color: '#FDE68A' }}><I.BookOpen /></div>
-          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3.4vw,2.2rem)', color: '#fff', lineHeight: 1.25, marginBottom: 16 }}>
-            Toute la richesse de la Tradition catholique,<br />dans votre poche.
-          </h2>
-          <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
-            Des Pères de l&apos;Église aux saints d&apos;aujourd&apos;hui — un trésor spirituel
-            que vous emportez partout, à lire et méditer chaque jour.
-          </p>
         </div>
       </section>
 
