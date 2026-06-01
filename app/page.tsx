@@ -280,7 +280,8 @@ export default function LandingPage() {
           .cb-herobtn   { width: auto !important; max-width: 92%; margin-left: auto !important; margin-right: auto !important; padding: 15px 28px !important; font-size: .9rem !important; white-space: nowrap !important; }
           .cb-microcopy { font-size: .74rem !important; }
 
-          .cb-trust     { flex-direction: column !important; gap: 12px !important; margin-top: 28px !important; }
+          .cb-trust     { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 16px 18px !important; margin: 28px auto 0 !important; max-width: 300px; justify-items: center; }
+          .cb-trust > div:nth-child(3) { grid-column: 1 / -1 !important; }
 
           .cb-social      { grid-template-columns: 1fr 1fr !important; max-width: 300px !important; padding: 0 !important; }
           .cb-social-item { border-right: none !important; padding: 14px 6px !important; }
@@ -368,19 +369,6 @@ export default function LandingPage() {
         {/* Ambient glows */}
         <div className="cb-glow" style={{ width: 360, height: 360, top: -80, left: '-8%', background: 'radial-gradient(circle, rgba(147,51,234,.30), transparent 70%)' }} />
         <div className="cb-glow" style={{ width: 320, height: 320, top: 40, right: '-6%', background: 'radial-gradient(circle, rgba(180,83,9,.18), transparent 70%)', animationDelay: '2s' }} />
-
-        <div className="reveal in" style={{ position: 'relative' }}>
-          <div className="cb-badge" style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '6px 16px', borderRadius: 999, marginBottom: 24,
-            background: 'rgba(255,255,255,.7)', border: '1px solid rgba(109,40,217,0.22)',
-            fontSize: '.78rem', fontWeight: 700, color: V, textTransform: 'uppercase', letterSpacing: '.08em',
-            backdropFilter: 'blur(6px)', boxShadow: '0 2px 12px rgba(109,40,217,.08)'
-          }}>
-            <div style={{ width: 14, height: 14 }}><I.Book /></div>
-            500+ livres catholiques en français
-          </div>
-        </div>
 
         <h1 className="cb-h1 reveal in d1" style={{
           fontFamily: "'Sora', sans-serif", fontWeight: 800,
