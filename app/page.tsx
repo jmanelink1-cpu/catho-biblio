@@ -3,6 +3,54 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { SINGLE_PLAN } from '@/lib/types'
+import DesignedCover from './library/DesignedCover'
+
+// ── Real Catholic imagery (royalty-free, Unsplash CDN) ──
+const u = (id: string, w = 1200) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=70`
+const IMG = {
+  stainedGlass: u('1438032005730-c779502df39b'),
+  cathedral:    u('1473177104440-ffee2f376098'),
+  pews:         u('1519491050282-cf00c82424b4'),
+  prayer:       u('1499209974431-9dddcece7f88'),
+  worship:      u('1507692049790-de58290a4334'),
+  oldBooks:     u('1481627834876-b7833e8f5570'),
+}
+
+// ── Showcase shelves — illustrate the breadth of the catalogue ──
+const SHOWCASE: { label: string; category: string; books: { title: string; author: string }[] }[] = [
+  { label: 'Bible & Écriture Sainte', category: 'bible', books: [
+    { title: 'La Bible de Jérusalem', author: 'École Biblique' },
+    { title: 'La Bible de la Liturgie', author: 'AELF' },
+    { title: 'Les Psaumes', author: 'Roi David' },
+    { title: 'Le Nouveau Testament', author: 'Traduction officielle' },
+    { title: 'Évangile selon Saint Jean', author: 'Saint Jean' },
+    { title: 'Concordance Biblique', author: 'Collectif' },
+  ]},
+  { label: 'Saints & Témoins de la Foi', category: 'saints', books: [
+    { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux' },
+    { title: 'Vie des Saints', author: 'Jacques de Voragine' },
+    { title: 'Le Journal d\'un Curé', author: 'Saint Jean-Marie Vianney' },
+    { title: 'Saint François d\'Assise', author: 'Chesterton' },
+    { title: 'Padre Pio', author: 'Biographie' },
+    { title: 'Sainte Faustine', author: 'Petit Journal' },
+  ]},
+  { label: 'Spiritualité & Vie Intérieure', category: 'spiritualite', books: [
+    { title: 'L\'Imitation de Jésus-Christ', author: 'Thomas a Kempis' },
+    { title: 'Introduction à la Vie Dévote', author: 'St François de Sales' },
+    { title: 'Le Château Intérieur', author: 'Ste Thérèse d\'Avila' },
+    { title: 'Le Combat Spirituel', author: 'Lorenzo Scupoli' },
+    { title: 'L\'Abandon à la Providence', author: 'J.-P. de Caussade' },
+    { title: 'La Montée du Carmel', author: 'St Jean de la Croix' },
+  ]},
+  { label: 'Théologie & Doctrine', category: 'theologie', books: [
+    { title: 'Somme Théologique', author: 'St Thomas d\'Aquin' },
+    { title: 'Les Confessions', author: 'Saint Augustin' },
+    { title: 'La Cité de Dieu', author: 'Saint Augustin' },
+    { title: 'Catéchisme de l\'Église', author: 'Magistère' },
+    { title: 'Introduction au Christianisme', author: 'J. Ratzinger' },
+    { title: 'Le Credo Expliqué', author: 'Collectif' },
+  ]},
+]
 
 // ── SVG Icons ────────────────────────────────────────────────────────────────
 const I = {
@@ -96,15 +144,6 @@ const SOLUTIONS = [
   'Accès immédiat après paiement — aucune attente, aucune livraison',
   'Un seul paiement de 10 300 FCFA — accès à vie garanti',
   'Lisez depuis votre téléphone, tablette ou ordinateur, partout en Afrique',
-]
-
-const BOOKS_PREVIEW = [
-  { Icon: I.Bible,      title: 'La Bible de Jérusalem',           subtitle: 'Traduction de référence', bg: '#F5F3FF', border: '#C4B5FD' },
-  { Icon: I.Catechism,  title: 'Catéchisme de l\'Église',         subtitle: 'Enseignement officiel',   bg: '#FFFBEB', border: '#FDE68A' },
-  { Icon: I.Saints,     title: 'Vie des Saints',                  subtitle: 'Modèles de sainteté',     bg: '#F0FDF4', border: '#86EFAC' },
-  { Icon: I.DevoteLife, title: 'Introduction à la Vie Dévote',    subtitle: 'St François de Sales',    bg: '#FEF2F2', border: '#FCA5A5' },
-  { Icon: I.Imitation,  title: 'Imitation de Jésus-Christ',       subtitle: 'Thomas a Kempis',         bg: '#EFF6FF', border: '#93C5FD' },
-  { Icon: I.Rosary,     title: 'Le Rosaire Médité',               subtitle: 'Prière mariale',          bg: '#FDF4FF', border: '#E879F9' },
 ]
 
 const FEATURES = [
@@ -255,6 +294,9 @@ export default function LandingPage() {
 
         /* ═══ Trust pill row ═══ */
         .cb-trustpill { transition: background .3s ease, transform .3s ease; }
+
+        /* ═══ Showcase shelves ═══ */
+        .cb-shelf::-webkit-scrollbar { display: none; }
 
         @media (max-width: 900px) {
           .cb-grid-2  { grid-template-columns: 1fr !important; gap: 20px !important; }
@@ -424,52 +466,70 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Book Preview */}
+        {/* Hero visual — real Catholic imagery */}
         <div className="reveal in d5" style={{
-          maxWidth: 780, margin: '0 auto',
-          background: '#fff', borderRadius: 22, overflow: 'hidden',
-          border: '1px solid rgba(109,40,217,0.15)',
-          boxShadow: '0 32px 90px rgba(109,40,217,0.22)'
+          maxWidth: 820, margin: '0 auto', position: 'relative',
+          borderRadius: 24, overflow: 'hidden',
+          boxShadow: '0 32px 90px rgba(59,7,100,0.32)',
+          border: '1px solid rgba(255,255,255,.5)'
         }}>
-          {/* App top bar */}
-          <div style={{
-            background: '#3B0764', padding: '14px 20px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#fff', fontWeight: 800, fontFamily: "'Sora', sans-serif", fontSize: '.9rem' }}>
-              <div style={{ width: 16, height: 16, opacity: .8 }}><I.Cross /></div>
-              Catho Biblio
+          <img src={IMG.stainedGlass} alt="Vitraux d'église catholique" loading="lazy"
+            style={{ width: '100%', height: 340, objectFit: 'cover', display: 'block' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(30,16,50,0) 35%, rgba(30,16,50,.82) 100%)' }} />
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '24px 26px', textAlign: 'left' }}>
+            <div style={{ fontFamily: "'Sora', serif", fontWeight: 600, color: '#fff', fontSize: 'clamp(1rem,2.4vw,1.4rem)', lineHeight: 1.35, maxWidth: 560, textShadow: '0 2px 12px rgba(0,0,0,.4)' }}>
+              « Ta parole est une lampe à mes pieds, une lumière sur mon chemin. »
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '.75rem', color: 'rgba(255,255,255,.5)' }}>
-              <div style={{ width: 13, height: 13 }}><I.Book /></div>
-              500+ livres
-            </div>
+            <div style={{ fontSize: '.8rem', color: 'rgba(255,255,255,.7)', marginTop: 6, letterSpacing: '.04em' }}>Psaume 119, 105</div>
           </div>
+        </div>
+      </section>
 
-          {/* Books row */}
-          <div style={{
-            display: 'flex', gap: 14, overflowX: 'auto', padding: '20px 20px 16px',
-            scrollbarWidth: 'none', background: '#F7F5FF'
-          }}>
-            {BOOKS_PREVIEW.map(({ Icon: Ic, title, subtitle, bg, border }, bi) => (
-              <div key={title} className="cb-book" style={{
-                flexShrink: 0, width: 110, borderRadius: 14, overflow: 'hidden',
-                border: `1.5px solid ${border}`, background: '#fff',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.06)', cursor: 'pointer'
-              }}>
-                <div style={{
-                  height: 130, background: bg,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16
-                }}>
-                  <div style={{ width: 64, height: 64, animation: `cbFloat ${4 + bi * 0.4}s ease-in-out ${bi * 0.2}s infinite` }}><Ic /></div>
-                </div>
-                <div style={{ padding: '10px 10px 12px', background: '#fff' }}>
-                  <div style={{ fontSize: '.72rem', fontWeight: 700, lineHeight: 1.3, color: '#1E1032', marginBottom: 4 }}>{title}</div>
-                  <div style={{ fontSize: '.65rem', color: '#9CA3AF' }}>{subtitle}</div>
-                </div>
+      {/* ─── Catalogue showcase — scrolling shelves ─── */}
+      <section className="cb-section" style={{ padding: '72px 0 64px', background: 'linear-gradient(180deg,#FDFBF7,#F5F0FF)', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px' }}>
+          <p className="cb-eyebrow reveal" style={{ textAlign: 'center', fontSize: '.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.12em', color: V, marginBottom: 12 }}>
+            Un aperçu du catalogue
+          </p>
+          <h2 className="cb-h2 reveal d1" style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3vw,2rem)', textAlign: 'center', marginBottom: 10, color: '#1E1032' }}>
+            500+ ouvrages, classés par thème
+          </h2>
+          <p className="reveal d1" style={{ textAlign: 'center', color: '#6B7280', marginBottom: 8, maxWidth: 520, margin: '0 auto 8px' }}>
+            Des grands classiques aux références incontournables de la foi catholique.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 28 }}>
+          {SHOWCASE.map((shelf, si) => (
+            <div key={shelf.label} className="reveal" style={{ marginBottom: si === SHOWCASE.length - 1 ? 0 : 30 }}>
+              <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 24px 12px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--color-gold-bright)' }} />
+                <h3 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: '1rem', color: '#1E1032' }}>{shelf.label}</h3>
               </div>
-            ))}
-          </div>
+              <div className="cb-shelf" style={{ display: 'flex', gap: 16, overflowX: 'auto', padding: '6px 24px 16px', scrollbarWidth: 'none' }}>
+                {shelf.books.map((b) => (
+                  <div key={b.title} className="cb-book" style={{ flexShrink: 0, width: 124 }}>
+                    <div style={{ width: '100%', aspectRatio: '2/3', borderRadius: 12, overflow: 'hidden', boxShadow: '0 10px 26px rgba(30,16,50,.18)', border: '1px solid rgba(0,0,0,.05)' }}>
+                      <DesignedCover title={b.title} author={b.author} category={shelf.category} />
+                    </div>
+                    <div style={{ marginTop: 8, fontSize: '.76rem', fontWeight: 700, color: '#1E1032', lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{b.title}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="reveal" style={{ textAlign: 'center', marginTop: 36 }}>
+          <Link href="#tarif" className="cb-cta" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            background: 'linear-gradient(135deg,#6D28D9,#9333EA)', color: '#fff',
+            padding: '14px 32px', borderRadius: 999, fontSize: '.92rem', fontWeight: 800,
+            textDecoration: 'none', boxShadow: '0 10px 30px rgba(109,40,217,.34)'
+          }}>
+            Débloquer les 500+ livres
+            <div style={{ width: 17, height: 17 }}><I.Arrow /></div>
+          </Link>
         </div>
       </section>
 
@@ -622,6 +682,23 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ─── Cinematic image band ─── */}
+      <section style={{ position: 'relative', minHeight: 360, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '72px 24px' }}>
+        <img src={IMG.cathedral} alt="Intérieur de cathédrale" loading="lazy"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(30,16,50,.86), rgba(59,7,100,.72))' }} />
+        <div className="reveal" style={{ position: 'relative', textAlign: 'center', maxWidth: 680 }}>
+          <div style={{ width: 44, height: 44, margin: '0 auto 20px', color: '#FDE68A' }}><I.BookOpen /></div>
+          <h2 style={{ fontFamily: "'Sora', sans-serif", fontWeight: 800, fontSize: 'clamp(1.5rem,3.4vw,2.2rem)', color: '#fff', lineHeight: 1.25, marginBottom: 16 }}>
+            Toute la richesse de la Tradition catholique,<br />dans votre poche.
+          </h2>
+          <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.8)', lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
+            Des Pères de l&apos;Église aux saints d&apos;aujourd&apos;hui — un trésor spirituel
+            que vous emportez partout, à lire et méditer chaque jour.
+          </p>
         </div>
       </section>
 
