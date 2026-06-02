@@ -246,7 +246,7 @@ export default function Landing() {
         <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(70% 55% at 50% 42%, rgba(124,58,237,.26), transparent 72%)` }} />
 
         <div className="pad" style={{ position: 'relative', maxWidth: 860, margin: '0 auto', width: '100%', padding: '0 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <div className="rv on heyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '7px 16px', borderRadius: 999, border: `1px solid ${GOLD}55`, background: 'rgba(201,154,59,.1)', marginBottom: 28, whiteSpace: 'nowrap' }}>
+          <div className="rv on heyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '7px 16px', borderRadius: 999, border: `1px solid ${GOLD}55`, background: 'rgba(201,154,59,.1)', marginBottom: 16, whiteSpace: 'nowrap' }}>
             <span style={{ width: 14, height: 14, color: GOLD_L, flexShrink: 0 }}><I.Book /></span>
             <span style={{ fontSize: '.74rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: GOLD_L }}>Bibliothèque catholique numérique</span>
           </div>
