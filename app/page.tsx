@@ -191,7 +191,9 @@ export default function Landing() {
           .grid4{ grid-template-columns:1fr 1fr !important; }
           .hero-wrap{ padding-top:108px !important; padding-bottom:60px !important; }
           .hide-sm{ display:none !important; }
-          .heyebrow{ font-size:.58rem !important; letter-spacing:.06em !important; padding:6px 12px !important; }
+          .heyebrow{ padding:5px 12px !important; gap:7px !important; }
+          .heyebrow > span:last-child{ font-size:.55rem !important; letter-spacing:.04em !important; }
+          .heyebrow > span:first-child{ width:12px !important; height:12px !important; }
           .hero-h1{ font-size:clamp(2rem,8.5vw,2.6rem) !important; }
           .herobtn{ padding:15px 26px !important; font-size:.92rem !important; }
         }
@@ -254,8 +256,10 @@ export default function Landing() {
             <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dans votre main.</span>
           </h1>
 
-          <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.18rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
-            <strong style={{ color: '#fff' }}>500+ ouvrages catholiques</strong> — Bible, saints, spiritualité — dans une bibliothèque que vous gardez à vie.
+          <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.18rem)', lineHeight: 1.75, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
+            <strong style={{ color: '#fff' }}>Plus de 500 ouvrages catholiques</strong><br />
+            Bible, saints, spiritualité, théologie<br />
+            dans votre bibliothèque, à vie.
           </p>
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
