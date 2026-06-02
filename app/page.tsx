@@ -1,22 +1,15 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ComponentType } from 'react'
 import Link from 'next/link'
 import { SINGLE_PLAN } from '@/lib/types'
-import DesignedCover from './library/DesignedCover'
+import { theme } from '@/lib/theme'
+import { Icon as I } from '@/components/Icons'
+import { BleedImage } from '@/components/ui/BleedImage'
+import { BookShelf, type ShelfData } from '@/components/landing/BookShelf'
 
-/* ════════════════════════════════════════════════════════════
-   PALETTE — Plum liturgique · Or antique · Ivoire
-════════════════════════════════════════════════════════════ */
-const PLUM   = '#190A2E'   // deep dark
-const PLUM2  = '#2A1248'
-const VIO    = '#7C3AED'
-const VIO_DK = '#6D28D9'
-const GOLD   = '#C99A3B'
-const GOLD_L = '#E3BE6E'
-const IVORY  = '#FBF8F3'
-const INK    = '#1A1326'
-const MUTE   = '#6B6478'
+/* Liturgical palette aliases (single source of truth in lib/theme) */
+const { plum: PLUM, plum2: PLUM2, vio: VIO, vioDk: VIO_DK, gold: GOLD, goldL: GOLD_L, ivory: IVORY, ink: INK, mute: MUTE } = theme
 
 const u = (id: string, w = 1600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=72`
 const IMG = {
@@ -26,27 +19,7 @@ const IMG = {
   prayer:       u('1499209974431-9dddcece7f88'),
 }
 
-/* ── Icons ── */
-const I = {
-  Cross:   () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg>,
-  Book:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
-  Open:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
-  Arrow:   () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
-  Chev:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>,
-  Down:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>,
-  Check:   () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>,
-  Star:    () => <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-  Lock:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
-  Inf:     () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 12c-2-2.5-4-4-6-4a4 4 0 0 0 0 8c2 0 4-1.5 6-4zm0 0c2 2.5 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.5-6 4z"/></svg>,
-  Phone:   () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>,
-  Card:    () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>,
-  Devices: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="14" height="11" rx="1.5"/><path d="M2 18h14"/><rect x="17.5" y="9" width="5" height="11" rx="1.2"/></svg>,
-  DL:      () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
-  Layers:  () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
-  Quote:   () => <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h4v4c0 3-1.5 5-4 6V14H4V7h3zm9 0h4v4c0 3-1.5 5-4 6V14h-3V7h3z" opacity=".9"/></svg>,
-}
-
-const SHOWCASE: { label: string; category: string; books: { title: string; author: string }[] }[] = [
+const SHOWCASE: ShelfData[] = [
   { label: 'Bible & Écriture Sainte', category: 'bible', books: [
     { title: 'La Bible de Jérusalem', author: 'École Biblique' },
     { title: 'La Bible de la Liturgie', author: 'AELF' },
@@ -243,7 +216,7 @@ export default function Landing() {
 
       {/* ───────── HERO — cinematic, centered ───────── */}
       <header ref={heroRef} className="hero-wrap" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '160px 0 90px', overflow: 'hidden' }}>
-        <img src={IMG.stainedGlass} alt="Vitraux" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <BleedImage src={IMG.stainedGlass} alt="Vitraux d'église catholique" priority />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, ${PLUM} 6%, rgba(25,10,46,.93) 50%, rgba(42,18,72,.8) 100%)` }} />
         <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(70% 55% at 50% 42%, rgba(124,58,237,.26), transparent 72%)` }} />
 
@@ -315,25 +288,7 @@ export default function Landing() {
         </div>
 
         <div style={{ marginTop: 48 }}>
-          {SHOWCASE.map((shelf) => (
-            <div key={shelf.label} className="rv" style={{ marginBottom: 34 }}>
-              <div className="pad" style={{ maxWidth: 1180, margin: '0 auto', padding: '0 40px 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
-                <span style={{ width: 22, height: 2, background: GOLD }} />
-                <h3 className="disp" style={{ fontWeight: 700, fontSize: '1.1rem', color: INK }}>{shelf.label}</h3>
-              </div>
-              <div className="shelf pad" style={{ display: 'flex', gap: 18, overflowX: 'auto', justifyContent: 'safe center', padding: '8px 40px 18px', maxWidth: 1180, margin: '0 auto' }}>
-                {shelf.books.map(b => (
-                  <div key={b.title} className="bk" style={{ flexShrink: 0, width: 138, cursor: 'pointer' }}>
-                    <div style={{ width: '100%', aspectRatio: '2/3', borderRadius: 13, overflow: 'hidden', boxShadow: '0 12px 30px rgba(25,10,46,.2)', border: '1px solid rgba(0,0,0,.06)' }}>
-                      <DesignedCover title={b.title} author={b.author} category={shelf.category} />
-                    </div>
-                    <div className="disp" style={{ marginTop: 10, fontSize: '.8rem', fontWeight: 700, color: INK, lineHeight: 1.3, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{b.title}</div>
-                    <div style={{ fontSize: '.72rem', color: MUTE, marginTop: 2 }}>{b.author}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          {SHOWCASE.map((shelf) => <BookShelf key={shelf.label} shelf={shelf} />)}
         </div>
 
         <div className="rv" style={{ textAlign: 'center', marginTop: 40 }}>
@@ -345,7 +300,7 @@ export default function Landing() {
 
       {/* ───────── Scripture cinematic band ───────── */}
       <section className="sec" style={{ position: 'relative', minHeight: 460, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '90px 24px' }}>
-        <img src={IMG.cathedral} alt="Cathédrale" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <BleedImage src={IMG.cathedral} alt="Intérieur de cathédrale" />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, rgba(25,10,46,.9), rgba(42,18,72,.78))` }} />
         <div className="rv" style={{ position: 'relative', textAlign: 'center', maxWidth: 760 }}>
           <span style={{ display: 'inline-block', width: 40, height: 40, color: GOLD, marginBottom: 18, opacity: .9 }}><I.Quote /></span>
@@ -471,7 +426,7 @@ export default function Landing() {
             <p style={{ fontSize: '.74rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: MUTE, marginBottom: 14 }}>Moyens de paiement</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 380, margin: '0 auto' }}>
               {[['Mobile Money', I.Phone], ['Carte bancaire', I.Card]].map(([n, Ic]) => {
-                const C = Ic as React.ComponentType
+                const C = Ic as ComponentType
                 return (
                   <div key={n as string} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9, padding: '13px 14px', borderRadius: 12, background: '#fff', border: '1px solid rgba(25,10,46,.1)', fontSize: '.84rem', fontWeight: 600, color: INK }}>
                     <span style={{ width: 17, height: 17, color: VIO_DK }}><C /></span> {n as string}
@@ -504,7 +459,7 @@ export default function Landing() {
 
       {/* ───────── Final CTA — cinematic ───────── */}
       <section className="sec" style={{ position: 'relative', overflow: 'hidden', padding: '110px 40px', textAlign: 'center' }}>
-        <img src={IMG.prayer} alt="Prière" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <BleedImage src={IMG.prayer} alt="Mains levées en prière au soleil couchant" />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, rgba(25,10,46,.92), rgba(42,18,72,.82))` }} />
         <div className="rv" style={{ position: 'relative', maxWidth: 680, margin: '0 auto' }}>
           <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: 18, background: 'rgba(201,154,59,.16)', border: `1px solid ${GOLD}55`, alignItems: 'center', justifyContent: 'center', color: GOLD_L, marginBottom: 26 }}><span style={{ width: 30, height: 30 }}><I.Open /></span></span>
