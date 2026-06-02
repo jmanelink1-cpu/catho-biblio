@@ -19,36 +19,38 @@ const IMG = {
   prayer:       u('1499209974431-9dddcece7f88'),
 }
 
+const ol = (id: number) => `https://covers.openlibrary.org/b/id/${id}-L.jpg`
+
 const SHOWCASE: ShelfData[] = [
   { label: 'Bible & Écriture Sainte', category: 'bible', books: [
-    { title: 'La Bible de Jérusalem', author: 'École Biblique' },
-    { title: 'La Bible de la Liturgie', author: 'AELF' },
+    { title: 'La Bible de Jérusalem', author: 'École Biblique', cover: ol(10680650) },
+    { title: 'La Bible de la Liturgie', author: 'AELF', cover: ol(13441794) },
     { title: 'Les Psaumes', author: 'Roi David' },
     { title: 'Le Nouveau Testament', author: 'Traduction officielle' },
-    { title: 'Évangile selon Saint Jean', author: 'Saint Jean' },
+    { title: 'Évangile selon Saint Jean', author: 'Saint Jean', cover: ol(3099801) },
     { title: 'Concordance Biblique', author: 'Collectif' },
   ]},
   { label: 'Saints & Témoins de la Foi', category: 'saints', books: [
-    { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux' },
-    { title: 'Vie des Saints', author: 'Jacques de Voragine' },
-    { title: 'Le Curé d\'Ars', author: 'St Jean-Marie Vianney' },
+    { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux', cover: ol(2143788) },
+    { title: 'Vie des Saints', author: 'Jacques de Voragine', cover: ol(2187200) },
+    { title: 'Le Curé d\'Ars', author: 'St Jean-Marie Vianney', cover: ol(14855585) },
     { title: 'Saint François d\'Assise', author: 'G.K. Chesterton' },
     { title: 'Padre Pio', author: 'Biographie' },
     { title: 'Petit Journal', author: 'Ste Faustine' },
   ]},
   { label: 'Spiritualité & Vie Intérieure', category: 'spiritualite', books: [
     { title: 'L\'Imitation de Jésus-Christ', author: 'Thomas a Kempis' },
-    { title: 'Introduction à la Vie Dévote', author: 'St François de Sales' },
-    { title: 'Le Château Intérieur', author: 'Ste Thérèse d\'Avila' },
-    { title: 'Le Combat Spirituel', author: 'Lorenzo Scupoli' },
-    { title: 'L\'Abandon à la Providence', author: 'J.-P. de Caussade' },
+    { title: 'Introduction à la Vie Dévote', author: 'St François de Sales', cover: ol(8942064) },
+    { title: 'Le Château Intérieur', author: 'Ste Thérèse d\'Avila', cover: ol(3090639) },
+    { title: 'Le Combat Spirituel', author: 'Lorenzo Scupoli', cover: ol(6591051) },
+    { title: 'L\'Abandon à la Providence', author: 'J.-P. de Caussade', cover: ol(12950983) },
     { title: 'La Montée du Carmel', author: 'St Jean de la Croix' },
   ]},
   { label: 'Théologie & Doctrine', category: 'theologie', books: [
     { title: 'Somme Théologique', author: 'St Thomas d\'Aquin' },
     { title: 'Les Confessions', author: 'Saint Augustin' },
     { title: 'La Cité de Dieu', author: 'Saint Augustin' },
-    { title: 'Catéchisme de l\'Église', author: 'Magistère' },
+    { title: 'Catéchisme de l\'Église', author: 'Magistère', cover: ol(3107380) },
     { title: 'Introduction au Christianisme', author: 'J. Ratzinger' },
     { title: 'Le Credo Expliqué', author: 'Collectif' },
   ]},
@@ -462,7 +464,6 @@ export default function Landing() {
         <BleedImage src={IMG.prayer} alt="Mains levées en prière au soleil couchant" />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, rgba(25,10,46,.92), rgba(42,18,72,.82))` }} />
         <div className="rv" style={{ position: 'relative', maxWidth: 680, margin: '0 auto' }}>
-          <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: 18, background: 'rgba(201,154,59,.16)', border: `1px solid ${GOLD}55`, alignItems: 'center', justifyContent: 'center', color: GOLD_L, marginBottom: 26 }}><span style={{ width: 30, height: 30 }}><I.Open /></span></span>
           <h2 className="disp" style={{ fontSize: 'clamp(1.9rem,4.4vw,3rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.15, marginBottom: 18 }}>
             Commencez votre chemin spirituel dès aujourd&apos;hui
           </h2>
