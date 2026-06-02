@@ -194,6 +194,8 @@ export default function Landing() {
           .heyebrow{ padding:5px 12px !important; gap:7px !important; }
           .heyebrow > span:last-child{ font-size:.55rem !important; letter-spacing:.04em !important; }
           .heyebrow > span:first-child{ width:12px !important; height:12px !important; }
+          .paybadge{ padding:6px 13px !important; }
+          .paybadge > span:last-child{ font-size:.6rem !important; letter-spacing:.06em !important; }
           .hero-h1{ font-size:clamp(2rem,8.5vw,2.6rem) !important; }
           .herobtn{ padding:15px 26px !important; font-size:.92rem !important; }
         }
@@ -439,8 +441,8 @@ export default function Landing() {
           <div className="rv" style={{ position: 'relative', borderRadius: 26, overflow: 'hidden', background: `linear-gradient(165deg, ${PLUM} 0%, ${PLUM2} 70%, ${VIO_DK} 130%)`, boxShadow: '0 30px 80px rgba(25,10,46,.4)', padding: '52px 40px', border: `1px solid rgba(201,154,59,.3)` }}>
             <div style={{ position: 'absolute', width: 240, height: 240, borderRadius: '50%', right: -70, top: -90, background: `radial-gradient(circle, ${GOLD}33, transparent 70%)` }} />
             <div style={{ position: 'relative' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '6px 16px', borderRadius: 999, background: 'rgba(201,154,59,.16)', border: `1px solid ${GOLD}55`, marginBottom: 26 }}>
-                <span style={{ width: 14, height: 14, color: GOLD_L }}><I.Inf /></span>
+              <div className="paybadge" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '6px 16px', borderRadius: 999, background: 'rgba(201,154,59,.16)', border: `1px solid ${GOLD}55`, marginBottom: 26, whiteSpace: 'nowrap', maxWidth: '100%' }}>
+                <span style={{ width: 14, height: 14, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span>
                 <span style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: GOLD_L }}>Accès à vie · sans abonnement</span>
               </div>
               <div style={{ marginBottom: 6 }}>
