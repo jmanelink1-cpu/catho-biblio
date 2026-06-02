@@ -255,8 +255,7 @@ export default function Landing() {
           </h1>
 
           <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.18rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
-            Plus de <strong style={{ color: '#fff' }}>500 ouvrages catholiques</strong> — Bible, Catéchisme,
-            saints, spiritualité, théologie — réunis dans une bibliothèque que vous gardez à vie.
+            <strong style={{ color: '#fff' }}>500+ ouvrages catholiques</strong> — Bible, saints, spiritualité — dans une bibliothèque que vous gardez à vie.
           </p>
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
@@ -305,7 +304,7 @@ export default function Landing() {
             Un trésor de 500+ ouvrages,<br />classés par thème
           </h2>
           <p className="rv d1" style={{ fontSize: '1.05rem', color: MUTE, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-            Des grands classiques de la foi aux références incontournables — explorez les rayons.
+            Des grands classiques aux références incontournables de la foi.
           </p>
         </div>
 
@@ -402,7 +401,7 @@ export default function Landing() {
         <div style={{ maxWidth: 1140, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 54 }}>
             <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD_L, marginBottom: 16 }}>Ils en témoignent</p>
-            <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.12 }}>Une grâce pour des milliers<br />de catholiques</h2>
+            <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.7rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.14 }}>Une grâce pour des milliers de catholiques</h2>
           </div>
           <div className="cols2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 24 }}>
             {TESTIMONIALS.map((t, i) => (
@@ -430,7 +429,7 @@ export default function Landing() {
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>L&apos;offre</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 14, lineHeight: 1.12 }}>Un seul paiement.<br />Un accès pour la vie.</h2>
           <p className="rv d1" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
-            Pas d&apos;abonnement, pas de renouvellement. Vous réglez une fois, vous accédez à tout, pour toujours.
+            Pas d&apos;abonnement. Vous payez une seule fois et accédez à tout, pour toujours.
           </p>
 
           <div className="rv" style={{ position: 'relative', borderRadius: 26, overflow: 'hidden', background: `linear-gradient(165deg, ${PLUM} 0%, ${PLUM2} 70%, ${VIO_DK} 130%)`, boxShadow: '0 30px 80px rgba(25,10,46,.4)', padding: '52px 40px', border: `1px solid rgba(201,154,59,.3)` }}>
@@ -504,7 +503,7 @@ export default function Landing() {
         <div className="rv" style={{ position: 'relative', maxWidth: 680, margin: '0 auto' }}>
           <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: 18, background: 'rgba(201,154,59,.16)', border: `1px solid ${GOLD}55`, alignItems: 'center', justifyContent: 'center', color: GOLD_L, marginBottom: 26 }}><span style={{ width: 30, height: 30 }}><I.Open /></span></span>
           <h2 className="disp" style={{ fontSize: 'clamp(1.9rem,4.4vw,3rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.15, marginBottom: 18 }}>
-            Commencez votre chemin<br />spirituel dès aujourd&apos;hui
+            Commencez votre chemin spirituel dès aujourd&apos;hui
           </h2>
           <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,.78)', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 36px' }}>
             Un seul paiement de {price} FCFA, et toute la richesse de la Tradition catholique vous appartient — pour toujours.
