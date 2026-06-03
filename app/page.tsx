@@ -41,9 +41,7 @@ const SHOWCASE: ShelfData[] = [
   { label: 'Spiritualité & Vie Intérieure', category: 'spiritualite', books: [
     { title: 'L\'Imitation de Jésus-Christ', author: 'Thomas a Kempis', cover: '/covers/imitation.webp' },
     { title: 'Les Exercices Spirituels', author: 'St Ignace de Loyola', cover: '/covers/exercices-spirituels.jpg' },
-    { title: 'Introduction à la Vie Dévote', author: 'St François de Sales', cover: ol(8942064) },
     { title: 'Le Château Intérieur', author: 'Ste Thérèse d\'Avila', cover: ol(3090639) },
-    { title: 'Le Combat Spirituel', author: 'Lorenzo Scupoli', cover: ol(6591051) },
     { title: 'L\'Abandon à la Providence', author: 'J.-P. de Caussade', cover: '/covers/abandon-providence.jpg' },
     { title: 'L\'Abandon à l\'Immaculée', author: 'St Maximilien Kolbe', cover: '/covers/abandon-immaculee.jpg' },
     { title: 'La Montée du Carmel', author: 'St Jean de la Croix', cover: '/covers/montee-carmel.jpeg' },
