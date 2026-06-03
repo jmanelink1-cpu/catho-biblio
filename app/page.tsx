@@ -117,6 +117,7 @@ export default function Landing() {
         ::selection { background: rgba(124,58,237,.22); }
         .serif { font-family: var(--font-cormorant), Georgia, serif; }
         .disp  { font-family: var(--font-sora), sans-serif; }
+        .brm { display: none; } /* mobile-only line break */
 
         @keyframes rvUp { from { opacity:0; transform:translateY(26px);} to {opacity:1; transform:none;} }
         .rv { opacity:0; }
@@ -157,6 +158,8 @@ export default function Landing() {
         .hero-h1{ font-size: clamp(2.1rem, 6vw, 4.4rem); }
         @media (max-width:1024px){ .cols2{ grid-template-columns:1fr !important; } }
         @media (max-width:768px){
+          .brm{ display:inline !important; }
+          .cb-payvalue{ font-size:.9rem !important; }
           .sticky-bar{ display:flex; }
           .nav-links{ display:none !important; }
           .nav-cta-full{ display:none !important; }
@@ -234,11 +237,11 @@ export default function Landing() {
           </h1>
 
           <p className="rv on d2 serif" style={{ fontSize: 'clamp(1.15rem,2.2vw,1.45rem)', fontStyle: 'italic', lineHeight: 1.4, color: GOLD_L, maxWidth: 560, marginBottom: 16 }}>
-            Un compagnon quotidien pour nourrir votre foi, où que vous soyez dans le monde.
+            Un compagnon quotidien pour nourrir votre foi,<br className="brm" /> où que vous soyez dans le monde.
           </p>
 
-          <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.12rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
-            Approfondissez votre prière, retrouvez une régularité spirituelle et comprenez mieux l&apos;Église — avec plus de 500 ouvrages, à portée de main.
+          <p className="rv on d2 cb-herolead" style={{ fontSize: 'clamp(1rem,1.6vw,1.12rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
+            Retrouvez une régularité spirituelle et comprenez mieux l&apos;Église — avec plus de 500 ouvrages, à portée de main.
           </p>
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
@@ -287,7 +290,7 @@ export default function Landing() {
             Un trésor de 500+ ouvrages,<br />classés par thème
           </h2>
           <p className="rv d1" style={{ fontSize: '1.05rem', color: MUTE, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-            De quoi nourrir votre foi, votre prière et votre intelligence de l&apos;Église — pour toute une vie.
+            De quoi nourrir votre foi, votre prière et votre intelligence de l&apos;Église.
           </p>
         </div>
 
@@ -393,7 +396,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
         <div style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>L&apos;offre</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 14, lineHeight: 1.12 }}>Un seul paiement.<br />Un accès pour la vie.</h2>
-          <p className="rv d1" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
+          <p className="rv d1 cb-payvalue" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
             Le prix d&apos;un seul livre papier — pour des centaines d&apos;ouvrages qui vous accompagneront toute votre vie.
             <br />Pas un achat : un investissement pour votre âme.
           </p>
@@ -474,7 +477,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
             Votre chemin spirituel commence aujourd&apos;hui
           </h2>
           <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,.78)', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 36px' }}>
-            Rejoignez les catholiques francophones qui, partout dans le monde, nourrissent leur foi chaque jour. Un seul paiement de {price} FCFA — et la sagesse de l&apos;Église vous appartient pour la vie.
+            Rejoignez les catholiques francophones qui, partout dans le monde, nourrissent leur foi chaque jour. Un seul paiement et la sagesse de l&apos;Église vous appartient pour la vie.
           </p>
           <Link href="/auth/register?plan=lifetime" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 46px', borderRadius: 999, fontWeight: 900, fontSize: '1.05rem', textDecoration: 'none', boxShadow: '0 16px 44px rgba(0,0,0,.4)' }}>
             Commencer aujourd&apos;hui <span style={{ width: 19, height: 19 }}><I.Arrow /></span>
