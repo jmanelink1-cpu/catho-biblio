@@ -32,7 +32,7 @@ const SHOWCASE: ShelfData[] = [
   ]},
   { label: 'Saints & Témoins de la Foi', category: 'saints', books: [
     { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux', cover: ol(2143788) },
-    { title: 'Saint Benoît-Joseph Labre', author: 'André Dhôtel', cover: ol(2161103) },
+    { title: 'La Vie de Saint Charbel', author: 'Philippe Beitia', cover: '/covers/saint-charbel.jpg' },
     { title: 'Saint François d\'Assise', author: 'G.K. Chesterton', cover: '/covers/francois-assise.jpg' },
     { title: 'Témoin de l\'Amour Crucifié', author: 'Padre Pio', cover: '/covers/padre-pio.jpg' },
     { title: 'Petit Journal', author: 'Ste Faustine', cover: '/covers/faustine.png' },
