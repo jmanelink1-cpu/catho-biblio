@@ -32,14 +32,15 @@ const SHOWCASE: ShelfData[] = [
   ]},
   { label: 'Saints & Témoins de la Foi', category: 'saints', books: [
     { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux', cover: ol(2143788) },
-    { title: 'Les Exercices Spirituels', author: 'St Ignace de Loyola', cover: '/covers/exercices-spirituels.jpg' },
-    { title: 'Le Curé d\'Ars', author: 'St Jean-Marie Vianney', cover: ol(14855585) },
+    { title: 'Saint Benoît-Joseph Labre', author: 'André Dhôtel', cover: ol(2161103) },
     { title: 'Saint François d\'Assise', author: 'G.K. Chesterton', cover: '/covers/francois-assise.jpg' },
-    { title: 'Padre Pio', author: 'Biographie' },
+    { title: 'Témoin de l\'Amour Crucifié', author: 'Padre Pio', cover: '/covers/temoin-amour-crucifie.jpg' },
     { title: 'Petit Journal', author: 'Ste Faustine', cover: '/covers/faustine.png' },
+    { title: 'Vie de Sainte Bernadette', author: 'François Trochu', cover: ol(15056170) },
   ]},
   { label: 'Spiritualité & Vie Intérieure', category: 'spiritualite', books: [
     { title: 'L\'Imitation de Jésus-Christ', author: 'Thomas a Kempis', cover: '/covers/imitation.webp' },
+    { title: 'Les Exercices Spirituels', author: 'St Ignace de Loyola', cover: '/covers/exercices-spirituels.jpg' },
     { title: 'Introduction à la Vie Dévote', author: 'St François de Sales', cover: ol(8942064) },
     { title: 'Le Château Intérieur', author: 'Ste Thérèse d\'Avila', cover: ol(3090639) },
     { title: 'Le Combat Spirituel', author: 'Lorenzo Scupoli', cover: ol(6591051) },
