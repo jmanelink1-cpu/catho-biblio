@@ -136,8 +136,7 @@ export default function Landing() {
 
         .lift{ transition:transform .4s cubic-bezier(.22,.61,.36,1), box-shadow .4s, border-color .4s; }
         .lift:hover{ transform:translateY(-6px); box-shadow:0 24px 60px rgba(25,10,46,.16); }
-        .bk{ transition:transform .4s cubic-bezier(.22,.61,.36,1), box-shadow .4s; }
-        .bk:hover{ transform:translateY(-9px) rotate(-1deg); box-shadow:0 26px 54px rgba(25,10,46,.32); z-index:2; }
+        .bk{ transition: box-shadow .3s ease; }
 
         .nav-a{ position:relative; }
         .nav-a::after{ content:''; position:absolute; left:0; bottom:-5px; height:2px; width:100%; background:currentColor; transform:scaleX(0); transform-origin:right; transition:transform .3s cubic-bezier(.22,.61,.36,1);}
