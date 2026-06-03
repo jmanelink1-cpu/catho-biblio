@@ -57,16 +57,16 @@ const SHOWCASE: ShelfData[] = [
 ]
 
 const VALUES = [
-  { Icon: I.Book,    t: '500+ ouvrages en français', d: 'De la Bible aux Pères de l\'Église, des saints aux théologiens contemporains — toute la Tradition réunie.' },
-  { Icon: I.DL,      t: 'En PDF, téléchargeables',    d: 'Chaque livre est au format PDF, à lire en ligne ou à télécharger pour vous accompagner partout.' },
-  { Icon: I.Devices, t: 'Sur tous vos appareils',     d: 'Téléphone, tablette, ordinateur. Votre bibliothèque vous suit, à toute heure, où que vous soyez.' },
-  { Icon: I.Inf,     t: 'Un accès à vie',             d: 'Un seul paiement. Aucun abonnement, aucun renouvellement. Les nouveautés sont incluses, pour toujours.' },
+  { Icon: I.Book,    t: 'Nourrissez votre foi au quotidien', d: 'Vous cherchez à approfondir votre foi ? Une parole, une méditation, un enseignement vous attendent chaque jour — du matin au soir.' },
+  { Icon: I.DL,      t: 'Retrouvez une régularité spirituelle', d: 'Vous voulez nourrir votre prière sans relâche ? Tous les livres sont en PDF, à télécharger, pour vous accompagner où que vous soyez.' },
+  { Icon: I.Devices, t: 'Ne restez plus seul face à vos questions', d: 'Vous désirez mieux comprendre l\'Église ? La sagesse des Pères, des saints et du Magistère est désormais à portée de votre main.' },
+  { Icon: I.Inf,     t: 'Un trésor pour toute une vie', d: 'Un seul paiement, et cette richesse vous appartient pour toujours — sans abonnement, avec toutes les futures additions.' },
 ]
 
 const STEPS = [
-  { n: '01', t: 'Réglez une seule fois', d: 'Un paiement unique de 10 300 FCFA par Mobile Money ou carte bancaire. Pas d\'abonnement.' },
-  { n: '02', t: 'Accédez immédiatement',  d: 'Votre bibliothèque s\'ouvre dans les minutes qui suivent. Aucune attente, aucune livraison.' },
-  { n: '03', t: 'Lisez & méditez',        d: 'Parcourez les rayons, ouvrez un livre, téléchargez-le. Nourrissez votre foi chaque jour.' },
+  { n: '01', t: 'Vous réglez une seule fois', d: 'Un paiement unique de 10 300 FCFA par Mobile Money ou carte bancaire. Pas d\'abonnement, jamais.' },
+  { n: '02', t: 'Vous accédez immédiatement',  d: 'Votre bibliothèque s\'ouvre dans les minutes qui suivent. Aucune attente, aucune livraison.' },
+  { n: '03', t: 'Vous nourrissez votre âme',   d: 'Parcourez les rayons, ouvrez un livre, méditez — et laissez la sagesse de l\'Église éclairer votre chemin.' },
 ]
 
 const TESTIMONIALS = [
@@ -225,23 +225,25 @@ export default function Landing() {
         <div className="pad" style={{ position: 'relative', maxWidth: 860, margin: '0 auto', width: '100%', padding: '0 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <div className="rv on heyebrow" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '7px 16px', borderRadius: 999, border: `1px solid ${GOLD}55`, background: 'rgba(201,154,59,.1)', marginBottom: 30, whiteSpace: 'nowrap' }}>
             <span style={{ width: 14, height: 14, color: GOLD_L, flexShrink: 0 }}><I.Book /></span>
-            <span style={{ fontSize: '.74rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: GOLD_L }}>Bibliothèque catholique numérique</span>
+            <span style={{ fontSize: '.74rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: GOLD_L }}>Pour les catholiques francophones</span>
           </div>
 
-          <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.03em', color: '#fff', marginBottom: 24 }}>
+          <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.03em', color: '#fff', marginBottom: 18 }}>
             Toute la sagesse de l&apos;Église,{' '}
             <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dans votre main.</span>
           </h1>
 
-          <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.18rem)', lineHeight: 1.75, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
-            <strong style={{ color: '#fff' }}>Plus de 500 ouvrages catholiques</strong><br />
-            Bible, saints, spiritualité, théologie<br />
-            dans votre bibliothèque, à vie.
+          <p className="rv on d2 serif" style={{ fontSize: 'clamp(1.15rem,2.2vw,1.45rem)', fontStyle: 'italic', lineHeight: 1.4, color: GOLD_L, maxWidth: 560, marginBottom: 16 }}>
+            Un compagnon quotidien pour nourrir votre foi, où que vous soyez dans le monde.
+          </p>
+
+          <p className="rv on d2" style={{ fontSize: 'clamp(1rem,1.6vw,1.12rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
+            Approfondissez votre prière, retrouvez une régularité spirituelle et comprenez mieux l&apos;Église — avec plus de 500 ouvrages, à portée de main.
           </p>
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
             <Link href="#tarif" className="btn disp herobtn" style={{ display: 'inline-flex', alignItems: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '17px 38px', borderRadius: 999, fontWeight: 800, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 14px 40px rgba(201,154,59,.4)' }}>
-              Accéder à la bibliothèque <span style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></span>
+              Commencer mon chemin spirituel <span style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></span>
             </Link>
             <a href="#catalogue" className="disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: '#fff', fontWeight: 600, fontSize: '.95rem', textDecoration: 'none', padding: '14px 4px', borderBottom: `1px solid rgba(255,255,255,.35)`, whiteSpace: 'nowrap' }}>
               Découvrir le catalogue
@@ -249,9 +251,9 @@ export default function Landing() {
           </div>
 
           <div className="rv on d4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.84rem' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span> Paiement unique · {price} FCFA</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span> Un seul paiement · {price} FCFA</span>
             <span className="hide-sm" style={{ opacity: .4 }}>·</span>
-            <span className="hide-sm" style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Lock /></span> Accès garanti à vie</span>
+            <span className="hide-sm" style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Lock /></span> Pour toute une vie de foi</span>
           </div>
         </div>
 
@@ -285,7 +287,7 @@ export default function Landing() {
             Un trésor de 500+ ouvrages,<br />classés par thème
           </h2>
           <p className="rv d1" style={{ fontSize: '1.05rem', color: MUTE, maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
-            Des grands classiques aux références incontournables de la foi.
+            De quoi nourrir votre foi, votre prière et votre intelligence de l&apos;Église — pour toute une vie.
           </p>
         </div>
 
@@ -295,7 +297,7 @@ export default function Landing() {
 
         <div className="rv" style={{ textAlign: 'center', marginTop: 40 }}>
           <Link href="#tarif" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: `linear-gradient(135deg,${VIO},${VIO_DK})`, color: '#fff', padding: '15px 36px', borderRadius: 999, fontWeight: 800, fontSize: '.95rem', textDecoration: 'none', boxShadow: '0 12px 34px rgba(124,58,237,.34)' }}>
-            Débloquer les 500+ livres <span style={{ width: 17, height: 17 }}><I.Arrow /></span>
+Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /></span>
           </Link>
         </div>
       </section>
@@ -392,7 +394,8 @@ export default function Landing() {
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>L&apos;offre</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 14, lineHeight: 1.12 }}>Un seul paiement.<br />Un accès pour la vie.</h2>
           <p className="rv d1" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
-            Pas d&apos;abonnement. Vous payez une seule fois et accédez à tout, pour toujours.
+            Le prix d&apos;un seul livre papier — pour des centaines d&apos;ouvrages qui vous accompagneront toute votre vie.
+            <br />Pas un achat : un investissement pour votre âme.
           </p>
 
           <div className="rv" style={{ position: 'relative', borderRadius: 26, overflow: 'hidden', background: `linear-gradient(165deg, ${PLUM} 0%, ${PLUM2} 70%, ${VIO_DK} 130%)`, boxShadow: '0 30px 80px rgba(25,10,46,.4)', padding: '52px 40px', border: `1px solid rgba(201,154,59,.3)` }}>
@@ -406,10 +409,10 @@ export default function Landing() {
                 <span className="disp" style={{ fontSize: 'clamp(3rem,9vw,4.4rem)', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{price}</span>
                 <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.6)', marginLeft: 10 }}>FCFA</span>
               </div>
-              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Un paiement unique, une fois pour toutes</p>
+              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Une fois. Et la sagesse de l&apos;Église vous accompagne à vie.</p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginBottom: 38, textAlign: 'left' }}>
-                {['Accès immédiat à 500+ livres catholiques', 'Tous les ouvrages en PDF, téléchargeables', 'Nouveautés incluses à vie', 'Lecture sur tous vos appareils', 'Support disponible 7j/7'].map(it => (
+                {['Nourrissez votre foi chaque jour, dès maintenant', '500+ ouvrages — Bible, saints, spiritualité, théologie', 'En PDF, téléchargeables, sur tous vos appareils', 'Les futures additions incluses, pour toujours', 'Où que vous soyez dans le monde'].map(it => (
                   <div key={it} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span style={{ width: 21, height: 21, borderRadius: '50%', background: 'rgba(201,154,59,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: GOLD_L, flexShrink: 0 }}><span style={{ width: 12, height: 12 }}><I.Check /></span></span>
                     <span style={{ fontSize: '.92rem', color: 'rgba(255,255,255,.88)' }}>{it}</span>
@@ -417,8 +420,8 @@ export default function Landing() {
                 ))}
               </div>
 
-              <Link href="/auth/register?plan=lifetime" className="btn disp" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 32px', borderRadius: 999, fontWeight: 900, fontSize: '1.02rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 12px 32px rgba(201,154,59,.4)' }}>
-                Accéder à ma bibliothèque <span style={{ width: 18, height: 18 }}><I.Arrow /></span>
+              <Link href="/auth/register?plan=lifetime" className="btn disp herobtn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 28px', borderRadius: 999, fontWeight: 900, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 12px 32px rgba(201,154,59,.4)' }}>
+                Commencer mon chemin <span style={{ width: 18, height: 18 }}><I.Arrow /></span>
               </Link>
               <p style={{ color: 'rgba(255,255,255,.4)', fontSize: '.78rem', marginTop: 16 }}>Paiement sécurisé · activé immédiatement</p>
             </div>
@@ -463,15 +466,18 @@ export default function Landing() {
       <section className="sec" style={{ position: 'relative', overflow: 'hidden', padding: '110px 40px', textAlign: 'center' }}>
         <BleedImage src={IMG.prayer} alt="Mains levées en prière au soleil couchant" />
         <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(160deg, rgba(25,10,46,.92), rgba(42,18,72,.82))` }} />
-        <div className="rv" style={{ position: 'relative', maxWidth: 680, margin: '0 auto' }}>
-          <h2 className="disp" style={{ fontSize: 'clamp(1.9rem,4.4vw,3rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.15, marginBottom: 18 }}>
-            Commencez votre chemin spirituel dès aujourd&apos;hui
+        <div className="rv" style={{ position: 'relative', maxWidth: 700, margin: '0 auto' }}>
+          <p className="serif" style={{ fontSize: 'clamp(1.5rem,3.6vw,2.2rem)', fontStyle: 'italic', color: GOLD_L, lineHeight: 1.4, marginBottom: 28 }}>
+            « La foi ne se lit pas une fois.<br />Elle se nourrit chaque jour. »
+          </p>
+          <h2 className="disp" style={{ fontSize: 'clamp(1.7rem,4vw,2.6rem)', fontWeight: 800, letterSpacing: '-.02em', color: '#fff', lineHeight: 1.15, marginBottom: 18 }}>
+            Votre chemin spirituel commence aujourd&apos;hui
           </h2>
-          <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,.78)', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 36px' }}>
-            Un seul paiement de {price} FCFA, et toute la richesse de la Tradition catholique vous appartient — pour toujours.
+          <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,.78)', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 36px' }}>
+            Rejoignez les catholiques francophones qui, partout dans le monde, nourrissent leur foi chaque jour. Un seul paiement de {price} FCFA — et la sagesse de l&apos;Église vous appartient pour la vie.
           </p>
           <Link href="/auth/register?plan=lifetime" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 46px', borderRadius: 999, fontWeight: 900, fontSize: '1.05rem', textDecoration: 'none', boxShadow: '0 16px 44px rgba(0,0,0,.4)' }}>
-            Accéder à ma bibliothèque <span style={{ width: 19, height: 19 }}><I.Arrow /></span>
+            Commencer aujourd&apos;hui <span style={{ width: 19, height: 19 }}><I.Arrow /></span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 28, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.82rem' }}>
             <span style={{ display: 'flex', gap: 7, alignItems: 'center' }}><span style={{ width: 15, height: 15, color: GOLD_L }}><I.Lock /></span> Paiement sécurisé</span>
