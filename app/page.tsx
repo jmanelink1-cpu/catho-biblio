@@ -34,7 +34,7 @@ const SHOWCASE: ShelfData[] = [
     { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux', cover: ol(2143788) },
     { title: 'Saint Benoît-Joseph Labre', author: 'André Dhôtel', cover: ol(2161103) },
     { title: 'Saint François d\'Assise', author: 'G.K. Chesterton', cover: '/covers/francois-assise.jpg' },
-    { title: 'Témoin de l\'Amour Crucifié', author: 'Padre Pio', cover: '/covers/temoin-amour-crucifie.jpg' },
+    { title: 'Témoin de l\'Amour Crucifié', author: 'Padre Pio', cover: '/covers/padre-pio.jpg' },
     { title: 'Petit Journal', author: 'Ste Faustine', cover: '/covers/faustine.png' },
     { title: 'Vie de Sainte Bernadette', author: 'François Trochu', cover: ol(15056170) },
   ]},
@@ -44,7 +44,8 @@ const SHOWCASE: ShelfData[] = [
     { title: 'Introduction à la Vie Dévote', author: 'St François de Sales', cover: ol(8942064) },
     { title: 'Le Château Intérieur', author: 'Ste Thérèse d\'Avila', cover: ol(3090639) },
     { title: 'Le Combat Spirituel', author: 'Lorenzo Scupoli', cover: ol(6591051) },
-    { title: 'L\'Abandon à la Providence', author: 'J.-P. de Caussade', cover: ol(12950983) },
+    { title: 'L\'Abandon à la Providence', author: 'J.-P. de Caussade', cover: '/covers/abandon-providence.jpg' },
+    { title: 'L\'Abandon à l\'Immaculée', author: 'St Maximilien Kolbe', cover: '/covers/abandon-immaculee.jpg' },
     { title: 'La Montée du Carmel', author: 'St Jean de la Croix', cover: '/covers/montee-carmel.jpeg' },
   ]},
   { label: 'Théologie & Doctrine', category: 'theologie', books: [
@@ -52,8 +53,8 @@ const SHOWCASE: ShelfData[] = [
     { title: 'Le Concile Vatican II', author: 'Documents conciliaires', cover: '/covers/vatican-ii.jpg' },
     { title: 'Les Pères Apostoliques', author: 'Pères de l\'Église', cover: '/covers/peres-apostoliques.webp' },
     { title: 'Catéchisme de l\'Église', author: 'Magistère', cover: ol(3107380) },
-    { title: 'Introduction au Christianisme', author: 'J. Ratzinger' },
-    { title: 'Le Credo Expliqué', author: 'Collectif' },
+    { title: 'Introduction au Christianisme', author: 'J. Ratzinger', cover: '/covers/introduction-christianisme.jpg' },
+    { title: 'Le Credo Expliqué', author: 'Collectif', cover: '/covers/credo-explique.jpg' },
   ]},
 ]
 
