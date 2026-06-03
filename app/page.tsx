@@ -32,7 +32,7 @@ const SHOWCASE: ShelfData[] = [
   ]},
   { label: 'Saints & Témoins de la Foi', category: 'saints', books: [
     { title: 'Histoire d\'une Âme', author: 'Ste Thérèse de Lisieux', cover: ol(2143788) },
-    { title: 'Les Exercices Spirituels', author: 'St Ignace de Loyola', cover: ol(6827113) },
+    { title: 'Les Exercices Spirituels', author: 'St Ignace de Loyola', cover: '/covers/exercices-spirituels.jpg' },
     { title: 'Le Curé d\'Ars', author: 'St Jean-Marie Vianney', cover: ol(14855585) },
     { title: 'Saint François d\'Assise', author: 'G.K. Chesterton', cover: '/covers/francois-assise.jpg' },
     { title: 'Padre Pio', author: 'Biographie' },
@@ -48,8 +48,8 @@ const SHOWCASE: ShelfData[] = [
   ]},
   { label: 'Théologie & Doctrine', category: 'theologie', books: [
     { title: 'Somme Théologique', author: 'St Thomas d\'Aquin', cover: '/covers/somme-theologique.jpg' },
-    { title: 'Le Concile Vatican II', author: 'Documents conciliaires', cover: ol(3133333) },
-    { title: 'Les Pères Apostoliques', author: 'Pères de l\'Église' },
+    { title: 'Le Concile Vatican II', author: 'Documents conciliaires', cover: '/covers/vatican-ii.jpg' },
+    { title: 'Les Pères Apostoliques', author: 'Pères de l\'Église', cover: '/covers/peres-apostoliques.webp' },
     { title: 'Catéchisme de l\'Église', author: 'Magistère', cover: ol(3107380) },
     { title: 'Introduction au Christianisme', author: 'J. Ratzinger' },
     { title: 'Le Credo Expliqué', author: 'Collectif' },
