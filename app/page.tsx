@@ -137,6 +137,7 @@ export default function Landing() {
         .lift{ transition:transform .4s cubic-bezier(.22,.61,.36,1), box-shadow .4s, border-color .4s; }
         .lift:hover{ transform:translateY(-6px); box-shadow:0 24px 60px rgba(25,10,46,.16); }
         .bk{ transition: box-shadow .3s ease; }
+        .shelf-more:hover > span{ background: rgba(201,154,59,.22) !important; transform: translateX(3px); }
 
         .nav-a{ position:relative; }
         .nav-a::after{ content:''; position:absolute; left:0; bottom:-5px; height:2px; width:100%; background:currentColor; transform:scaleX(0); transform-origin:right; transition:transform .3s cubic-bezier(.22,.61,.36,1);}
@@ -481,8 +482,12 @@ export default function Landing() {
       </section>
 
       {/* ───────── Footer ───────── */}
-      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '52px 0 26px' }}>
-        <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '0 40px', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 32, marginBottom: 36 }}>
+      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '0 0 26px' }}>
+        {/* Gold divider between final CTA and footer */}
+        <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '0 40px' }}>
+          <div style={{ height: 2, borderRadius: 2, background: `linear-gradient(90deg, transparent, ${GOLD} 22%, ${GOLD_L} 50%, ${GOLD} 78%, transparent)` }} />
+        </div>
+        <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '52px 40px 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 32, marginBottom: 36 }}>
           <div style={{ maxWidth: 340 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
               <span style={{ width: 32, height: 32, borderRadius: 9, background: `linear-gradient(135deg,${VIO},${VIO_DK})`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}><span style={{ width: 15, height: 15 }}><I.Cross /></span></span>
