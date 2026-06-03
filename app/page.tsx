@@ -57,26 +57,26 @@ const SHOWCASE: ShelfData[] = [
 ]
 
 const VALUES = [
-  { Icon: I.Book,    t: 'Nourrissez votre foi au quotidien', d: 'Vous cherchez à approfondir votre foi ? Une parole, une méditation, un enseignement vous attendent chaque jour — du matin au soir.' },
+  { Icon: I.Book,    t: 'Nourrissez votre foi au quotidien', d: 'Vous cherchez à approfondir votre foi ? Une parole, une méditation, un enseignement vous attendent chaque jour, du matin au soir.' },
   { Icon: I.DL,      t: 'Retrouvez une régularité spirituelle', d: 'Vous voulez nourrir votre prière sans relâche ? Tous les livres sont en PDF, à télécharger, pour vous accompagner où que vous soyez.' },
   { Icon: I.Devices, t: 'Ne restez plus seul face à vos questions', d: 'Vous désirez mieux comprendre l\'Église ? La sagesse des Pères, des saints et du Magistère est désormais à portée de votre main.' },
-  { Icon: I.Inf,     t: 'Un trésor pour toute une vie', d: 'Un seul paiement, et cette richesse vous appartient pour toujours — sans abonnement, avec toutes les futures additions.' },
+  { Icon: I.Inf,     t: 'Un trésor pour toute une vie', d: 'Un seul paiement, et cette richesse vous appartient pour toujours, sans abonnement, avec toutes les futures additions.' },
 ]
 
 const STEPS = [
   { n: '01', t: 'Vous réglez une seule fois', d: 'Un paiement unique de 10 300 FCFA par Mobile Money ou carte bancaire. Pas d\'abonnement, jamais.' },
   { n: '02', t: 'Vous accédez immédiatement',  d: 'Votre bibliothèque s\'ouvre dans les minutes qui suivent. Aucune attente, aucune livraison.' },
-  { n: '03', t: 'Vous nourrissez votre âme',   d: 'Parcourez les rayons, ouvrez un livre, méditez — et laissez la sagesse de l\'Église éclairer votre chemin.' },
+  { n: '03', t: 'Vous nourrissez votre âme',   d: 'Parcourez les rayons, ouvrez un livre, méditez, et laissez la sagesse de l\'Église éclairer votre chemin.' },
 ]
 
 const TESTIMONIALS = [
-  { name: 'Père André M.',    role: 'Prêtre · Douala',        initials: 'PA', text: 'Je consulte cette bibliothèque chaque matin avant la prière. La qualité des ouvrages est remarquable — un véritable trésor pour le ministère.' },
+  { name: 'Père André M.',    role: 'Prêtre · Douala',        initials: 'PA', text: 'Je consulte cette bibliothèque chaque matin avant la prière. La qualité des ouvrages est remarquable, un véritable trésor pour le ministère.' },
   { name: 'Marie-Noëlle T.',  role: 'Catéchiste · Dakar',      initials: 'MN', text: 'En tant que catéchiste, j\'ai enfin toutes mes ressources au même endroit. Préparer mes cours est devenu un bonheur. Une grâce !' },
   { name: 'Jean-Pierre K.',   role: 'Séminariste · Abidjan',   initials: 'JP', text: 'La Bible de Jérusalem, le Catéchisme, les Pères de l\'Église… tout sur mon téléphone. Exactement ce qu\'il me fallait pour ma formation.' },
 ]
 
 const FAQS = [
-  { q: 'C\'est vraiment un paiement unique ?',            a: 'Oui. Vous réglez 10 300 FCFA une seule fois. Votre accès est permanent et illimité — jamais de renouvellement ni de frais cachés.' },
+  { q: 'C\'est vraiment un paiement unique ?',            a: 'Oui. Vous réglez 10 300 FCFA une seule fois. Votre accès est permanent et illimité, jamais de renouvellement ni de frais cachés.' },
   { q: 'Comment accéder aux livres après paiement ?',     a: 'Votre accès est activé immédiatement. Créez votre compte, connectez-vous, et commencez à lire en quelques minutes.' },
   { q: 'Les livres sont-ils téléchargeables ?',           a: 'Oui, tous les ouvrages sont au format PDF, lisibles en ligne et téléchargeables sur vos appareils.' },
   { q: 'Puis-je lire depuis plusieurs appareils ?',       a: 'Bien sûr. Votre compte fonctionne sur téléphone, tablette et ordinateur, simultanément.' },
@@ -241,7 +241,7 @@ export default function Landing() {
           </p>
 
           <p className="rv on d2 cb-herolead" style={{ fontSize: 'clamp(1rem,1.6vw,1.12rem)', lineHeight: 1.7, color: 'rgba(255,255,255,.78)', maxWidth: 560, marginBottom: 36 }}>
-            Retrouvez une régularité spirituelle et comprenez mieux l&apos;Église — avec plus de 500 ouvrages, à portée de main.
+            Retrouvez une régularité spirituelle et comprenez mieux l&apos;Église, avec plus de 500 ouvrages, à portée de main.
           </p>
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
@@ -397,7 +397,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>L&apos;offre</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 14, lineHeight: 1.12 }}>Un seul paiement.<br />Un accès pour la vie.</h2>
           <p className="rv d1 cb-payvalue" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
-            Le prix d&apos;un seul livre papier — pour des centaines d&apos;ouvrages qui vous accompagneront toute votre vie.
+            Le prix d&apos;un seul livre papier, pour des centaines d&apos;ouvrages qui vous accompagneront toute votre vie.
             <br />Pas un achat : un investissement pour votre âme.
           </p>
 
@@ -415,7 +415,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
               <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Une fois. Et la sagesse de l&apos;Église vous accompagne à vie.</p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginBottom: 38, textAlign: 'left' }}>
-                {['Nourrissez votre foi chaque jour, dès maintenant', '500+ ouvrages — Bible, saints, spiritualité, théologie', 'En PDF, téléchargeables, sur tous vos appareils', 'Les futures additions incluses, pour toujours', 'Où que vous soyez dans le monde'].map(it => (
+                {['Nourrissez votre foi chaque jour, dès maintenant', '500+ ouvrages, Bible, saints, spiritualité, théologie', 'En PDF, téléchargeables, sur tous vos appareils', 'Les futures additions incluses, pour toujours', 'Où que vous soyez dans le monde'].map(it => (
                   <div key={it} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span style={{ width: 21, height: 21, borderRadius: '50%', background: 'rgba(201,154,59,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: GOLD_L, flexShrink: 0 }}><span style={{ width: 12, height: 12 }}><I.Check /></span></span>
                     <span style={{ fontSize: '.92rem', color: 'rgba(255,255,255,.88)' }}>{it}</span>
@@ -503,7 +503,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
               <span className="disp" style={{ fontWeight: 800, color: '#fff', fontSize: '1.05rem' }}>Catho Biblio</span>
             </div>
             <p className="serif" style={{ fontSize: '1.05rem', fontStyle: 'italic', lineHeight: 1.6, color: 'rgba(255,255,255,.6)' }}>
-              La bibliothèque catholique numérique pour l&apos;Afrique francophone.
+              La bibliothèque catholique numérique francophone.
             </p>
           </div>
           <div>
