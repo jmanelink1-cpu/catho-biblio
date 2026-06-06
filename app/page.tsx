@@ -396,9 +396,8 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
         <div style={{ maxWidth: 560, margin: '0 auto', textAlign: 'center' }}>
           <p className="rv" style={{ fontSize: '.76rem', fontWeight: 700, letterSpacing: '.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 16 }}>L&apos;offre</p>
           <h2 className="rv d1 disp" style={{ fontSize: 'clamp(1.8rem,4vw,2.7rem)', fontWeight: 800, letterSpacing: '-.02em', color: INK, marginBottom: 14, lineHeight: 1.12 }}>Un seul paiement.<br />Un accès pour la vie.</h2>
-          <p className="rv d1 cb-payvalue" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7 }}>
-            Le prix d&apos;un seul livre papier, pour des centaines d&apos;ouvrages qui vous accompagneront toute votre vie.
-            <br />Pas un achat : un investissement pour votre âme.
+          <p className="rv d1 cb-payvalue" style={{ fontSize: '1.02rem', color: MUTE, marginBottom: 44, lineHeight: 1.7, textWrap: 'balance' }}>
+            Le prix d&apos;un seul livre papier pour des centaines d&apos;ouvrages, à garder toute votre vie. Pas un achat : un investissement pour votre âme.
           </p>
 
           <div className="rv" style={{ position: 'relative', borderRadius: 26, overflow: 'hidden', background: `linear-gradient(165deg, ${PLUM} 0%, ${PLUM2} 70%, ${VIO_DK} 130%)`, boxShadow: '0 30px 80px rgba(25,10,46,.4)', padding: '52px 40px', border: `1px solid rgba(201,154,59,.3)` }}>
