@@ -4,6 +4,22 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES, type Book, type BookCategory } from '@/lib/types'
+import { Icon as I } from '@/components/Icons'
+import type { ComponentType } from 'react'
+
+type IconC = ComponentType<{ width?: number; height?: number }>
+
+const CAT_ICON: Record<string, IconC> = {
+  bible: I.Book, catechisme: I.Quote, saints: I.Star, spiritualite: I.Sparkle,
+  theologie: I.Layers, liturgie: I.Cross, priere: I.Sparkle, papes: I.Star,
+  jeunesse: I.Star, famille: I.Users,
+}
+
+function Glyph({ icon, size = 13 }: { icon?: IconC; size?: number }) {
+  if (!icon) return null
+  const C = icon
+  return <span style={{ display: 'inline-flex', width: size, height: size }}><C width={size} height={size} /></span>
+}
 
 interface Props { initialBooks: Book[] }
 
@@ -134,14 +150,14 @@ export default function AdminBooksClient({ initialBooks }: Props) {
                     </td>
                     <td className="px-4 py-3 text-sm" style={{ color: 'var(--color-muted)' }}>{b.author || '—'}</td>
                     <td className="px-4 py-3">
-                      <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold"
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
                             style={{ background: 'var(--color-brand-soft)', color: 'var(--color-brand)' }}>
-                        {CATEGORIES.find(c => c.value === b.category)?.emoji} {CATEGORIES.find(c => c.value === b.category)?.label ?? b.category}
+                        <Glyph icon={CAT_ICON[b.category ?? '']} /> {CATEGORIES.find(c => c.value === b.category)?.label ?? b.category}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       {b.is_featured
-                        ? <span className="text-xs font-semibold" style={{ color: '#16A34A' }}>★ Oui</span>
+                        ? <span className="inline-flex items-center gap-1 text-xs font-semibold" style={{ color: '#16A34A' }}><Glyph icon={I.Star} size={12} /> Oui</span>
                         : <span style={{ color: 'var(--color-muted-2)' }}>—</span>}
                     </td>
                     <td className="px-4 py-3">
@@ -195,7 +211,7 @@ export default function AdminBooksClient({ initialBooks }: Props) {
                 <Field label="Catégorie *">
                   <select value={form.category} onChange={e => setForm(f => ({...f, category: e.target.value as BookCategory}))}
                           className="w-full px-3.5 py-2.5 rounded-xl border text-sm outline-none transition-all" style={{ borderColor: "var(--color-border)", background: "var(--color-subtle)", color: "var(--color-ink)", fontFamily: "inherit" }}>
-                    {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.emoji} {c.label}</option>)}
+                    {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
                   </select>
                 </Field>
               </div>

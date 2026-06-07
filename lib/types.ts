@@ -72,6 +72,11 @@ export const SINGLE_PLAN = {
   duration_days: null,
 } as const
 
+// Lien de la page de paiement externe (fournie par votre prestataire).
+// Laisser vide tant qu'il n'est pas connu : la page checkout enregistrera
+// alors la commande et affichera un message « bientôt disponible ».
+export const PAYMENT_PAGE_URL: string = ''
+
 // Conserver pour compatibilité interne
 export const PLANS = {
   lifetime: { label: 'Accès à Vie', price: 10300, duration_days: null, currency: 'FCFA' },

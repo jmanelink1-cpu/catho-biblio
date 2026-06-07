@@ -186,7 +186,7 @@ export default function Landing() {
           <div className="disp" style={{ fontWeight: 800, fontSize: '1.02rem', color: '#fff' }}>{price} FCFA</div>
           <div style={{ fontSize: '.7rem', color: GOLD_L }}>Paiement unique · accès à vie</div>
         </div>
-        <Link href="/auth/register?plan=lifetime" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '11px 22px', borderRadius: 999, fontWeight: 800, fontSize: '.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+        <Link href="/acheter" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '11px 22px', borderRadius: 999, fontWeight: 800, fontSize: '.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>
           Accéder <span style={{ width: 15, height: 15 }}><I.Arrow /></span>
         </Link>
       </div>
@@ -422,7 +422,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
                 ))}
               </div>
 
-              <Link href="/auth/register?plan=lifetime" className="btn disp herobtn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 28px', borderRadius: 999, fontWeight: 900, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 12px 32px rgba(201,154,59,.4)' }}>
+              <Link href="/acheter" className="btn disp herobtn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 28px', borderRadius: 999, fontWeight: 900, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 12px 32px rgba(201,154,59,.4)' }}>
                 Commencer mon chemin <span style={{ width: 18, height: 18 }}><I.Arrow /></span>
               </Link>
               <p style={{ color: 'rgba(255,255,255,.4)', fontSize: '.78rem', marginTop: 16 }}>Paiement sécurisé · activé immédiatement</p>
@@ -478,7 +478,7 @@ Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /
           <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,.78)', lineHeight: 1.7, maxWidth: 500, margin: '0 auto 36px' }}>
             Rejoignez les catholiques francophones qui, partout dans le monde, nourrissent leur foi chaque jour. Un seul paiement et la sagesse de l&apos;Église vous appartient pour la vie.
           </p>
-          <Link href="/auth/register?plan=lifetime" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 46px', borderRadius: 999, fontWeight: 900, fontSize: '1.05rem', textDecoration: 'none', boxShadow: '0 16px 44px rgba(0,0,0,.4)' }}>
+          <Link href="/acheter" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '19px 46px', borderRadius: 999, fontWeight: 900, fontSize: '1.05rem', textDecoration: 'none', boxShadow: '0 16px 44px rgba(0,0,0,.4)' }}>
             Commencer aujourd&apos;hui <span style={{ width: 19, height: 19 }}><I.Arrow /></span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 28, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.82rem' }}>

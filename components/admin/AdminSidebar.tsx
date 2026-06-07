@@ -51,9 +51,6 @@ export default function AdminSidebar({ userEmail }: { userEmail: string }) {
         <Link href="/library" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all" style={{ color: 'rgba(255,255,255,0.6)' }}>
           <Glyph icon={I.Home} /> Bibliothèque
         </Link>
-        <Link href="/" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all" style={{ color: 'rgba(255,255,255,0.6)' }}>
-          <Glyph icon={I.Sparkle} /> Page d&apos;accueil
-        </Link>
       </nav>
 
       <div className="p-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
