@@ -25,6 +25,7 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
   const [search, setSearch] = useState('')
   const [modal,  setModal]  = useState(false)
   const [gEmail, setGEmail] = useState('')
+  const [menuFor, setMenuFor] = useState<string | null>(null)
 
   const filtered = users.filter(u =>
     !search ||
@@ -143,17 +144,32 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
                       )}
                     </td>
                     <td className="px-4 py-3 text-xs" style={{ color: 'var(--color-muted)' }}>{fmt(u.created_at)}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-4 py-3" style={{ position: 'relative' }}>
                       {!u.isLead && (
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => toggleBan(u)} className="text-xs font-semibold px-2.5 py-1 rounded-lg"
-                                  style={u.banned ? { background: '#F0FDF4', color: '#16A34A' } : { background: 'var(--color-subtle)', color: '#B45309' }}>
-                            {u.banned ? 'Débloquer' : 'Bloquer'}
+                        <>
+                          <button onClick={() => setMenuFor(menuFor === u.id ? null : u.id)} aria-label="Actions"
+                                  className="w-8 h-8 rounded-lg flex items-center justify-center"
+                                  style={{ color: 'var(--color-muted)', background: menuFor === u.id ? 'var(--color-subtle)' : 'transparent' }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
                           </button>
-                          <button onClick={() => deleteUser(u)} aria-label="Supprimer" title="Supprimer le compte" style={{ color: '#DC2626', display: 'inline-flex', width: 16, height: 16 }}>
-                            <Ico.Trash width={16} height={16} />
-                          </button>
-                        </div>
+                          {menuFor === u.id && (
+                            <>
+                              <div onClick={() => setMenuFor(null)} style={{ position: 'fixed', inset: 0, zIndex: 20 }} />
+                              <div style={{ position: 'absolute', right: 12, top: '100%', zIndex: 30, minWidth: 170, padding: 6, borderRadius: 12, background: '#fff', border: '1px solid var(--color-border)', boxShadow: '0 14px 36px rgba(0,0,0,.16)' }}>
+                                <button onClick={() => { toggleBan(u); setMenuFor(null) }}
+                                        className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-left"
+                                        style={{ color: u.banned ? '#16A34A' : '#B45309' }}>
+                                  {u.banned ? 'Débloquer le compte' : 'Bloquer le compte'}
+                                </button>
+                                <button onClick={() => { deleteUser(u); setMenuFor(null) }}
+                                        className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-left"
+                                        style={{ color: '#DC2626' }}>
+                                  <span style={{ display: 'inline-flex', width: 15, height: 15 }}><Ico.Trash width={15} height={15} /></span> Supprimer le compte
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </>
                       )}
                     </td>
                   </tr>

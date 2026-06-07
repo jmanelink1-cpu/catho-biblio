@@ -364,12 +364,12 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   )
 }
 
-/** Barre de progression de lecture (affichée seulement si le livre est commencé). */
+/** Barre de progression de lecture — toujours visible (vide si jamais ouvert). */
 function ReadBar({ p }: { p: number }) {
-  if (!p) return null
   const done = p >= 100
   return (
-    <div title={done ? 'Terminé' : 'En cours de lecture'} style={{ height: 4, borderRadius: 999, background: 'rgba(0,0,0,.09)', margin: '8px 0 0', overflow: 'hidden' }}>
+    <div title={p <= 0 ? 'Pas encore ouvert' : done ? 'Terminé' : 'En cours de lecture'}
+         style={{ height: 4, borderRadius: 999, background: 'rgba(0,0,0,.10)', margin: '8px 0 0', overflow: 'hidden' }}>
       <div style={{ width: `${Math.min(100, Math.max(0, p))}%`, height: '100%', borderRadius: 999, background: done ? '#16A34A' : 'var(--color-gold-bright)' }} />
     </div>
   )
