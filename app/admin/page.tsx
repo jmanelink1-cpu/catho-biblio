@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { Icon as I } from '@/components/Icons'
+import StatFilters from './StatFilters'
 import type { ComponentType } from 'react'
 
 export const dynamic = 'force-dynamic'
@@ -20,19 +21,27 @@ function Ic({ icon, size = 18 }: { icon: ComponentType<{ width?: number; height?
 export default async function AdminDashboard() {
   const supabase = await createClient()
 
-  const [{ count: totalBooks }, { data: profilesRaw }, { data: paymentsRaw }] = await Promise.all([
+  const [{ count: totalBooks }, { data: profilesRaw }, { data: paymentsRaw }, { data: ordersRaw }] = await Promise.all([
     supabase.from('books').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('created_at, email, has_access, access_type, is_admin').order('created_at', { ascending: false }),
     supabase.from('payments').select('amount, status, created_at'),
+    supabase.from('orders').select('country, created_at'),
   ])
 
   const profiles = (profilesRaw ?? []) as Prof[]
   const payments = (paymentsRaw ?? []) as Pay[]
+  const orders   = (ordersRaw ?? []) as { country: string | null; created_at: string }[]
 
   const totalUsers  = profiles.length
   const activeUsers = profiles.filter(p => p.has_access).length
   const revenue     = payments.filter(p => p.status === 'completed').reduce((s, p) => s + (p.amount ?? 0), 0)
-  const pendingPays = payments.filter(p => p.status === 'pending').length
+
+  const paymentCounts = {
+    completed: payments.filter(p => p.status === 'completed').length,
+    pending:   payments.filter(p => p.status === 'pending').length,
+    failed:    payments.filter(p => p.status === 'failed').length,
+    total:     payments.length,
+  }
 
   const now      = new Date()
   const today0   = startOfDay(now).getTime()
@@ -42,6 +51,12 @@ export default async function AdminDashboard() {
   const signupsToday = profiles.filter(p => new Date(p.created_at).getTime() >= today0).length
   const signupsWeek  = profiles.filter(p => new Date(p.created_at).getTime() >= week0).length
   const signupsMonth = profiles.filter(p => new Date(p.created_at).getTime() >= month0).length
+
+  // Top pays (depuis les commandes / checkout)
+  const countryMap: Record<string, number> = {}
+  orders.forEach(o => { if (o.country) countryMap[o.country] = (countryMap[o.country] ?? 0) + 1 })
+  const topCountries = Object.entries(countryMap).map(([country, count]) => ({ country, count })).sort((a, b) => b.count - a.count).slice(0, 6)
+  const topMax = Math.max(1, ...topCountries.map(c => c.count))
 
   const daily: { label: string; count: number }[] = []
   for (let i = 29; i >= 0; i--) {
@@ -67,13 +82,6 @@ export default async function AdminDashboard() {
     { icon: I.Users, label: 'Utilisateurs',  value: totalUsers.toLocaleString('fr-FR'),        bg: '#EEF6FF', fg: '#2563EB' },
     { icon: I.Check, label: 'Accès actifs',   value: activeUsers.toLocaleString('fr-FR'),        bg: '#F0FDF4', fg: '#16A34A' },
     { icon: I.Money, label: 'Revenus (FCFA)', value: revenue.toLocaleString('fr-FR'),            bg: 'var(--color-gold-soft)', fg: 'var(--color-gold)' },
-  ]
-
-  const mini = [
-    { icon: I.Calendar, label: "Inscrits aujourd'hui", value: signupsToday },
-    { icon: I.Trend,    label: 'Inscrits (7 jours)',   value: signupsWeek },
-    { icon: I.Users,    label: 'Inscrits (ce mois)',   value: signupsMonth },
-    { icon: I.Clock,    label: 'Paiements en attente', value: pendingPays },
   ]
 
   const links: [string, ComponentType<{ width?: number; height?: number }>, string][] = [
@@ -110,18 +118,11 @@ export default async function AdminDashboard() {
           ))}
         </div>
 
-        {/* Mini stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {mini.map(m => (
-            <div key={m.label} className="rounded-2xl border p-4 flex items-center gap-3" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-              <span style={{ color: 'var(--color-muted)' }}><Ic icon={m.icon} size={20} /></span>
-              <div>
-                <div className="text-xl font-extrabold leading-none" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>{m.value}</div>
-                <div className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>{m.label}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Filterable stats: signups + payments */}
+        <StatFilters
+          signups={{ today: signupsToday, week: signupsWeek, month: signupsMonth, total: totalUsers }}
+          payments={paymentCounts}
+        />
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -159,7 +160,7 @@ export default async function AdminDashboard() {
 
         {/* Recent users + quick links */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 rounded-2xl border p-6" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
+          <div className="rounded-2xl border p-6" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>Derniers inscrits</h3>
               <a href="/admin/users" className="text-xs font-semibold" style={{ color: 'var(--color-brand)' }}>Tout voir →</a>
@@ -178,6 +179,26 @@ export default async function AdminDashboard() {
                           style={u.has_access ? { background: '#F0FDF4', color: '#16A34A' } : { background: 'var(--color-subtle)', color: 'var(--color-muted)' }}>
                       {u.has_access ? 'Accès' : 'Sans accès'}
                     </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Top pays */}
+          <div className="rounded-2xl border p-6" style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
+            <h3 className="font-bold mb-4" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>Top pays</h3>
+            {topCountries.length === 0 ? (
+              <p className="text-sm" style={{ color: 'var(--color-muted)' }}>Aucune donnée pays pour le moment.</p>
+            ) : (
+              <div className="space-y-3">
+                {topCountries.map(c => (
+                  <div key={c.country} className="flex items-center gap-3">
+                    <span className="text-xs flex-shrink-0" style={{ width: 90, color: 'var(--color-ink)' }}>{c.country}</span>
+                    <div className="flex-1 h-4 rounded-full overflow-hidden" style={{ background: 'var(--color-subtle)' }}>
+                      <div style={{ width: `${(c.count / topMax) * 100}%`, height: '100%', background: 'var(--color-brand)', borderRadius: 999 }} />
+                    </div>
+                    <span className="text-xs font-bold w-6 text-right" style={{ color: 'var(--color-ink)' }}>{c.count}</span>
                   </div>
                 ))}
               </div>

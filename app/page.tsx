@@ -213,7 +213,7 @@ export default function Landing() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <Link href="/auth/login" className="nav-cta-full nav-a" style={{ color: '#fff', fontSize: '.9rem', fontWeight: 600, textDecoration: 'none' }}>Connexion</Link>
-          <Link href="#tarif" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '10px 22px', borderRadius: 999, fontWeight: 700, fontSize: '.88rem', textDecoration: 'none', boxShadow: '0 6px 18px rgba(201,154,59,.35)' }}>
+          <Link href="/acheter" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '10px 22px', borderRadius: 999, fontWeight: 700, fontSize: '.88rem', textDecoration: 'none', boxShadow: '0 6px 18px rgba(201,154,59,.35)' }}>
             Accéder <span style={{ width: 14, height: 14 }}><I.Chev /></span>
           </Link>
         </div>
@@ -245,12 +245,9 @@ export default function Landing() {
           </p>
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
-            <Link href="#tarif" className="btn disp herobtn" style={{ display: 'inline-flex', alignItems: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '17px 38px', borderRadius: 999, fontWeight: 800, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 14px 40px rgba(201,154,59,.4)' }}>
+            <Link href="/acheter" className="btn disp herobtn" style={{ display: 'inline-flex', alignItems: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '17px 38px', borderRadius: 999, fontWeight: 800, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 14px 40px rgba(201,154,59,.4)' }}>
               Commencer mon chemin spirituel <span style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></span>
             </Link>
-            <a href="#catalogue" className="disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, color: '#fff', fontWeight: 600, fontSize: '.95rem', textDecoration: 'none', padding: '14px 4px', borderBottom: `1px solid rgba(255,255,255,.35)`, whiteSpace: 'nowrap' }}>
-              Découvrir le catalogue
-            </a>
           </div>
 
           <div className="rv on d4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.84rem' }}>
