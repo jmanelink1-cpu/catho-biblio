@@ -23,5 +23,5 @@ export default async function ReaderPage({ searchParams }: { searchParams: Promi
   const { data: book } = await (supabase as any).from('books').select('*').eq('id', id).single()
   if (!book) redirect('/library')
 
-  return <ReaderClient book={book as Book} />
+  return <ReaderClient book={book as Book} userId={user.id} />
 }

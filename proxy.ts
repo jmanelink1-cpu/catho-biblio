@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 // Deny-by-default : tout est protégé SAUF cette liste blanche publique.
-const PUBLIC_EXACT = new Set(['/', '/apercu', '/acheter'])
+const PUBLIC_EXACT = new Set(['/', '/apercu', '/acheter', '/bienvenue'])
 function isPublic(path: string): boolean {
   if (PUBLIC_EXACT.has(path)) return true
   if (path.startsWith('/auth/')) return true // login, register, callback, forgot-password, reset

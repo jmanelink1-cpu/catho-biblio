@@ -2,14 +2,25 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 import type { Book } from '@/lib/types'
 
-export default function ReaderClient({ book }: { book: Book }) {
+export default function ReaderClient({ book, userId }: { book: Book; userId: string }) {
   const title  = book.title || 'Lecture'
   const fileId = book.drive_file_id
 
   const [loading,   setLoading]   = useState(true)
   const [panelOpen, setPanelOpen] = useState(false)
+  const [finished,  setFinished]  = useState(false)
+
+  async function markFinished() {
+    setFinished(true)
+    const db = createClient() as any
+    await db.from('reading_progress').upsert(
+      { user_id: userId, book_id: book.id, progress: 100, updated_at: new Date().toISOString() },
+      { onConflict: 'user_id,book_id' }
+    )
+  }
 
   const embedUrl = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null
 
@@ -31,6 +42,13 @@ export default function ReaderClient({ book }: { book: Book }) {
         <div className="flex-1 text-center text-sm font-semibold text-white truncate px-2">{title}</div>
 
         <div className="flex items-center gap-1">
+          <button onClick={markFinished} disabled={finished}
+                  className="flex items-center gap-1.5 px-3 h-9 rounded-full text-sm font-semibold transition-all disabled:opacity-70"
+                  style={{ color: finished ? '#16A34A' : 'rgba(255,255,255,0.8)', background: finished ? 'rgba(22,163,74,0.15)' : 'rgba(255,255,255,0.08)' }}
+                  title="Marquer ce livre comme terminé">
+            <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span className="hidden sm:inline">{finished ? 'Terminé' : 'Marquer comme terminé'}</span>
+          </button>
           {fileId && (
             <a href={`https://drive.google.com/uc?export=download&id=${fileId}`} target="_blank" rel="noopener noreferrer"
                className="flex items-center gap-1.5 px-3 h-9 rounded-full text-sm font-semibold transition-all"

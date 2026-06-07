@@ -26,6 +26,17 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   const firstName = (profile.full_name || userEmail).split(' ')[0]
   const initials  = (profile.full_name || userEmail).split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
 
+  // ─── Progression de lecture (barre sous la couverture) ───
+  const [progress, setProgress] = useState<Record<string, number>>({})
+  useEffect(() => {
+    if (isDemo || !profile?.id) return
+    const db = createClient() as any
+    db.from('reading_progress').select('book_id, progress').eq('user_id', profile.id)
+      .then(({ data }: { data: { book_id: string; progress: number }[] | null }) => {
+        if (data) { const m: Record<string, number> = {}; data.forEach(r => { m[r.book_id] = r.progress }); setProgress(m) }
+      }).catch(() => {})
+  }, [isDemo, profile?.id])
+
   const showcase = useMemo(() => {
     const f = books.filter(b => b.is_featured)
     return (f.length >= 4 ? f : books).slice(0, 12)
@@ -85,6 +96,12 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   // Read online — Google Drive preview inside our reader
   function readBook(book: Book) {
     if (!book.drive_file_id) { notify(`« ${book.title} » sera bientôt disponible.`); return }
+    // Marque le livre comme "commencé" (si pas déjà suivi)
+    if (!isDemo && profile?.id && !progress[book.id]) {
+      const db = createClient() as any
+      db.from('reading_progress').upsert({ user_id: profile.id, book_id: book.id, progress: 10 }, { onConflict: 'user_id,book_id' }).then(() => {}).catch(() => {})
+      setProgress(p => ({ ...p, [book.id]: 10 }))
+    }
     router.push(`/reader?id=${book.id}`)
   }
 
@@ -99,11 +116,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
       <style>{`
-        .lib-card { transition: transform .38s cubic-bezier(.22,.61,.36,1), box-shadow .38s ease; will-change: transform; }
-        .lib-card:hover { transform: translateY(-7px); box-shadow: 0 22px 44px rgba(30,16,50,.20); }
-        .lib-card:hover .lib-cover::after { opacity: 1; transform: translateX(120%); }
         .lib-cover { position: relative; overflow: hidden; }
-        .lib-cover::after { content:''; position:absolute; inset:0; width:55%; background:linear-gradient(100deg,transparent,rgba(255,255,255,.32),transparent); transform:translateX(-160%); opacity:0; transition:transform .7s cubic-bezier(.22,.61,.36,1), opacity .3s; pointer-events:none; }
         .lib-pill { transition: all .22s ease; }
         .lib-shelf::-webkit-scrollbar { height: 0; }
         .lib-row::-webkit-scrollbar { display: none; }
@@ -232,6 +245,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
                   <div className="lib-cover" style={{ width: '100%', aspectRatio: '2/3', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 22px rgba(30,16,50,.16)', border: '1px solid rgba(0,0,0,.05)' }}>
                     <BookCover book={book} />
                   </div>
+                  <ReadBar p={progress[book.id] ?? 0} />
                   <div style={{ marginTop: 9, fontSize: '.78rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--color-ink)',
                     display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{book.title}</div>
                   {book.author && <div style={{ fontSize: '.72rem', color: 'var(--color-muted)', marginTop: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{book.author}</div>}
@@ -266,6 +280,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
                   <div className="lib-cover" style={{ width: '100%', aspectRatio: '2/3', borderRadius: 13, overflow: 'hidden', boxShadow: '0 8px 22px rgba(30,16,50,.15)', border: '1px solid rgba(0,0,0,.05)' }}>
                     <BookCover book={book} />
                   </div>
+                  <ReadBar p={progress[book.id] ?? 0} />
                   <div style={{ marginTop: 10 }}>
                     <div style={{ fontSize: '.84rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--color-ink)',
                       display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{book.title}</div>
@@ -345,6 +360,17 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
           {toast}
         </div>
       )}
+    </div>
+  )
+}
+
+/** Barre de progression de lecture (affichée seulement si le livre est commencé). */
+function ReadBar({ p }: { p: number }) {
+  if (!p) return null
+  const done = p >= 100
+  return (
+    <div title={done ? 'Terminé' : 'En cours de lecture'} style={{ height: 4, borderRadius: 999, background: 'rgba(0,0,0,.09)', margin: '8px 0 0', overflow: 'hidden' }}>
+      <div style={{ width: `${Math.min(100, Math.max(0, p))}%`, height: '100%', borderRadius: 999, background: done ? '#16A34A' : 'var(--color-gold-bright)' }} />
     </div>
   )
 }
