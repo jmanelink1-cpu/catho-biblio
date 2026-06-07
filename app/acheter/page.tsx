@@ -8,13 +8,16 @@ import { Icon as I } from '@/components/Icons'
 
 const PLUM = '#190A2E', GOLD = '#C99A3B', GOLD_L = '#E3BE6E', IVORY = '#FBF8F3'
 
-const COUNTRIES = [
-  'Bénin', 'Burkina Faso', 'Burundi', 'Cameroun', 'Canada', 'Centrafrique', 'Comores',
-  'Congo-Brazzaville', 'Congo (RDC)', "Côte d'Ivoire", 'Djibouti', 'France', 'Gabon',
-  'Guinée', 'Guinée équatoriale', 'Haïti', 'Luxembourg', 'Madagascar', 'Mali', 'Maroc',
-  'Maurice', 'Mauritanie', 'Niger', 'Rwanda', 'Sénégal', 'Seychelles', 'Suisse', 'Tchad',
-  'Togo', 'Tunisie', 'Algérie', 'Belgique', 'États-Unis', 'Royaume-Uni', 'Allemagne',
-  'Espagne', 'Italie', 'Portugal', 'Nigéria', 'Ghana', 'Kenya', 'Afrique du Sud', 'Autre',
+// Pays prioritaires (cœur de marché) affichés en premier
+const PRIORITY_COUNTRIES = [
+  'Sénégal', "Côte d'Ivoire", 'Bénin', 'Burkina Faso', 'Mali', 'Togo', 'Cameroun', 'Congo (RDC)',
+]
+const OTHER_COUNTRIES = [
+  'Algérie', 'Afrique du Sud', 'Allemagne', 'Belgique', 'Burundi', 'Canada', 'Centrafrique',
+  'Comores', 'Congo-Brazzaville', 'Djibouti', 'Espagne', 'États-Unis', 'France', 'Gabon',
+  'Ghana', 'Guinée', 'Guinée équatoriale', 'Haïti', 'Italie', 'Kenya', 'Luxembourg',
+  'Madagascar', 'Maroc', 'Maurice', 'Mauritanie', 'Niger', 'Nigéria', 'Portugal',
+  'Royaume-Uni', 'Rwanda', 'Seychelles', 'Suisse', 'Tchad', 'Tunisie',
 ]
 
 export default function CheckoutPage() {
@@ -129,7 +132,13 @@ export default function CheckoutPage() {
                 <label style={label}>Pays</label>
                 <select style={{ ...input, appearance: 'auto' }} value={country} onChange={e => setCountry(e.target.value)}>
                   <option value="">Sélectionnez votre pays</option>
-                  {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  <optgroup label="Pays principaux">
+                    {PRIORITY_COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </optgroup>
+                  <optgroup label="Autres pays">
+                    {OTHER_COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    <option value="Autre">Autre</option>
+                  </optgroup>
                 </select>
               </div>
               <div>
