@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { SINGLE_PLAN } from '@/lib/types'
+import { getSettings } from '@/lib/settings'
 import MarketingClient from './MarketingClient'
 
 export const dynamic = 'force-dynamic'
@@ -41,9 +41,11 @@ export default async function MarketingPage() {
   const codesMissing = !!codesRes.error
   const codes = (codesRes.data ?? []) as Code[]
 
+  const { price } = await getSettings()
+
   return (
     <MarketingClient
-      stats={{ users, paid, conversion, revenue, price: SINGLE_PLAN.price }}
+      stats={{ users, paid, conversion, revenue, price }}
       monthlyRevenue={monthlyRevenue}
       codes={codes}
       codesMissing={codesMissing}

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ComponentType } from 'react'
 import Link from 'next/link'
-import { SINGLE_PLAN } from '@/lib/types'
+import { usePrice } from '@/lib/usePrice'
 import { theme } from '@/lib/theme'
 import { Icon as I } from '@/components/Icons'
 import { BleedImage } from '@/components/ui/BleedImage'
@@ -64,7 +64,7 @@ const VALUES = [
 ]
 
 const STEPS = [
-  { n: '01', t: 'Vous réglez une seule fois', d: 'Un paiement unique de 10 300 FCFA par Mobile Money ou carte bancaire. Pas d\'abonnement, jamais.' },
+  { n: '01', t: 'Vous réglez une seule fois', d: 'Un paiement unique, par Mobile Money ou carte bancaire. Pas d\'abonnement, jamais.' },
   { n: '02', t: 'Vous accédez immédiatement',  d: 'Votre bibliothèque s\'ouvre dans les minutes qui suivent. Aucune attente, aucune livraison.' },
   { n: '03', t: 'Vous nourrissez votre âme',   d: 'Parcourez les rayons, ouvrez un livre, méditez, et laissez la sagesse de l\'Église éclairer votre chemin.' },
 ]
@@ -76,7 +76,7 @@ const TESTIMONIALS = [
 ]
 
 const FAQS = [
-  { q: 'C\'est vraiment un paiement unique ?',            a: 'Oui. Vous réglez 10 300 FCFA une seule fois. Votre accès est permanent et illimité, jamais de renouvellement ni de frais cachés.' },
+  { q: 'C\'est vraiment un paiement unique ?',            a: 'Oui. Vous réglez une seule fois. Votre accès est permanent et illimité, jamais de renouvellement ni de frais cachés.' },
   { q: 'Comment accéder aux livres après paiement ?',     a: 'Votre accès est activé immédiatement. Créez votre compte, connectez-vous, et commencez à lire en quelques minutes.' },
   { q: 'Les livres sont-ils téléchargeables ?',           a: 'Oui, tous les ouvrages sont au format PDF, lisibles en ligne et téléchargeables sur vos appareils.' },
   { q: 'Puis-je lire depuis plusieurs appareils ?',       a: 'Bien sûr. Votre compte fonctionne sur téléphone, tablette et ordinateur, simultanément.' },
@@ -84,7 +84,7 @@ const FAQS = [
 ]
 
 export default function Landing() {
-  const price = SINGLE_PLAN.price.toLocaleString('fr-FR')
+  const { label: price } = usePrice()
   const [scrolled, setScrolled] = useState(false)
   const [showBar, setShowBar]   = useState(false)
   const heroRef = useRef<HTMLElement | null>(null)
@@ -296,8 +296,8 @@ export default function Landing() {
         </div>
 
         <div className="rv" style={{ textAlign: 'center', marginTop: 40 }}>
-          <Link href="#tarif" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: `linear-gradient(135deg,${VIO},${VIO_DK})`, color: '#fff', padding: '15px 36px', borderRadius: 999, fontWeight: 800, fontSize: '.95rem', textDecoration: 'none', boxShadow: '0 12px 34px rgba(124,58,237,.34)' }}>
-Ouvrir toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /></span>
+          <Link href="/acheter" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: `linear-gradient(135deg,${VIO},${VIO_DK})`, color: '#fff', padding: '15px 36px', borderRadius: 999, fontWeight: 800, fontSize: '.95rem', textDecoration: 'none', boxShadow: '0 12px 34px rgba(124,58,237,.34)' }}>
+            Accéder à toute la bibliothèque <span style={{ width: 17, height: 17 }}><I.Arrow /></span>
           </Link>
         </div>
       </section>

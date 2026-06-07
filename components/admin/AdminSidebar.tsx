@@ -14,6 +14,7 @@ const NAV: [string, IconC, string][] = [
   ['/admin/users',     I.Users, 'Utilisateurs'],
   ['/admin/payments',  I.Card,  'Paiements'],
   ['/admin/marketing', I.Mega,  'Marketing'],
+  ['/admin/settings',  I.Settings, 'Paramètres'],
 ]
 
 function Glyph({ icon, size = 18 }: { icon: IconC; size?: number }) {

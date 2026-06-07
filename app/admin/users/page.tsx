@@ -33,6 +33,7 @@ export default async function AdminUsersPage() {
     email: p.email,
     country: countryByEmail[(p.email ?? '').toLowerCase()] ?? null,
     has_access: !!p.has_access,
+    banned: !!(p as any).banned,
     created_at: p.created_at,
     isLead: false,
   }))
@@ -49,6 +50,7 @@ export default async function AdminUsersPage() {
       email: o.email,
       country: o.country,
       has_access: false,
+      banned: false,
       created_at: o.created_at,
       isLead: true,
     })

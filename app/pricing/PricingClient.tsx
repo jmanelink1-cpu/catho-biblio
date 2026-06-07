@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { SINGLE_PLAN } from '@/lib/types'
+import { usePrice } from '@/lib/usePrice'
 
 type PayMethod = 'mobile' | 'card' | 'paypal' | 'cinetpay'
 
@@ -20,11 +20,11 @@ export default function PricingClient({ userId, userEmail }: Props) {
   const [phone,     setPhone]     = useState('')
   const [operator,  setOperator]  = useState('mtn')
 
-  const price = SINGLE_PLAN.price.toLocaleString('fr-FR')
+  const { price: priceAmount, label: price } = usePrice()
 
   async function recordPayment(method: string) {
     const { data } = await (supabase as any).from('payments').insert({
-      user_id: userId, amount: SINGLE_PLAN.price, currency: 'XOF',
+      user_id: userId, amount: priceAmount, currency: 'XOF',
       payment_method: method, plan: 'lifetime', status: 'pending',
     }).select().single()
     return data

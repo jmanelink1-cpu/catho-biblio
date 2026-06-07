@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { SINGLE_PLAN, PAYMENT_PAGE_URL } from '@/lib/types'
+import { PAYMENT_PAGE_URL } from '@/lib/types'
+import { usePrice } from '@/lib/usePrice'
 import { Icon as I } from '@/components/Icons'
 
 const PLUM = '#190A2E', GOLD = '#C99A3B', GOLD_L = '#E3BE6E', IVORY = '#FBF8F3'
@@ -25,7 +26,7 @@ export default function CheckoutPage() {
   const [err, setErr]             = useState('')
   const [done, setDone]           = useState(false)
 
-  const price = SINGLE_PLAN.price
+  const { price } = usePrice()
   const final = Math.round(price * (1 - discount / 100))
 
   async function applyPromo() {

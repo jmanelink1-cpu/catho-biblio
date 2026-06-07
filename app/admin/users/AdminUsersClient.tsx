@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { Icon as Ico } from '@/components/Icons'
 
 export type UserRow = {
   id: string | null
@@ -9,6 +10,7 @@ export type UserRow = {
   email: string | null
   country: string | null
   has_access: boolean
+  banned: boolean
   created_at: string
   isLead: boolean
 }
@@ -48,6 +50,24 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
     await supabase.from('profiles').update({ has_access: true, access_type: 'lifetime', access_expires_at: null }).eq('id', user.id)
     setUsers(prev => prev.map(u => u.id === user.id ? { ...u, has_access: true } : u))
     setModal(false)
+  }
+
+  // Bloquer / débloquer : bannir coupe aussi l'accès immédiatement
+  async function toggleBan(u: UserRow) {
+    if (!u.id) return
+    const newBan = !u.banned
+    const supabase = createClient() as any
+    await supabase.from('profiles').update(newBan ? { banned: true, has_access: false } : { banned: false }).eq('id', u.id)
+    setUsers(prev => prev.map(x => x.id === u.id ? { ...x, banned: newBan, has_access: newBan ? false : x.has_access } : x))
+  }
+
+  async function deleteUser(u: UserRow) {
+    if (!u.id) return
+    if (!confirm(`Supprimer définitivement le compte de ${u.email} ? Cette action est irréversible.`)) return
+    const supabase = createClient() as any
+    const { error } = await supabase.from('profiles').delete().eq('id', u.id)
+    if (error) { alert('Erreur : ' + error.message); return }
+    setUsers(prev => prev.filter(x => x.id !== u.id))
   }
 
   const fmt = (d: string | null) => d ? new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'
@@ -99,7 +119,7 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
             <table className="w-full text-sm">
               <thead>
                 <tr style={{ background: 'var(--color-subtle)', borderBottom: '1px solid var(--color-border)' }}>
-                  {['Nom', 'Email', 'Pays', 'Statut', 'Date'].map(h => (
+                  {['Nom', 'Email', 'Pays', 'Statut', 'Date', 'Actions'].map(h => (
                     <th key={h} className="text-left px-4 py-3 text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--color-muted)' }}>{h}</th>
                   ))}
                 </tr>
@@ -113,18 +133,33 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
                     <td className="px-4 py-3">
                       {u.isLead ? (
                         <span className="px-3 py-1 rounded-full text-xs font-bold" style={{ background: 'var(--color-gold-soft)', color: 'var(--color-gold)' }}>Prospect</span>
+                      ) : u.banned ? (
+                        <span className="px-3 py-1 rounded-full text-xs font-bold" style={{ background: '#FEF2F2', color: '#DC2626' }}>Bloqué</span>
                       ) : (
                         <button onClick={() => toggleAccess(u)} className="px-3 py-1 rounded-full text-xs font-bold transition-all"
-                                style={u.has_access ? { background: '#F0FDF4', color: '#16A34A' } : { background: '#FEF2F2', color: '#DC2626' }}>
+                                style={u.has_access ? { background: '#F0FDF4', color: '#16A34A' } : { background: 'var(--color-subtle)', color: 'var(--color-muted)' }}>
                           {u.has_access ? '✓ Accès' : '✗ Sans accès'}
                         </button>
                       )}
                     </td>
                     <td className="px-4 py-3 text-xs" style={{ color: 'var(--color-muted)' }}>{fmt(u.created_at)}</td>
+                    <td className="px-4 py-3">
+                      {!u.isLead && (
+                        <div className="flex items-center gap-2">
+                          <button onClick={() => toggleBan(u)} className="text-xs font-semibold px-2.5 py-1 rounded-lg"
+                                  style={u.banned ? { background: '#F0FDF4', color: '#16A34A' } : { background: 'var(--color-subtle)', color: '#B45309' }}>
+                            {u.banned ? 'Débloquer' : 'Bloquer'}
+                          </button>
+                          <button onClick={() => deleteUser(u)} aria-label="Supprimer" title="Supprimer le compte" style={{ color: '#DC2626', display: 'inline-flex', width: 16, height: 16 }}>
+                            <Ico.Trash width={16} height={16} />
+                          </button>
+                        </div>
+                      )}
+                    </td>
                   </tr>
                 ))}
                 {filtered.length === 0 && (
-                  <tr><td colSpan={5} className="px-4 py-10 text-center text-sm" style={{ color: 'var(--color-muted)' }}>Aucun utilisateur.</td></tr>
+                  <tr><td colSpan={6} className="px-4 py-10 text-center text-sm" style={{ color: 'var(--color-muted)' }}>Aucun utilisateur.</td></tr>
                 )}
               </tbody>
             </table>
