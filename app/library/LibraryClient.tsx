@@ -135,6 +135,10 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
                   <div style={{ fontSize: '.88rem', fontWeight: 700, color: 'var(--color-ink)' }}>{profile.full_name || '—'}</div>
                   <div style={{ fontSize: '.74rem', color: 'var(--color-muted)' }}>{userEmail}</div>
                 </div>
+                <Link href="/" onClick={() => setMenuOpen(false)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '9px 12px', borderRadius: 9, fontSize: '.86rem', color: 'var(--color-ink)', textDecoration: 'none', fontWeight: 600 }}>
+                  <span style={{ width: 16, height: 16 }}><Ico.Home /></span> Accueil
+                </Link>
                 {profile.is_admin && (
                   <Link href="/admin" onClick={() => setMenuOpen(false)}
                     style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '9px 12px', borderRadius: 9, fontSize: '.86rem', color: 'var(--color-brand)', textDecoration: 'none', fontWeight: 600 }}>
