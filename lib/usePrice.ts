@@ -22,5 +22,7 @@ export function usePrice() {
       .catch(() => {})
   }, [])
 
-  return { price, currency, label: price.toLocaleString('fr-FR') }
+  // Taux fixe FCFA (XOF) ↔ EUR : 1 € = 655,957 FCFA
+  const eur = Math.round(price / 655.957)
+  return { price, currency, label: price.toLocaleString('fr-FR'), eur, eurLabel: eur.toLocaleString('fr-FR') }
 }

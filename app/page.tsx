@@ -84,7 +84,7 @@ const FAQS = [
 ]
 
 export default function Landing() {
-  const { label: price } = usePrice()
+  const { label: price, eurLabel } = usePrice()
   const [scrolled, setScrolled] = useState(false)
   const [showBar, setShowBar]   = useState(false)
   const heroRef = useRef<HTMLElement | null>(null)
@@ -247,7 +247,7 @@ export default function Landing() {
           </div>
 
           <div className="rv on d4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.84rem' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span> Un seul paiement · {price} FCFA</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span> Un seul paiement · {price} FCFA <span style={{ opacity: .7 }}>(≈ {eurLabel} €)</span></span>
             <span className="hide-sm" style={{ opacity: .4 }}>·</span>
             <span className="hide-sm" style={{ display: 'flex', alignItems: 'center', gap: 7 }}><span style={{ width: 15, height: 15, color: GOLD_L, flexShrink: 0 }}><I.Lock /></span> Pour toute une vie de foi</span>
           </div>
@@ -403,6 +403,7 @@ export default function Landing() {
               <div style={{ marginBottom: 6 }}>
                 <span className="disp" style={{ fontSize: 'clamp(3rem,9vw,4.4rem)', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{price}</span>
                 <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.6)', marginLeft: 10 }}>FCFA</span>
+                <span style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.45)', marginLeft: 8 }}>≈ {eurLabel} €</span>
               </div>
               <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Une fois. Et la sagesse de l&apos;Église vous accompagne à vie.</p>
 

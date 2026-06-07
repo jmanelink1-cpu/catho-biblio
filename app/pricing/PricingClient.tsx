@@ -20,7 +20,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
   const [phone,     setPhone]     = useState('')
   const [operator,  setOperator]  = useState('mtn')
 
-  const { price: priceAmount, label: price } = usePrice()
+  const { price: priceAmount, label: price, eurLabel } = usePrice()
 
   async function recordPayment(method: string) {
     const { data } = await (supabase as any).from('payments').insert({
@@ -117,7 +117,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
             <div>
               <div className="font-bold text-sm opacity-70 uppercase tracking-wide">Accès à Vie</div>
               <div className="font-extrabold text-2xl mt-1" style={{ fontFamily: 'var(--font-sora)' }}>
-                {price} FCFA
+                {price} FCFA <span className="text-sm font-semibold opacity-50">≈ {eurLabel} €</span>
               </div>
             </div>
             <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">

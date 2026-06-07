@@ -9,9 +9,18 @@ import { Icon as I } from '@/components/Icons'
 
 const PLUM = '#190A2E', GOLD = '#C99A3B', GOLD_L = '#E3BE6E', IVORY = '#FBF8F3'
 
-// Pays actuellement couverts (phase de lancement)
-const COUNTRIES = [
+// Pays mis en avant (Mobile Money) — la vente est ouverte au monde entier (paiement par carte)
+const PRIORITY_COUNTRIES = [
   'Sénégal', "Côte d'Ivoire", 'Bénin', 'Burkina Faso', 'Mali', 'Togo', 'Cameroun', 'Congo (RDC)',
+]
+const OTHER_COUNTRIES = [
+  'France', 'Belgique', 'Suisse', 'Canada', 'Luxembourg', 'Monaco',
+  'Algérie', 'Maroc', 'Tunisie', 'Mauritanie', 'Gabon', 'Congo-Brazzaville', 'Tchad', 'Niger',
+  'Guinée', 'Guinée équatoriale', 'Centrafrique', 'Burundi', 'Rwanda', 'Djibouti', 'Comores',
+  'Madagascar', 'Maurice', 'Seychelles', 'Nigéria', 'Ghana', 'Kenya', 'Afrique du Sud', 'Haïti',
+  'États-Unis', 'Royaume-Uni', 'Allemagne', 'Espagne', 'Italie', 'Portugal', 'Pays-Bas',
+  'Brésil', 'Argentine', 'Mexique', 'Liban', 'Émirats arabes unis', 'Arabie saoudite', 'Qatar',
+  'Australie', 'Inde', 'Philippines', 'Chine', 'Japon',
 ]
 
 export default function CheckoutPage() {
@@ -28,6 +37,7 @@ export default function CheckoutPage() {
 
   const { price } = usePrice()
   const final = Math.round(price * (1 - discount / 100))
+  const finalEur = Math.round(final / 655.957) // 1 € = 655,957 FCFA (taux fixe)
 
   async function applyPromo() {
     setPromoMsg('')
@@ -128,7 +138,13 @@ export default function CheckoutPage() {
                 <label style={label}>Pays</label>
                 <select style={{ ...input, appearance: 'auto' }} value={country} onChange={e => setCountry(e.target.value)}>
                   <option value="">Sélectionnez votre pays</option>
-                  {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  <optgroup label="Pays principaux (Mobile Money)">
+                    {PRIORITY_COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </optgroup>
+                  <optgroup label="Autres pays (paiement par carte)">
+                    {OTHER_COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    <option value="Autre">Autre pays…</option>
+                  </optgroup>
                 </select>
               </div>
               <div>
@@ -146,6 +162,7 @@ export default function CheckoutPage() {
                 <span style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
                   {discount > 0 && <span style={{ textDecoration: 'line-through', color: '#9A92A8', fontSize: '.9rem' }}>{price.toLocaleString('fr-FR')}</span>}
                   <span style={{ fontFamily: 'var(--font-sora)', fontWeight: 900, fontSize: '1.3rem', color: PLUM }}>{final.toLocaleString('fr-FR')} <span style={{ fontSize: '.8rem', fontWeight: 600 }}>FCFA</span></span>
+                  <span style={{ fontSize: '.8rem', color: '#9A92A8' }}>≈ {finalEur.toLocaleString('fr-FR')} €</span>
                 </span>
               </div>
 
