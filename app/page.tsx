@@ -79,7 +79,7 @@ const FAQS = [
   { q: 'C\'est vraiment un paiement unique ?',            a: 'Oui. Vous réglez une seule fois. Votre accès est permanent et illimité, jamais de renouvellement ni de frais cachés.' },
   { q: 'Comment accéder aux livres après paiement ?',     a: 'Votre accès est activé immédiatement. Créez votre compte, connectez-vous, et commencez à lire en quelques minutes.' },
   { q: 'Les livres sont-ils téléchargeables ?',           a: 'Oui, tous les ouvrages sont au format PDF, lisibles en ligne et téléchargeables sur vos appareils.' },
-  { q: 'Puis-je lire depuis plusieurs appareils ?',       a: 'Bien sûr. Votre compte fonctionne sur téléphone, tablette et ordinateur, simultanément.' },
+  { q: 'Sur combien d\'appareils puis-je l\'utiliser ?',    a: 'Votre accès est utilisable sur 2 appareils avec le même compte — par exemple votre téléphone et votre ordinateur.' },
   { q: 'Quels moyens de paiement acceptez-vous ?',        a: 'Mobile Money (MTN, Orange, Wave, Moov…) et carte bancaire Visa / Mastercard.' },
 ]
 
@@ -407,10 +407,10 @@ export default function Landing() {
                 <span className="cb-priceunit" style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.6)', marginLeft: 10 }}>FCFA</span>
                 <span className="cb-priceunit" style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.45)', marginLeft: 8, whiteSpace: 'nowrap' }}>≈ {eurLabel} €</span>
               </div>
-              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Une fois. Et la sagesse de l&apos;Église vous accompagne à vie.</p>
+              <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Une fois, et c&apos;est à vie.</p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginBottom: 38, textAlign: 'left' }}>
-                {['Nourrissez votre foi chaque jour, dès maintenant', '500+ ouvrages, Bible, saints, spiritualité, théologie', 'En PDF, téléchargeables, sur tous vos appareils', 'Les futures additions incluses, pour toujours', 'Où que vous soyez dans le monde'].map(it => (
+                {['Nourrissez votre foi chaque jour, dès maintenant', '500+ ouvrages, Bible, saints, spiritualité, théologie', 'En PDF, téléchargeables, sur 2 appareils', 'Les futures additions incluses, pour toujours', 'Où que vous soyez dans le monde'].map(it => (
                   <div key={it} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span style={{ width: 21, height: 21, borderRadius: '50%', background: 'rgba(201,154,59,.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: GOLD_L, flexShrink: 0 }}><span style={{ width: 12, height: 12 }}><I.Check /></span></span>
                     <span style={{ fontSize: '.92rem', color: 'rgba(255,255,255,.88)' }}>{it}</span>
@@ -484,8 +484,11 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Espace blanc entre la dernière section et le pied de page */}
+      <div style={{ background: '#fff', height: 72 }} />
+
       {/* ───────── Footer ───────── */}
-      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '56px 0 26px' }}>
+      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '0 0 26px' }}>
         {/* Gold divider between final CTA and footer */}
         <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '0 40px' }}>
           <div style={{ height: 2, borderRadius: 2, background: `linear-gradient(90deg, transparent, ${GOLD} 22%, ${GOLD_L} 50%, ${GOLD} 78%, transparent)` }} />
