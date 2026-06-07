@@ -176,6 +176,8 @@ export default function Landing() {
           .paybadge > span:last-child{ font-size:.6rem !important; letter-spacing:.06em !important; }
           .hero-h1{ font-size:clamp(1.45rem,6.2vw,1.95rem) !important; }
           .herobtn{ padding:15px 26px !important; font-size:.92rem !important; }
+          .cb-bigprice{ font-size:2.3rem !important; }
+          .cb-priceunit{ font-size:.78rem !important; }
         }
         @media (max-width:480px){ .grid4{ grid-template-columns:1fr !important; } }
       `}</style>
@@ -400,10 +402,10 @@ export default function Landing() {
                 <span style={{ width: 14, height: 14, color: GOLD_L, flexShrink: 0 }}><I.Inf /></span>
                 <span style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: GOLD_L }}>Accès à vie · sans abonnement</span>
               </div>
-              <div style={{ marginBottom: 6 }}>
-                <span className="disp" style={{ fontSize: 'clamp(3rem,9vw,4.4rem)', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{price}</span>
-                <span style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.6)', marginLeft: 10 }}>FCFA</span>
-                <span style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.45)', marginLeft: 8 }}>≈ {eurLabel} €</span>
+              <div style={{ marginBottom: 6, whiteSpace: 'nowrap' }}>
+                <span className="disp cb-bigprice" style={{ fontSize: 'clamp(3rem,9vw,4.4rem)', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{price}</span>
+                <span className="cb-priceunit" style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.6)', marginLeft: 10 }}>FCFA</span>
+                <span className="cb-priceunit" style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.45)', marginLeft: 8, whiteSpace: 'nowrap' }}>≈ {eurLabel} €</span>
               </div>
               <p style={{ color: 'rgba(255,255,255,.55)', fontSize: '.9rem', marginBottom: 34 }}>Une fois. Et la sagesse de l&apos;Église vous accompagne à vie.</p>
 
