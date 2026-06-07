@@ -63,6 +63,10 @@ export const CATEGORIES: { value: BookCategory; label: string; emoji: string }[]
   { value: 'famille',      label: 'Famille',               emoji: '👨‍👩‍👧' },
 ]
 
+// Email de support (affiché aux utilisateurs dans la bibliothèque).
+// 👉 Remplacer par l'email professionnel une fois le domaine acheté.
+export const SUPPORT_EMAIL = 'jmanelink1@gmail.com'
+
 // Accès unique à vie — un seul paiement
 export const SINGLE_PLAN = {
   price:        10300,
