@@ -167,7 +167,7 @@ export default function Landing() {
           .sec{ padding-top:58px !important; padding-bottom:58px !important; padding-left:18px !important; padding-right:18px !important; }
           #catalogue{ padding-top:58px !important; padding-bottom:46px !important; }
           .grid4{ grid-template-columns:1fr 1fr !important; }
-          .hero-wrap{ padding-top:74px !important; padding-bottom:60px !important; }
+          .hero-wrap{ min-height:auto !important; padding-top:48px !important; padding-bottom:36px !important; }
           .hide-sm{ display:none !important; }
           .heyebrow{ padding:5px 12px !important; gap:7px !important; }
           .heyebrow > span:last-child{ font-size:.55rem !important; letter-spacing:.04em !important; }
