@@ -1,11 +1,18 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { createBrowserClient } from '@supabase/ssr'
 
-let _client: ReturnType<typeof createSupabaseClient> | null = null
+let _client: ReturnType<typeof createBrowserClient> | null = null
 
+/**
+ * Browser Supabase client. Uses @supabase/ssr's createBrowserClient so the
+ * auth session is stored in COOKIES (not localStorage) — this lets server
+ * components (e.g. /library) read the session and avoids login redirect loops.
+ * Lazily instantiated (call only inside event handlers/effects) to avoid the
+ * production render hang.
+ */
 export function createClient() {
   if (_client) return _client
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiJ9.PLACEHOLDER'
-  _client = createSupabaseClient(url, key)
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key'
+  _client = createBrowserClient(url, key)
   return _client
 }
