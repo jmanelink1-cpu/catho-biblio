@@ -1,30 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
 import type { Book } from '@/lib/types'
 
-export default function ReaderClient() {
-  const searchParams = useSearchParams()
-  const bookId    = searchParams.get('id')
-  const title     = searchParams.get('title') || 'Lecture'
-  const fileId    = searchParams.get('file')
+export default function ReaderClient({ book }: { book: Book }) {
+  const title  = book.title || 'Lecture'
+  const fileId = book.drive_file_id
 
-  const [book,       setBook]       = useState<Book | null>(null)
-  const [loading,    setLoading]    = useState(true)
-  const [panelOpen,  setPanelOpen]  = useState(false)
-  const supabase = createClient()
-
-  useEffect(() => {
-    if (bookId) {
-      (supabase as any).from('books').select('*').eq('id', bookId).single()
-        .then(({ data }: { data: Book | null }) => { if (data) setBook(data) })
-    }
-    const timer = setTimeout(() => setLoading(false), 4000)
-    return () => clearTimeout(timer)
-  }, [bookId]) // eslint-disable-line
+  const [loading,   setLoading]   = useState(true)
+  const [panelOpen, setPanelOpen] = useState(false)
 
   const embedUrl = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null
 
@@ -78,9 +63,7 @@ export default function ReaderClient() {
 
       {/* ─── Body ─── */}
       <div className="flex flex-1 overflow-hidden relative">
-
-        {/* Loading overlay */}
-        {loading && (
+        {loading && embedUrl && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10"
                style={{ background: '#1A1A2E', color: 'rgba(255,255,255,0.6)' }}>
             <div className="w-10 h-10 rounded-full border-2 border-white/20 border-t-blue-400 animate-spin" />
@@ -88,58 +71,35 @@ export default function ReaderClient() {
           </div>
         )}
 
-        {/* PDF iframe */}
         {embedUrl ? (
           <div className="flex-1" id="reader-iframe">
-            <iframe
-              src={embedUrl}
-              className="w-full h-full border-0"
-              allow="fullscreen"
-              title={title}
-              onLoad={() => setLoading(false)}
-            />
+            <iframe src={embedUrl} className="w-full h-full border-0" allow="fullscreen" title={title}
+                    onLoad={() => setLoading(false)} />
           </div>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-6"
                style={{ color: 'rgba(255,255,255,0.7)' }}>
-            <div className="w-14 h-14 text-white/40">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                <line x1="3" y1="3" x2="21" y2="21"/>
-              </svg>
-            </div>
-            <h3 className="text-white font-bold text-lg">Impossible d&apos;ouvrir ce livre</h3>
-            <p className="text-sm max-w-sm">Le fichier Google Drive n&apos;est pas configuré. Vérifiez l&apos;ID du fichier dans le panel admin.</p>
+            <h3 className="text-white font-bold text-lg">Ce livre n&apos;est pas encore disponible</h3>
+            <p className="text-sm max-w-sm">Le fichier n&apos;a pas encore été associé. Réessayez plus tard.</p>
             <Link href="/library" className="px-6 py-2.5 rounded-full font-bold text-sm border text-white border-white/30 mt-2">
               ← Retour à la bibliothèque
             </Link>
           </div>
         )}
 
-        {/* Info panel */}
-        {panelOpen && book && (
+        {panelOpen && (
           <div className="w-72 flex-shrink-0 overflow-y-auto p-5 border-l"
                style={{ background: '#0D1B2A', borderColor: 'rgba(255,255,255,0.1)' }}>
             <div className="flex justify-end mb-4">
               <button onClick={() => setPanelOpen(false)}
                       className="w-7 h-7 rounded-full flex items-center justify-center text-sm"
-                      style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
-                ✕
-              </button>
+                      style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>✕</button>
             </div>
-            {book.cover_url
-              ? <img src={book.cover_url} alt={book.title} className="w-full rounded-xl mb-4 object-cover" style={{ maxHeight: 200 }} />
-              : <div className="w-full h-36 rounded-xl mb-4 flex items-center justify-center"
-                     style={{ background: 'rgba(109,40,217,0.25)' }}>
-                  <span className="w-10 h-10 text-white/60">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                  </span>
-                </div>}
-            <Field label="Titre"      value={book.title} />
-            <Field label="Auteur"     value={book.author} />
-            <Field label="Catégorie"  value={book.category} />
-            {book.year  && <Field label="Année"   value={String(book.year)} />}
-            {book.pages && <Field label="Pages"   value={String(book.pages)} />}
+            <Field label="Titre"       value={book.title} />
+            <Field label="Auteur"      value={book.author} />
+            <Field label="Catégorie"   value={book.category} />
+            {book.year  && <Field label="Année" value={String(book.year)} />}
+            {book.pages && <Field label="Pages" value={String(book.pages)} />}
             <Field label="Description" value={book.description} small />
           </div>
         )}

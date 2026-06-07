@@ -10,10 +10,11 @@ export default async function LibraryPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/auth/login')
 
-  const [{ data: books }, { data: profile }] = await Promise.all([
-    (supabase as any).from('books').select('*').order('created_at', { ascending: false }),
-    (supabase as any).from('profiles').select('*').eq('id', user.id).single(),
-  ])
+  // Accès réservé aux utilisateurs ayant payé (ou aux admins)
+  const { data: profile } = await (supabase as any).from('profiles').select('*').eq('id', user.id).single()
+  if (!profile?.has_access && !profile?.is_admin) redirect('/pricing')
+
+  const { data: books } = await (supabase as any).from('books').select('*').order('created_at', { ascending: false })
 
   const realBooks = (books ?? []) as Book[]
   const isDemo    = realBooks.length === 0

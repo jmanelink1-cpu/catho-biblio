@@ -33,11 +33,12 @@ export default function CheckoutPage() {
     const code = promo.trim().toUpperCase()
     if (!code) return
     const db = createClient() as any
-    const { data } = await db.from('promo_codes').select('*').eq('code', code).eq('active', true).maybeSingle()
-    if (!data) { setDiscount(0); setPromoMsg('Code invalide ou expiré.'); return }
-    if (data.max_uses && data.uses >= data.max_uses) { setDiscount(0); setPromoMsg('Ce code a atteint sa limite.'); return }
-    setDiscount(data.discount_percent)
-    setPromoMsg(`Code appliqué : -${data.discount_percent}%`)
+    // Validation via fonction sécurisée (ne révèle jamais la liste des codes)
+    const { data } = await db.rpc('validate_promo', { p_code: code })
+    const row = Array.isArray(data) ? data[0] : data
+    if (!row) { setDiscount(0); setPromoMsg('Code invalide ou expiré.'); return }
+    setDiscount(row.discount_percent)
+    setPromoMsg(`Code appliqué : -${row.discount_percent}%`)
   }
 
   async function submit(e: React.FormEvent) {
@@ -53,10 +54,11 @@ export default function CheckoutPage() {
     // Enregistrer la commande (best effort — n'empêche pas le paiement si la table manque)
     try {
       const db = createClient() as any
+      // amount / status sont fixés côté serveur (valeurs par défaut) — non envoyés par le client
       await db.from('orders').insert({
         first_name: firstName.trim(), last_name: lastName.trim(),
         email: email.trim().toLowerCase(), country,
-        amount: final, promo_code: discount > 0 ? promo.trim().toUpperCase() : null, status: 'pending',
+        promo_code: discount > 0 ? promo.trim().toUpperCase() : null,
       })
     } catch {}
 

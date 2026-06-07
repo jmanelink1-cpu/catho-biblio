@@ -85,7 +85,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   // Read online — Google Drive preview inside our reader
   function readBook(book: Book) {
     if (!book.drive_file_id) { notify(`« ${book.title} » sera bientôt disponible.`); return }
-    router.push(`/reader?id=${book.id}&title=${encodeURIComponent(book.title)}&file=${book.drive_file_id}`)
+    router.push(`/reader?id=${book.id}`)
   }
 
   // Download the PDF (Google Drive direct download)
