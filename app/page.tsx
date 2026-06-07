@@ -155,7 +155,7 @@ export default function Landing() {
           border-top:1px solid rgba(201,154,59,.28); transform:translateY(120%); transition:transform .45s cubic-bezier(.22,.61,.36,1); }
         .sticky-bar.show{ transform:translateY(0); }
 
-        .hero-h1{ font-size: clamp(2.1rem, 6vw, 4.4rem); }
+        .hero-h1{ font-size: clamp(2.1rem, 5vw, 3.6rem); }
         @media (max-width:1024px){ .cols2{ grid-template-columns:1fr !important; } }
         @media (max-width:768px){
           .brm{ display:inline !important; }
@@ -234,7 +234,7 @@ export default function Landing() {
           </div>
 
           <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.03em', color: '#fff', marginBottom: 18 }}>
-            La plus grande<br className="brm" /> bibliothèque numérique<br className="brm" />{' '}
+            La plus grande<br /> bibliothèque numérique<br />{' '}
             <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>100% catholique</span>
           </h1>
 
