@@ -12,9 +12,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!profile?.is_admin) redirect('/library')
 
   return (
-    <div className="flex min-h-screen" style={{ background: 'var(--color-bg)' }}>
+    <div className="md:flex min-h-screen" style={{ background: 'var(--color-bg)' }}>
       <AdminSidebar userEmail={user.email ?? ''} />
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 min-w-0 overflow-auto">
         {children}
       </div>
     </div>
