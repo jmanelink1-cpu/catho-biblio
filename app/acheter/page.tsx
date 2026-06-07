@@ -102,7 +102,7 @@ export default function CheckoutPage() {
             <p style={{ fontSize: '.92rem', color: '#6B6478', lineHeight: 1.5 }}>
               Merci {firstName} ! Vos informations ont bien été reçues. Le système de paiement sera disponible très bientôt, et vous recevrez l&apos;accès à votre bibliothèque par email.
             </p>
-            <Link href="/apercu" style={{ display: 'inline-block', marginTop: 20, color: GOLD, fontWeight: 700, textDecoration: 'none' }}>Voir un aperçu de la bibliothèque →</Link>
+            <Link href="/auth/login" style={{ display: 'inline-block', marginTop: 20, color: GOLD, fontWeight: 700, textDecoration: 'none' }}>Déjà un compte ? Se connecter →</Link>
           </div>
         ) : (
           <>
@@ -158,6 +158,10 @@ export default function CheckoutPage() {
               </button>
               <p style={{ fontSize: '.74rem', color: '#9A92A8', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 <span style={{ width: 13, height: 13 }}><I.Lock /></span> Paiement 100% sécurisé · Accès immédiat après confirmation
+              </p>
+              <p style={{ textAlign: 'center', fontSize: '.86rem', color: '#6B6478', marginTop: 4 }}>
+                Déjà un compte ?{' '}
+                <Link href="/auth/login" style={{ color: GOLD, fontWeight: 700, textDecoration: 'none' }}>Se connecter</Link>
               </p>
             </form>
           </>
