@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Icon as I } from '@/components/Icons'
 import StatFilters from './StatFilters'
+import { StatCard } from '@/components/ui/Card'
 import type { ComponentType } from 'react'
 
 export const dynamic = 'force-dynamic'
@@ -106,16 +107,7 @@ export default async function AdminDashboard() {
 
         {/* KPI cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {kpis.map(s => (
-            <div key={s.label} className="rounded-2xl border p-5 flex items-start gap-4"
-                 style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}>
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: s.bg, color: s.fg }}><Ic icon={s.icon} size={20} /></div>
-              <div>
-                <div className="text-2xl font-extrabold leading-none mb-1" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>{s.value}</div>
-                <div className="text-xs" style={{ color: 'var(--color-muted)' }}>{s.label}</div>
-              </div>
-            </div>
-          ))}
+          {kpis.map(s => <StatCard key={s.label} icon={s.icon} label={s.label} value={s.value} bg={s.bg} fg={s.fg} />)}
         </div>
 
         {/* Filterable stats: signups + payments */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -48,6 +48,23 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
     }
     return list
   }, [books, activeCategory, search])
+
+  // ─── Infinite scroll : ne rend qu'un lot à la fois (perf avec 500+ livres) ───
+  const PAGE = 24
+  const [visible, setVisible] = useState(PAGE)
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => { setVisible(PAGE) }, [activeCategory, search])
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      entries => { if (entries[0].isIntersecting) setVisible(v => Math.min(v + PAGE, filtered.length)) },
+      { rootMargin: '800px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [filtered.length, visible])
+  const shown = useMemo(() => filtered.slice(0, visible), [filtered, visible])
 
   async function logout() {
     const supabase = createClient()
@@ -244,7 +261,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(150px,1fr))', gap: 22 }}>
-              {filtered.map(book => (
+              {shown.map(book => (
                 <div key={book.id} className="lib-card" style={{ cursor: 'pointer' }} onClick={() => openBook(book)}>
                   <div className="lib-cover" style={{ width: '100%', aspectRatio: '2/3', borderRadius: 13, overflow: 'hidden', boxShadow: '0 8px 22px rgba(30,16,50,.15)', border: '1px solid rgba(0,0,0,.05)' }}>
                     <BookCover book={book} />
@@ -260,6 +277,11 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {visible < filtered.length && (
+            <div ref={sentinelRef} style={{ display: 'flex', justifyContent: 'center', padding: '28px 0' }}>
+              <span style={{ width: 26, height: 26, borderRadius: '50%', border: '3px solid rgba(109,40,217,.18)', borderTopColor: 'var(--color-brand)', animation: 'spin .7s linear infinite' }} />
             </div>
           )}
         </section>
