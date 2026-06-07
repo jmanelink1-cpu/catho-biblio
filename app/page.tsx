@@ -236,7 +236,7 @@ export default function Landing() {
             <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dans votre main.</span>
           </h1>
 
-          <p className="rv on d2 serif" style={{ fontSize: 'clamp(1.12rem,2vw,1.42rem)', fontStyle: 'italic', lineHeight: 1.5, color: GOLD_L, maxWidth: 600, marginBottom: 36 }}>
+          <p className="rv on d2 serif" style={{ fontSize: 'clamp(1.12rem,2vw,1.42rem)', fontStyle: 'italic', lineHeight: 1.5, color: '#fff', maxWidth: 600, marginBottom: 36 }}>
             Un compagnon quotidien pour nourrir votre foi et mieux comprendre l&apos;Église, avec plus de 500 ouvrages à portée de main, où que vous soyez dans le monde.
           </p>
 
