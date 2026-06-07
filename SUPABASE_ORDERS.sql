@@ -4,12 +4,12 @@
 
 create table if not exists public.orders (
   id uuid primary key default gen_random_uuid(),
-  first_name text not null,
-  last_name  text not null,
-  email      text not null,
-  country    text,
+  first_name text not null check (char_length(first_name) between 1 and 80),
+  last_name  text not null check (char_length(last_name)  between 1 and 80),
+  email      text not null check (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$' and char_length(email) <= 160),
+  country    text          check (country is null or char_length(country) <= 60),
   amount     int  not null default 10300,
-  promo_code text,
+  promo_code text          check (promo_code is null or char_length(promo_code) <= 40),
   status     text not null default 'pending',   -- pending | paid | cancelled
   created_at timestamptz not null default now()
 );
@@ -28,6 +28,5 @@ create policy "orders_admin_all" on public.orders
   for all using (public.is_admin()) with check (public.is_admin());
 
 -- SÉCURITÉ : ne pas faire confiance au montant/statut envoyés par le client.
--- On retire le droit d'insérer ces colonnes ; elles prennent leur valeur
--- par défaut côté serveur (montant = prix officiel, statut = pending).
+-- Ces colonnes prennent leur valeur par défaut côté serveur.
 revoke insert (amount, status) on public.orders from anon, authenticated;
