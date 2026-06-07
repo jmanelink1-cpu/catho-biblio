@@ -21,6 +21,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   const [activeCategory, setCategory] = useState<string>('all')
   const [menuOpen, setMenuOpen]     = useState(false)
   const [toast, setToast]           = useState('')
+  const [selected, setSelected]     = useState<Book | null>(null)
 
   const firstName = (profile.full_name || userEmail).split(' ')[0]
   const initials  = (profile.full_name || userEmail).split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
@@ -54,13 +55,26 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
     router.push('/')
   }
 
+  function notify(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(''), 2600)
+  }
+
+  // Open the book detail sheet
   function openBook(book: Book) {
-    if (!book.drive_file_id) {
-      setToast(`« ${book.title} » sera bientôt disponible.`)
-      setTimeout(() => setToast(''), 2600)
-      return
-    }
+    setSelected(book)
+  }
+
+  // Read online — Google Drive preview inside our reader
+  function readBook(book: Book) {
+    if (!book.drive_file_id) { notify(`« ${book.title} » sera bientôt disponible.`); return }
     router.push(`/reader?id=${book.id}&title=${encodeURIComponent(book.title)}&file=${book.drive_file_id}`)
+  }
+
+  // Download the PDF (Google Drive direct download)
+  function downloadBook(book: Book) {
+    if (!book.drive_file_id) { notify(`« ${book.title} » sera bientôt disponible.`); return }
+    window.open(`https://drive.google.com/uc?export=download&id=${book.drive_file_id}`, '_blank', 'noopener')
   }
 
   const fmtCat = (v: string | null) => CATEGORIES.find(c => c.value === v)?.label
@@ -78,6 +92,11 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
         .lib-row::-webkit-scrollbar { display: none; }
         @keyframes libIn { from { opacity:0; transform: translateY(14px);} to {opacity:1; transform:none;} }
         .lib-in { animation: libIn .5s cubic-bezier(.22,.61,.36,1) both; }
+        @media (max-width: 640px) {
+          .lib-sheet { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 20px !important; padding: 24px 20px !important; }
+          .lib-sheet > div:first-child { width: 150px !important; }
+          .lib-sheet [data-actions] { justify-content: center !important; }
+        }
       `}</style>
 
       {/* ─── Header ─── */}
@@ -245,6 +264,58 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
           )}
         </section>
       </div>
+
+      {/* ─── Book detail sheet ─── */}
+      {selected && (
+        <div onClick={() => setSelected(null)}
+          style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(13,8,20,.6)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+          <div onClick={e => e.stopPropagation()} className="lib-in"
+            style={{ width: '100%', maxWidth: 760, maxHeight: '90vh', overflowY: 'auto', background: '#fff', borderRadius: 22, boxShadow: '0 30px 80px rgba(13,8,20,.4)', position: 'relative' }}>
+            <button onClick={() => setSelected(null)} aria-label="Fermer"
+              style={{ position: 'absolute', top: 14, right: 14, zIndex: 2, width: 36, height: 36, borderRadius: 999, border: 'none', cursor: 'pointer', background: 'rgba(255,255,255,.9)', color: 'var(--color-ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,.12)' }}>
+              <span style={{ width: 17, height: 17 }}><Ico.X /></span>
+            </button>
+
+            <div className="lib-sheet" style={{ display: 'flex', gap: 26, padding: 28 }}>
+              {/* Cover */}
+              <div style={{ flexShrink: 0, width: 180 }}>
+                <div style={{ width: '100%', aspectRatio: '2/3', borderRadius: 14, overflow: 'hidden', boxShadow: '0 16px 36px rgba(30,16,50,.24)', border: '1px solid rgba(0,0,0,.06)' }}>
+                  {selected.cover_url
+                    ? <img src={selected.cover_url} alt={selected.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    : <DesignedCover title={selected.title} author={selected.author} category={selected.category} />}
+                </div>
+              </div>
+
+              {/* Info + actions */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {selected.category && (
+                  <div style={{ display: 'inline-flex', padding: '3px 11px', borderRadius: 999, fontSize: '.7rem', fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', background: 'var(--color-brand-soft)', color: 'var(--color-brand)', marginBottom: 12 }}>{fmtCat(selected.category)}</div>
+                )}
+                <h2 style={{ fontFamily: 'var(--font-sora)', fontWeight: 800, fontSize: '1.5rem', color: 'var(--color-ink)', lineHeight: 1.2, marginBottom: 6 }}>{selected.title}</h2>
+                {selected.author && <div style={{ fontSize: '.95rem', color: 'var(--color-muted)', marginBottom: 18 }}>{selected.author}</div>}
+                {selected.description && <p style={{ fontSize: '.92rem', color: 'var(--color-muted)', lineHeight: 1.7, marginBottom: 26 }}>{selected.description}</p>}
+
+                <div data-actions style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                  <button onClick={() => readBook(selected)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '13px 26px', borderRadius: 999, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg,var(--color-brand),var(--color-brand-dark))', color: '#fff', fontWeight: 700, fontSize: '.92rem', fontFamily: 'var(--font-sora)', boxShadow: '0 8px 22px rgba(109,40,217,.32)' }}>
+                    <span style={{ width: 18, height: 18 }}><Ico.Open /></span> Lire en ligne
+                  </button>
+                  <button onClick={() => downloadBook(selected)}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: 9, padding: '13px 24px', borderRadius: 999, cursor: 'pointer', background: '#fff', color: 'var(--color-brand)', fontWeight: 700, fontSize: '.92rem', fontFamily: 'var(--font-sora)', border: '1.5px solid var(--color-brand)' }}>
+                    <span style={{ width: 18, height: 18 }}><Ico.DL /></span> Télécharger
+                  </button>
+                </div>
+
+                {!selected.drive_file_id && (
+                  <p style={{ marginTop: 16, fontSize: '.8rem', color: 'var(--color-muted-2)' }}>
+                    Ce livre de démonstration sera disponible une fois le catalogue complet en ligne.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Toast */}
       {toast && (

@@ -46,6 +46,17 @@ export default function ReaderClient() {
         <div className="flex-1 text-center text-sm font-semibold text-white truncate px-2">{title}</div>
 
         <div className="flex items-center gap-1">
+          {fileId && (
+            <a href={`https://drive.google.com/uc?export=download&id=${fileId}`} target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-1.5 px-3 h-9 rounded-full text-sm font-semibold transition-all"
+               style={{ color: '#0D1B2A', background: 'linear-gradient(135deg,#C99A3B,#E3BE6E)' }}
+               title="Télécharger le PDF">
+              <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span className="hidden sm:inline">Télécharger</span>
+            </a>
+          )}
           <button onClick={() => setPanelOpen(!panelOpen)}
                   className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
                   style={{ color: 'rgba(255,255,255,0.6)', background: panelOpen ? 'rgba(255,255,255,0.1)' : 'transparent' }}
