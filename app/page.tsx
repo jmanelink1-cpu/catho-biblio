@@ -232,8 +232,8 @@ export default function Landing() {
           </div>
 
           <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.03em', color: '#fff', marginBottom: 18 }}>
-            Toute la sagesse de l&apos;Église,{' '}
-            <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>dans votre main.</span>
+            La plus grande bibliothèque numérique{' '}
+            <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>100% catholique</span>
           </h1>
 
           <p className="rv on d2 serif" style={{ fontSize: 'clamp(1.12rem,2vw,1.42rem)', fontStyle: 'italic', lineHeight: 1.5, color: '#fff', maxWidth: 600, marginBottom: 36 }}>
@@ -242,7 +242,7 @@ export default function Landing() {
 
           <div className="rv on d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap', marginBottom: 24 }}>
             <Link href="/acheter" className="btn disp herobtn" style={{ display: 'inline-flex', alignItems: 'center', gap: 11, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '17px 38px', borderRadius: 999, fontWeight: 800, fontSize: '1rem', textDecoration: 'none', whiteSpace: 'nowrap', boxShadow: '0 14px 40px rgba(201,154,59,.4)' }}>
-              Commencer mon chemin spirituel <span style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></span>
+              <span style={{ width: 21, height: 21, flexShrink: 0 }}><I.Open /></span> Commencer mon chemin spirituel <span style={{ width: 18, height: 18, flexShrink: 0 }}><I.Arrow /></span>
             </Link>
           </div>
 
