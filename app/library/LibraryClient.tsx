@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES, type Book, type Profile } from '@/lib/types'
 import { Icon as Ico } from '@/components/Icons'
-import DesignedCover from './DesignedCover'
+import BookCover from './BookCover'
 
 interface Props {
   books:     Book[]
@@ -209,9 +209,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
               {showcase.map(book => (
                 <div key={book.id} className="lib-card" style={{ flexShrink: 0, width: 132, cursor: 'pointer' }} onClick={() => openBook(book)}>
                   <div className="lib-cover" style={{ width: '100%', aspectRatio: '2/3', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 22px rgba(30,16,50,.16)', border: '1px solid rgba(0,0,0,.05)' }}>
-                    {book.cover_url
-                      ? <img src={book.cover_url} alt={book.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : <DesignedCover title={book.title} author={book.author} category={book.category} />}
+                    <BookCover book={book} />
                   </div>
                   <div style={{ marginTop: 9, fontSize: '.78rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--color-ink)',
                     display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{book.title}</div>
@@ -245,9 +243,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
               {filtered.map(book => (
                 <div key={book.id} className="lib-card" style={{ cursor: 'pointer' }} onClick={() => openBook(book)}>
                   <div className="lib-cover" style={{ width: '100%', aspectRatio: '2/3', borderRadius: 13, overflow: 'hidden', boxShadow: '0 8px 22px rgba(30,16,50,.15)', border: '1px solid rgba(0,0,0,.05)' }}>
-                    {book.cover_url
-                      ? <img src={book.cover_url} alt={book.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      : <DesignedCover title={book.title} author={book.author} category={book.category} />}
+                    <BookCover book={book} />
                   </div>
                   <div style={{ marginTop: 10 }}>
                     <div style={{ fontSize: '.84rem', fontWeight: 700, lineHeight: 1.3, color: 'var(--color-ink)',
@@ -280,9 +276,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
               {/* Cover */}
               <div style={{ flexShrink: 0, width: 180 }}>
                 <div style={{ width: '100%', aspectRatio: '2/3', borderRadius: 14, overflow: 'hidden', boxShadow: '0 16px 36px rgba(30,16,50,.24)', border: '1px solid rgba(0,0,0,.06)' }}>
-                  {selected.cover_url
-                    ? <img src={selected.cover_url} alt={selected.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    : <DesignedCover title={selected.title} author={selected.author} category={selected.category} />}
+                  <BookCover book={selected} />
                 </div>
               </div>
 
