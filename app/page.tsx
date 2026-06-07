@@ -185,7 +185,7 @@ export default function Landing() {
       {/* ───────── Sticky mobile bar ───────── */}
       <div className={`sticky-bar${showBar ? ' show' : ''}`}>
         <div style={{ lineHeight: 1.1 }}>
-          <div className="disp" style={{ fontWeight: 800, fontSize: '1.02rem', color: '#fff' }}>{price} FCFA</div>
+          <div className="disp" style={{ fontWeight: 800, fontSize: '1.02rem', color: '#fff', whiteSpace: 'nowrap' }}>{price} FCFA <span style={{ fontSize: '.72rem', fontWeight: 600, color: 'rgba(255,255,255,.55)' }}>≈ {eurLabel} €</span></div>
           <div style={{ fontSize: '.7rem', color: GOLD_L }}>Paiement unique · accès à vie</div>
         </div>
         <Link href="/acheter" className="btn disp" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: `linear-gradient(135deg,${GOLD},${GOLD_L})`, color: PLUM, padding: '11px 22px', borderRadius: 999, fontWeight: 800, fontSize: '.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>
@@ -485,7 +485,7 @@ export default function Landing() {
       </section>
 
       {/* ───────── Footer ───────── */}
-      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '0 0 26px' }}>
+      <footer style={{ background: PLUM, color: 'rgba(255,255,255,.55)', padding: '56px 0 26px' }}>
         {/* Gold divider between final CTA and footer */}
         <div className="pad" style={{ maxWidth: 1140, margin: '0 auto', padding: '0 40px' }}>
           <div style={{ height: 2, borderRadius: 2, background: `linear-gradient(90deg, transparent, ${GOLD} 22%, ${GOLD_L} 50%, ${GOLD} 78%, transparent)` }} />
