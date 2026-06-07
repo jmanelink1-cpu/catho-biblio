@@ -477,7 +477,6 @@ export default function Landing() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 28, flexWrap: 'wrap', color: 'rgba(255,255,255,.6)', fontSize: '.82rem' }}>
             <span style={{ display: 'flex', gap: 7, alignItems: 'center' }}><span style={{ width: 15, height: 15, color: GOLD_L }}><I.Lock /></span> Paiement sécurisé</span>
             <span style={{ display: 'flex', gap: 7, alignItems: 'center' }}><span style={{ width: 15, height: 15, color: GOLD_L }}><I.Check /></span> Accès immédiat</span>
-            <span style={{ display: 'flex', gap: 7, alignItems: 'center' }}><span style={{ width: 15, height: 15, color: GOLD_L }}><I.Inf /></span> Garanti à vie</span>
           </div>
         </div>
       </section>
