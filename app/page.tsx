@@ -174,7 +174,7 @@ export default function Landing() {
           .heyebrow > span:first-child{ width:12px !important; height:12px !important; }
           .paybadge{ padding:6px 13px !important; }
           .paybadge > span:last-child{ font-size:.6rem !important; letter-spacing:.06em !important; }
-          .hero-h1{ font-size:clamp(2rem,8.5vw,2.6rem) !important; }
+          .hero-h1{ font-size:clamp(1.45rem,6.2vw,1.95rem) !important; }
           .herobtn{ padding:15px 26px !important; font-size:.92rem !important; }
         }
         @media (max-width:480px){ .grid4{ grid-template-columns:1fr !important; } }
@@ -232,7 +232,7 @@ export default function Landing() {
           </div>
 
           <h1 className="rv on d1 disp hero-h1" style={{ fontWeight: 800, lineHeight: 1.06, letterSpacing: '-.03em', color: '#fff', marginBottom: 18 }}>
-            La plus grande bibliothèque numérique{' '}
+            La plus grande<br className="brm" /> bibliothèque numérique<br className="brm" />{' '}
             <span style={{ background: `linear-gradient(100deg,${GOLD_L},${GOLD},${GOLD_L})`, WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>100% catholique</span>
           </h1>
 
