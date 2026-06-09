@@ -1,29 +1,20 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { PLANS, type Payment } from '@/lib/types'
+import { paymentsService } from '@/lib/services/payments'
+import { usersService } from '@/lib/services/users'
+import { type Payment } from '@/lib/types'
 
 interface Props { initialPayments: Payment[] }
 
 export default function AdminPaymentsClient({ initialPayments }: Props) {
-  const supabase = createClient()
   const [payments, setPayments] = useState<Payment[]>(initialPayments)
 
   const fmt = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })
 
   async function markCompleted(p: Payment) {
-    const plan    = p.plan ? PLANS[p.plan as keyof typeof PLANS] : null
-    const expires = plan?.duration_days
-      ? new Date(Date.now() + plan.duration_days * 86400000).toISOString()
-      : null
-
-    await (supabase as any).from('payments').update({ status: 'completed' }).eq('id', p.id)
-    if (p.user_id) {
-      await (supabase as any).from('profiles').update({
-        has_access: true, access_type: p.plan, access_expires_at: expires,
-      }).eq('id', p.user_id)
-    }
+    await paymentsService.complete(p.id)
+    if (p.user_id) await usersService.grantLifetime(p.user_id)
     setPayments(prev => prev.map(x => x.id === p.id ? { ...x, status: 'completed' } : x))
   }
 

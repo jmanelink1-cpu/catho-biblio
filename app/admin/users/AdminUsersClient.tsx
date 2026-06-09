@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { usersService } from '@/lib/services/users'
 import { Icon as Ico } from '@/components/Icons'
 
 export type UserRow = {
@@ -39,16 +39,14 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
   async function toggleAccess(u: UserRow) {
     if (!u.id) return
     const newVal = !u.has_access
-    const supabase = createClient() as any
-    await supabase.from('profiles').update({ has_access: newVal }).eq('id', u.id)
+    await usersService.setAccess(u.id, newVal)
     setUsers(prev => prev.map(x => x.id === u.id ? { ...x, has_access: newVal } : x))
   }
 
   async function grantAccess() {
     const user = users.find(u => u.email === gEmail.trim() && u.id)
     if (!user || !user.id) { alert('Utilisateur introuvable (le compte doit exister).'); return }
-    const supabase = createClient() as any
-    await supabase.from('profiles').update({ has_access: true, access_type: 'lifetime', access_expires_at: null }).eq('id', user.id)
+    await usersService.grantLifetime(user.id)
     setUsers(prev => prev.map(u => u.id === user.id ? { ...u, has_access: true } : u))
     setModal(false)
   }
@@ -57,16 +55,14 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
   async function toggleBan(u: UserRow) {
     if (!u.id) return
     const newBan = !u.banned
-    const supabase = createClient() as any
-    await supabase.from('profiles').update(newBan ? { banned: true, has_access: false } : { banned: false }).eq('id', u.id)
+    await usersService.setBanned(u.id, newBan)
     setUsers(prev => prev.map(x => x.id === u.id ? { ...x, banned: newBan, has_access: newBan ? false : x.has_access } : x))
   }
 
   async function deleteUser(u: UserRow) {
     if (!u.id) return
     if (!confirm(`Supprimer définitivement le compte de ${u.email} ? Cette action est irréversible.`)) return
-    const supabase = createClient() as any
-    const { error } = await supabase.from('profiles').delete().eq('id', u.id)
+    const { error } = await usersService.remove(u.id)
     if (error) { alert('Erreur : ' + error.message); return }
     setUsers(prev => prev.filter(x => x.id !== u.id))
   }

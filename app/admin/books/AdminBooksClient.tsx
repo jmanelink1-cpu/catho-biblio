@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { booksService } from '@/lib/services/books'
 import { CATEGORIES, type Book, type BookCategory } from '@/lib/types'
 import { Icon as I } from '@/components/Icons'
 import type { ComponentType } from 'react'
@@ -30,7 +30,6 @@ const EMPTY_FORM = {
 
 export default function AdminBooksClient({ initialBooks }: Props) {
   const router   = useRouter()
-  const supabase = createClient()
 
   const [books,      setBooks]      = useState<Book[]>(initialBooks)
   const [search,     setSearch]     = useState('')
@@ -65,23 +64,19 @@ export default function AdminBooksClient({ initialBooks }: Props) {
       year: form.year ? parseInt(form.year) : null, pages: form.pages ? parseInt(form.pages) : null,
       is_featured: form.is_featured,
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const db = supabase as any
     if (editId) {
-      await db.from('books').update(payload).eq('id', editId)
+      await booksService.update(editId, payload)
     } else {
-      await db.from('books').insert(payload)
+      await booksService.create(payload)
     }
     setSaving(false); setModal(false)
     router.refresh()
-    // Optimistic update
-    const { data } = await (supabase as any).from('books').select('*').order('created_at', { ascending: false })
-    if (data) setBooks(data as Book[])
+    setBooks(await booksService.list())
   }
 
   async function deleteBook(id: string, title: string) {
     if (!confirm(`Supprimer "${title}" ?`)) return
-    await (supabase as any).from('books').delete().eq('id', id)
+    await booksService.remove(id)
     setBooks(b => b.filter(x => x.id !== id))
   }
 

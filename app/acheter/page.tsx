@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { promoService } from '@/lib/services/promoCodes'
+import { ordersService } from '@/lib/services/orders'
 import { PAYMENT_PAGE_URL } from '@/lib/types'
 import { usePrice } from '@/lib/usePrice'
 import { Icon as I } from '@/components/Icons'
@@ -43,13 +44,10 @@ export default function CheckoutPage() {
     setPromoMsg('')
     const code = promo.trim().toUpperCase()
     if (!code) return
-    const db = createClient() as any
-    // Validation via fonction sécurisée (ne révèle jamais la liste des codes)
-    const { data } = await db.rpc('validate_promo', { p_code: code })
-    const row = Array.isArray(data) ? data[0] : data
-    if (!row) { setDiscount(0); setPromoMsg('Code invalide ou expiré.'); return }
-    setDiscount(row.discount_percent)
-    setPromoMsg(`Code appliqué : -${row.discount_percent}%`)
+    const pct = await promoService.validate(code)
+    if (pct == null) { setDiscount(0); setPromoMsg('Code invalide ou expiré.'); return }
+    setDiscount(pct)
+    setPromoMsg(`Code appliqué : -${pct}%`)
   }
 
   async function submit(e: React.FormEvent) {
@@ -64,9 +62,8 @@ export default function CheckoutPage() {
 
     // Enregistrer la commande (best effort — n'empêche pas le paiement si la table manque)
     try {
-      const db = createClient() as any
       // amount / status sont fixés côté serveur (valeurs par défaut) — non envoyés par le client
-      await db.from('orders').insert({
+      await ordersService.create({
         first_name: firstName.trim(), last_name: lastName.trim(),
         email: email.trim().toLowerCase(), country,
         promo_code: discount > 0 ? promo.trim().toUpperCase() : null,

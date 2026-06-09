@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { promoService } from '@/lib/services/promoCodes'
 import { Icon as I } from '@/components/Icons'
 import type { ComponentType } from 'react'
 
@@ -57,13 +57,12 @@ export default function MarketingClient({ stats, monthlyRevenue, codes: initialC
     const clean = code.trim().toUpperCase().replace(/\s+/g, '')
     if (!clean) { setErr('Entrez un code.'); return }
     setBusy(true)
-    const db = createClient() as any
-    const { data, error } = await db.from('promo_codes').insert({
+    const { data, error } = await promoService.create({
       code: clean,
       discount_percent: Math.min(100, Math.max(0, discount)),
       max_uses: maxUses ? parseInt(maxUses, 10) : null,
       active: true,
-    }).select().single()
+    })
     setBusy(false)
     if (error) { setErr(error.message.includes('duplicate') ? 'Ce code existe déjà.' : error.message); return }
     setCodes(c => [data as Code, ...c])
@@ -71,15 +70,13 @@ export default function MarketingClient({ stats, monthlyRevenue, codes: initialC
   }
 
   async function toggle(c: Code) {
-    const db = createClient() as any
     setCodes(list => list.map(x => x.id === c.id ? { ...x, active: !x.active } : x))
-    await db.from('promo_codes').update({ active: !c.active }).eq('id', c.id)
+    await promoService.setActive(c.id, !c.active)
   }
 
   async function remove(c: Code) {
-    const db = createClient() as any
     setCodes(list => list.filter(x => x.id !== c.id))
-    await db.from('promo_codes').delete().eq('id', c.id)
+    await promoService.remove(c.id)
   }
 
   const funnel = [

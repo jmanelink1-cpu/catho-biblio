@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { settingsService } from '@/lib/services/settings'
 import { Icon as I } from '@/components/Icons'
 
 export default function SettingsClient({ initialPrice, initialCurrency }: { initialPrice: number; initialCurrency: string }) {
@@ -16,8 +16,7 @@ export default function SettingsClient({ initialPrice, initialCurrency }: { init
     setSaving(true); setMsg('')
     const value = parseInt(price, 10)
     if (isNaN(value) || value < 0) { setSaving(false); setOk(false); setMsg('Prix invalide.'); return }
-    const db = createClient() as any
-    const { error } = await db.from('app_settings').update({ price: value, currency: currency.trim() || 'FCFA' }).eq('id', 1)
+    const { error } = await settingsService.update(value, currency.trim() || 'FCFA')
     setSaving(false)
     setOk(!error)
     setMsg(error ? `Erreur : ${error.message}` : 'Enregistré ✔ — le nouveau prix s\'affiche maintenant partout (accueil, checkout, etc.).')

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import { readingService } from '@/lib/services/reading'
 import type { Book } from '@/lib/types'
 
 export default function ReaderClient({ book, userId }: { book: Book; userId: string }) {
@@ -15,11 +15,7 @@ export default function ReaderClient({ book, userId }: { book: Book; userId: str
 
   async function markFinished() {
     setFinished(true)
-    const db = createClient() as any
-    await db.from('reading_progress').upsert(
-      { user_id: userId, book_id: book.id, progress: 100, updated_at: new Date().toISOString() },
-      { onConflict: 'user_id,book_id' }
-    )
+    await readingService.markFinished(userId, book.id)
   }
 
   const embedUrl = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null

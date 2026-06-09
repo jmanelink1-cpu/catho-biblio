@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { settingsService } from '@/lib/services/settings'
 import { SINGLE_PLAN } from '@/lib/types'
 
 /**
@@ -13,12 +13,8 @@ export function usePrice() {
   const [currency, setCurrency] = useState<string>('FCFA')
 
   useEffect(() => {
-    const db = createClient() as any
-    db.from('app_settings').select('price, currency').eq('id', 1).single()
-      .then(({ data }: any) => {
-        if (data?.price != null) setPrice(data.price)
-        if (data?.currency) setCurrency(data.currency)
-      })
+    settingsService.get()
+      .then(s => { if (s?.price != null) setPrice(s.price); if (s?.currency) setCurrency(s.currency) })
       .catch(() => {})
   }, [])
 

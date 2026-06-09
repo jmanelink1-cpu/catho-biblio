@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { paymentsService } from '@/lib/services/payments'
+import { usersService } from '@/lib/services/users'
 import { usePrice } from '@/lib/usePrice'
 
 type PayMethod = 'mobile' | 'card' | 'paypal' | 'cinetpay'
@@ -11,9 +11,6 @@ type PayMethod = 'mobile' | 'card' | 'paypal' | 'cinetpay'
 interface Props { userId: string; userEmail: string }
 
 export default function PricingClient({ userId, userEmail }: Props) {
-  const router   = useRouter()
-  const supabase = createClient()
-
   const [payMethod, setPayMethod] = useState<PayMethod>('mobile')
   const [loading,   setLoading]   = useState(false)
   const [success,   setSuccess]   = useState(false)
@@ -23,17 +20,15 @@ export default function PricingClient({ userId, userEmail }: Props) {
   const { price: priceAmount, label: price, eurLabel } = usePrice()
 
   async function recordPayment(method: string) {
-    const { data } = await (supabase as any).from('payments').insert({
+    const { data } = await paymentsService.record({
       user_id: userId, amount: priceAmount, currency: 'XOF',
       payment_method: method, plan: 'lifetime', status: 'pending',
-    }).select().single()
+    })
     return data
   }
 
   async function activateAccess() {
-    await (supabase as any).from('profiles').update({
-      has_access: true, access_type: 'lifetime', access_expires_at: null,
-    }).eq('id', userId)
+    await usersService.grantLifetime(userId)
   }
 
   async function handlePay() {
@@ -51,7 +46,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
     // DEMO — supprimer en production
     await new Promise(r => setTimeout(r, 1500))
     if (payment) {
-      await (supabase as any).from('payments').update({ status: 'completed' }).eq('id', payment.id)
+      await paymentsService.complete(payment.id)
     }
     await activateAccess()
     setSuccess(true)

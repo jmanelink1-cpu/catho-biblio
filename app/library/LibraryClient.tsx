@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { readingService } from '@/lib/services/reading'
 import { CATEGORIES, SUPPORT_EMAIL, type Book, type Profile } from '@/lib/types'
 import { Icon as Ico } from '@/components/Icons'
 import BookCover from './BookCover'
@@ -30,11 +31,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   const [progress, setProgress] = useState<Record<string, number>>({})
   useEffect(() => {
     if (isDemo || !profile?.id) return
-    const db = createClient() as any
-    db.from('reading_progress').select('book_id, progress').eq('user_id', profile.id)
-      .then(({ data }: { data: { book_id: string; progress: number }[] | null }) => {
-        if (data) { const m: Record<string, number> = {}; data.forEach(r => { m[r.book_id] = r.progress }); setProgress(m) }
-      }).catch(() => {})
+    readingService.getProgress(profile.id).then(setProgress).catch(() => {})
   }, [isDemo, profile?.id])
 
   const showcase = useMemo(() => {
@@ -98,8 +95,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
     if (!book.drive_file_id) { notify(`« ${book.title} » sera bientôt disponible.`); return }
     // Marque le livre comme "commencé" (si pas déjà suivi)
     if (!isDemo && profile?.id && !progress[book.id]) {
-      const db = createClient() as any
-      db.from('reading_progress').upsert({ user_id: profile.id, book_id: book.id, progress: 10 }, { onConflict: 'user_id,book_id' }).then(() => {}).catch(() => {})
+      readingService.markStarted(profile.id, book.id).then(() => {}).catch(() => {})
       setProgress(p => ({ ...p, [book.id]: 10 }))
     }
     router.push(`/reader?id=${book.id}`)
