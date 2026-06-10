@@ -41,14 +41,16 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
   async function toggleAccess(u: UserRow) {
     if (!u.id) return
     const newVal = !u.has_access
-    await usersService.setAccess(u.id, newVal)
+    const { error } = await usersService.setAccess(u.id, newVal)
+    if (error) { alert('Erreur : ' + error.message); return }
     setUsers(prev => prev.map(x => x.id === u.id ? { ...x, has_access: newVal } : x))
   }
 
   async function grantAccess() {
     const user = users.find(u => u.email === gEmail.trim() && u.id)
     if (!user || !user.id) { alert('Utilisateur introuvable (le compte doit exister).'); return }
-    await usersService.grantLifetime(user.id)
+    const { error } = await usersService.grantLifetime(user.id)
+    if (error) { alert('Erreur : ' + error.message); return }
     setUsers(prev => prev.map(u => u.id === user.id ? { ...u, has_access: true } : u))
     setModal(false)
   }
@@ -57,7 +59,8 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
   async function toggleBan(u: UserRow) {
     if (!u.id) return
     const newBan = !u.banned
-    await usersService.setBanned(u.id, newBan)
+    const { error } = await usersService.setBanned(u.id, newBan)
+    if (error) { alert('Erreur : ' + error.message); return }
     setUsers(prev => prev.map(x => x.id === u.id ? { ...x, banned: newBan, has_access: newBan ? false : x.has_access } : x))
   }
 

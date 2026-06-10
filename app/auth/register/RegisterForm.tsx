@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { PLANS, type PlanKey } from '@/lib/types'
+import { registerSchema, firstError } from '@/lib/validation'
 import { Suspense } from 'react'
 
 const CrossIcon = () => (
@@ -36,15 +37,15 @@ function RegisterForm() {
     e.preventDefault()
     setError('')
 
-    if (password !== confirm) { setError('Les mots de passe ne correspondent pas.'); return }
-    if (password.length < 8)  { setError('Le mot de passe doit contenir au moins 8 caractères.'); return }
+    const invalid = firstError(registerSchema.safeParse({ fullName, email, password, confirm }))
+    if (invalid) { setError(invalid); return }
 
     setLoading(true)
 
     const { error } = await supabase.auth.signUp({
-      email,
+      email: email.trim().toLowerCase(),
       password,
-      options: { data: { full_name: fullName } },
+      options: { data: { full_name: fullName.trim() } },
     })
 
     if (error) {

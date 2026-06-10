@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { promoService } from '@/lib/services/promoCodes'
 import { ordersService } from '@/lib/services/orders'
 import { PAYMENT_PAGE_URL } from '@/lib/types'
+import { checkoutSchema, firstError } from '@/lib/validation'
 import { usePrice } from '@/lib/usePrice'
 import { Icon as I } from '@/components/Icons'
 
@@ -53,11 +54,8 @@ export default function CheckoutPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     setErr('')
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !country) {
-      setErr('Merci de remplir tous les champs.')
-      return
-    }
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { setErr('Adresse email invalide.'); return }
+    const invalid = firstError(checkoutSchema.safeParse({ firstName, lastName, email, country }))
+    if (invalid) { setErr(invalid); return }
     setBusy(true)
 
     // Enregistrer la commande (best effort — n'empêche pas le paiement si la table manque)
