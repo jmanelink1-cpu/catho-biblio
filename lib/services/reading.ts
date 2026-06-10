@@ -8,11 +8,13 @@ export const readingService = {
     ;(data ?? []).forEach((r: { book_id: string; progress: number }) => { map[r.book_id] = r.progress })
     return map
   },
-  markStarted: (userId: string, bookId: string) =>
-    db().from('reading_progress').upsert({ user_id: userId, book_id: bookId, progress: 10 }, { onConflict: 'user_id,book_id' }),
-  markFinished: (userId: string, bookId: string) =>
-    db().from('reading_progress').upsert(
+  markStarted: async (userId: string, bookId: string) => {
+    await db().from('reading_progress').upsert({ user_id: userId, book_id: bookId, progress: 10 }, { onConflict: 'user_id,book_id' })
+  },
+  markFinished: async (userId: string, bookId: string) => {
+    await db().from('reading_progress').upsert(
       { user_id: userId, book_id: bookId, progress: 100, updated_at: new Date().toISOString() },
       { onConflict: 'user_id,book_id' },
-    ),
+    )
+  },
 }

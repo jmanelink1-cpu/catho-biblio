@@ -1,7 +1,7 @@
 import { db } from './client'
+import type { TablesInsert } from '@/lib/database.types'
 
 /** Commandes / informations clients collectées au checkout. */
 export const ordersService = {
-  create: (payload: { first_name: string; last_name: string; email: string; country: string; promo_code: string | null }) =>
-    db().from('orders').insert(payload),
+  create: (payload: TablesInsert<'orders'>) => db().from('orders').insert(payload),
 }

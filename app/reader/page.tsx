@@ -13,14 +13,14 @@ export default async function ReaderPage({ searchParams }: { searchParams: Promi
   if (!user) redirect('/auth/login')
 
   // Lecture réservée aux utilisateurs ayant payé (ou admins)
-  const { data: profile } = await (supabase as any).from('profiles').select('has_access, is_admin').eq('id', user.id).single()
+  const { data: profile } = await supabase.from('profiles').select('has_access, is_admin').eq('id', user.id).single()
   if (!profile?.has_access && !profile?.is_admin) redirect('/pricing')
 
   if (!id) redirect('/library')
 
   // Le drive_file_id est lu côté SERVEUR depuis la base (jamais via l'URL) ;
   // la RLS garantit qu'il n'est accessible qu'aux ayants droit.
-  const { data: book } = await (supabase as any).from('books').select('*').eq('id', id).single()
+  const { data: book } = await supabase.from('books').select('*').eq('id', id).single()
   if (!book) redirect('/library')
 
   return <ReaderClient book={book as Book} userId={user.id} />

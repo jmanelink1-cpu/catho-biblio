@@ -1,8 +1,9 @@
 import { db } from './client'
+import type { TablesInsert } from '@/lib/database.types'
 
 /** Codes promo (admin) + validation publique (checkout). */
 export const promoService = {
-  create: (payload: { code: string; discount_percent: number; max_uses: number | null; active: boolean }) =>
+  create: (payload: TablesInsert<'promo_codes'>) =>
     db().from('promo_codes').insert(payload).select().single(),
   setActive: (id: string, active: boolean) => db().from('promo_codes').update({ active }).eq('id', id),
   remove: (id: string) => db().from('promo_codes').delete().eq('id', id),

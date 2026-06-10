@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 import AdminUsersClient, { type UserRow } from './AdminUsersClient'
-import type { Profile } from '@/lib/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,11 +9,11 @@ export default async function AdminUsersPage() {
   const supabase = await createClient()
 
   const [{ data: usersData }, { data: ordersData }] = await Promise.all([
-    (supabase as any).from('profiles').select('*').order('created_at', { ascending: false }),
-    (supabase as any).from('orders').select('email, first_name, last_name, country, created_at').order('created_at', { ascending: false }),
+    supabase.from('profiles').select('*').order('created_at', { ascending: false }),
+    supabase.from('orders').select('email, first_name, last_name, country, created_at').order('created_at', { ascending: false }),
   ])
 
-  const profiles = (usersData ?? []) as Profile[]
+  const profiles = usersData ?? []
   const orders   = (ordersData ?? []) as Order[]
 
   // Latest country per email (orders already sorted desc)
@@ -33,7 +32,7 @@ export default async function AdminUsersPage() {
     email: p.email,
     country: countryByEmail[(p.email ?? '').toLowerCase()] ?? null,
     has_access: !!p.has_access,
-    banned: !!(p as any).banned,
+    banned: !!p.banned,
     created_at: p.created_at,
     isLead: false,
   }))
