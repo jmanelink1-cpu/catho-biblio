@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { usersService } from '@/lib/services/users'
 import { Icon as Ico } from '@/components/Icons'
 import SearchInput from '@/components/ui/SearchInput'
+import Modal from '@/components/ui/Modal'
 
 export type UserRow = {
   id: string | null
@@ -173,29 +174,18 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
         </div>
       </div>
 
-      {modal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-5" style={{ background: 'rgba(13,27,42,0.6)', backdropFilter: 'blur(4px)' }}>
-          <div className="w-full max-w-md rounded-2xl overflow-hidden" style={{ background: 'var(--color-surface)', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
-            <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'var(--color-border)' }}>
-              <h3 className="font-bold" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>Accès manuel</h3>
-              <button onClick={() => setModal(false)} className="w-8 h-8 rounded-full flex items-center justify-center text-sm" style={{ background: 'var(--color-subtle)', color: 'var(--color-muted)' }}>✕</button>
-            </div>
-            <div className="p-6 space-y-4">
-              <p className="text-xs" style={{ color: 'var(--color-muted)' }}>Accordez l&apos;accès à vie à un compte existant (par son email).</p>
-              <div>
-                <label className="text-sm font-semibold block mb-1.5" style={{ color: 'var(--color-ink-2)' }}>Email de l&apos;utilisateur</label>
-                <input type="email" value={gEmail} onChange={e => setGEmail(e.target.value)} placeholder="utilisateur@exemple.com"
-                       className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
-                       style={{ borderColor: 'var(--color-border)', background: 'var(--color-subtle)', color: 'var(--color-ink)' }} />
-              </div>
-            </div>
-            <div className="flex gap-3 justify-end px-6 py-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
-              <button onClick={() => setModal(false)} className="px-5 py-2.5 rounded-full text-sm font-semibold" style={{ color: 'var(--color-muted)' }}>Annuler</button>
-              <button onClick={grantAccess} className="px-6 py-2.5 rounded-full text-sm font-bold text-white" style={{ background: 'var(--color-brand)' }}>Activer l&apos;accès</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal open={modal} onClose={() => setModal(false)} title="Accès manuel" footer={
+        <>
+          <button onClick={() => setModal(false)} className="px-5 py-2.5 rounded-full text-sm font-semibold" style={{ color: 'var(--color-muted)' }}>Annuler</button>
+          <button onClick={grantAccess} className="px-6 py-2.5 rounded-full text-sm font-bold text-white" style={{ background: 'var(--color-brand)' }}>Activer l&apos;accès</button>
+        </>
+      }>
+        <p className="text-xs mb-4" style={{ color: 'var(--color-muted)' }}>Accordez l&apos;accès à vie à un compte existant (par son email).</p>
+        <label className="text-sm font-semibold block mb-1.5" style={{ color: 'var(--color-ink-2)' }}>Email de l&apos;utilisateur</label>
+        <input type="email" value={gEmail} onChange={e => setGEmail(e.target.value)} placeholder="utilisateur@exemple.com"
+               className="w-full px-4 py-3 rounded-xl border text-sm outline-none"
+               style={{ borderColor: 'var(--color-border)', background: 'var(--color-subtle)', color: 'var(--color-ink)' }} />
+      </Modal>
     </div>
   )
 }

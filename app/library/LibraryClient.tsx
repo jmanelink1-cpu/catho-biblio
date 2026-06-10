@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useInfiniteScroll } from '@/lib/hooks/useInfiniteScroll'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -57,22 +58,8 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
     return list
   }, [books, activeCategory, search])
 
-  // ─── Infinite scroll : ne rend qu'un lot à la fois (perf avec 500+ livres) ───
-  const PAGE = 24
-  const [visible, setVisible] = useState(PAGE)
-  const sentinelRef = useRef<HTMLDivElement | null>(null)
-  useEffect(() => { setVisible(PAGE) }, [activeCategory, search])
-  useEffect(() => {
-    const el = sentinelRef.current
-    if (!el) return
-    const io = new IntersectionObserver(
-      entries => { if (entries[0].isIntersecting) setVisible(v => Math.min(v + PAGE, filtered.length)) },
-      { rootMargin: '800px' }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [filtered.length, visible])
-  const shown = useMemo(() => filtered.slice(0, visible), [filtered, visible])
+  // Affichage par lots + chargement au défilement (hook réutilisable)
+  const { shown, hasMore, sentinelRef } = useInfiniteScroll(filtered, 24, `${activeCategory}|${search}`)
 
   async function logout() {
     const supabase = createClient()
@@ -294,7 +281,7 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
               ))}
             </div>
           )}
-          {visible < filtered.length && (
+          {hasMore && (
             <div ref={sentinelRef} style={{ display: 'flex', justifyContent: 'center', padding: '28px 0' }}>
               <span style={{ width: 26, height: 26, borderRadius: '50%', border: '3px solid rgba(109,40,217,.18)', borderTopColor: 'var(--color-brand)', animation: 'spin .7s linear infinite' }} />
             </div>
