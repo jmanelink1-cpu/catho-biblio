@@ -3,12 +3,15 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { readingService } from '@/lib/services/reading'
+import { useDeviceGuard } from '@/lib/hooks/useDeviceGuard'
+import DeviceLimitScreen from '@/components/DeviceLimitScreen'
 import type { Book } from '@/lib/types'
 
-export default function ReaderClient({ book, userId }: { book: Book; userId: string }) {
+export default function ReaderClient({ book, userId, isAdmin = false }: { book: Book; userId: string; isAdmin?: boolean }) {
   const title  = book.title || 'Lecture'
   const fileId = book.drive_file_id
 
+  const deviceState = useDeviceGuard(!isAdmin)
   const [loading,   setLoading]   = useState(true)
   const [panelOpen, setPanelOpen] = useState(false)
   const [finished,  setFinished]  = useState(false)
@@ -19,6 +22,14 @@ export default function ReaderClient({ book, userId }: { book: Book; userId: str
   }
 
   const embedUrl = fileId ? `https://drive.google.com/file/d/${fileId}/preview` : null
+
+  if (deviceState === 'limit') return <DeviceLimitScreen />
+  if (deviceState === 'checking') return (
+    <div className="flex items-center justify-center h-screen" style={{ background: '#1A1A2E' }}>
+      <span style={{ width: 34, height: 34, borderRadius: '50%', border: '3px solid rgba(255,255,255,.18)', borderTopColor: '#C99A3B', animation: 'spin .7s linear infinite' }} />
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+    </div>
+  )
 
   return (
     <div className="flex flex-col h-screen" style={{ background: '#1A1A2E' }}>

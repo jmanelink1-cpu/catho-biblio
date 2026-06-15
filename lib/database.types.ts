@@ -72,10 +72,17 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['reading_progress']['Insert']>
         Relationships: []
       }
+      user_devices: {
+        Row: { user_id: string; device_id: string; label: string | null; last_seen: string; created_at: string }
+        Insert: { user_id: string; device_id: string; label?: string | null; last_seen?: string; created_at?: string }
+        Update: Partial<Database['public']['Tables']['user_devices']['Insert']>
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: {
       validate_promo: { Args: { p_code: string }; Returns: { discount_percent: number }[] }
+      claim_device: { Args: { p_device_id: string; p_label?: string }; Returns: string }
       is_admin: { Args: Record<PropertyKey, never>; Returns: boolean }
     }
     Enums: Record<string, never>

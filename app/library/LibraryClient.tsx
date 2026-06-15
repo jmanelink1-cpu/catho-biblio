@@ -2,6 +2,8 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import { useInfiniteScroll } from '@/lib/hooks/useInfiniteScroll'
+import { useDeviceGuard } from '@/lib/hooks/useDeviceGuard'
+import DeviceLimitScreen from '@/components/DeviceLimitScreen'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -27,6 +29,9 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
 
   const firstName = (profile.full_name || userEmail).split(' ')[0]
   const initials  = (profile.full_name || userEmail).split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()
+
+  // Limite de 2 appareils (désactivée pour l'admin et l'aperçu démo)
+  const deviceState = useDeviceGuard(!isDemo && !profile.is_admin)
 
   // ─── Progression de lecture (barre sous la couverture) ───
   const [progress, setProgress] = useState<Record<string, number>>({})
@@ -95,6 +100,15 @@ export default function LibraryClient({ books, profile, userEmail, isDemo = fals
   }
 
   const fmtCat = (v: string | null) => CATEGORIES.find(c => c.value === v)?.label
+
+  // Garde-fou appareils : bloque le 3e appareil, attend la vérification avant d'afficher
+  if (deviceState === 'limit') return <DeviceLimitScreen />
+  if (deviceState === 'checking') return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)' }}>
+      <span style={{ width: 34, height: 34, borderRadius: '50%', border: '3px solid rgba(109,40,217,.18)', borderTopColor: '#6D28D9', animation: 'spin .7s linear infinite' }} />
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+    </div>
+  )
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>

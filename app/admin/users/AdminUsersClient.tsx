@@ -72,6 +72,14 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
     setUsers(prev => prev.filter(x => x.id !== u.id))
   }
 
+  async function resetDevices(u: UserRow) {
+    if (!u.id) return
+    if (!confirm(`Réinitialiser les appareils de ${u.email} ? Le compte pourra se reconnecter sur 2 nouveaux appareils.`)) return
+    const { error } = await usersService.resetDevices(u.id)
+    if (error) { alert('Erreur : ' + error.message); return }
+    alert('Appareils réinitialisés ✔')
+  }
+
   const fmt = (d: string | null) => d ? new Date(d).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'
 
   return (
@@ -154,6 +162,11 @@ export default function AdminUsersClient({ initialUsers, topCountries }: Props) 
                                         className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-left"
                                         style={{ color: u.banned ? '#16A34A' : '#B45309' }}>
                                   {u.banned ? 'Débloquer le compte' : 'Bloquer le compte'}
+                                </button>
+                                <button onClick={() => { resetDevices(u); setMenuFor(null) }}
+                                        className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-left"
+                                        style={{ color: 'var(--color-ink)' }}>
+                                  Réinitialiser les appareils
                                 </button>
                                 <button onClick={() => { deleteUser(u); setMenuFor(null) }}
                                         className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-left"

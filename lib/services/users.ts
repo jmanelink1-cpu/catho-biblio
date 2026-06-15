@@ -13,4 +13,8 @@ export const usersService = {
 
   remove:        (id: string) =>
     db().from('profiles').delete().eq('id', id),
+
+  /** Réinitialise les appareils enregistrés d'un compte (libère les 2 créneaux). */
+  resetDevices:  (id: string) =>
+    db().from('user_devices').delete().eq('user_id', id),
 }
