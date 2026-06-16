@@ -6,6 +6,7 @@ import { promoService } from '@/lib/services/promoCodes'
 import { ordersService } from '@/lib/services/orders'
 import { PAYMENT_PAGE_URL } from '@/lib/types'
 import { checkoutSchema, firstError } from '@/lib/validation'
+import { eurFromFcfa } from '@/lib/format'
 import { usePrice } from '@/lib/usePrice'
 import { Icon as I } from '@/components/Icons'
 
@@ -39,7 +40,7 @@ export default function CheckoutPage() {
 
   const { price } = usePrice()
   const final = Math.round(price * (1 - discount / 100))
-  const finalEur = Math.round(final / 655.957) // 1 € = 655,957 FCFA (taux fixe)
+  const finalEur = eurFromFcfa(final)
 
   async function applyPromo() {
     setPromoMsg('')

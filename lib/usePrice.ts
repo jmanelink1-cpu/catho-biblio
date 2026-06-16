@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { settingsService } from '@/lib/services/settings'
+import { eurFromFcfa } from '@/lib/format'
 import { SINGLE_PLAN } from '@/lib/types'
 
 /**
@@ -18,7 +19,6 @@ export function usePrice() {
       .catch(() => {})
   }, [])
 
-  // Taux fixe FCFA (XOF) ↔ EUR : 1 € = 655,957 FCFA
-  const eur = Math.round(price / 655.957)
+  const eur = eurFromFcfa(price)
   return { price, currency, label: price.toLocaleString('fr-FR'), eur, eurLabel: eur.toLocaleString('fr-FR') }
 }
