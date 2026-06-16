@@ -58,15 +58,12 @@ export default function CheckoutPage() {
     if (invalid) { setErr(invalid); return }
     setBusy(true)
 
-    // Enregistrer la commande (best effort — n'empêche pas le paiement si la table manque)
-    try {
-      // amount / status sont fixés côté serveur (valeurs par défaut) — non envoyés par le client
-      await ordersService.create({
-        first_name: firstName.trim(), last_name: lastName.trim(),
-        email: email.trim().toLowerCase(), country,
-        promo_code: discount > 0 ? promo.trim().toUpperCase() : null,
-      })
-    } catch {}
+    // Enregistre la commande. amount / status sont fixés côté serveur.
+    const { error: orderError } = await ordersService.create({
+      first_name: firstName.trim(), last_name: lastName.trim(),
+      email: email.trim().toLowerCase(), country,
+      promo_code: discount > 0 ? promo.trim().toUpperCase() : null,
+    })
 
     if (PAYMENT_PAGE_URL) {
       const sep = PAYMENT_PAGE_URL.includes('?') ? '&' : '?'
@@ -79,6 +76,8 @@ export default function CheckoutPage() {
     }
 
     setBusy(false)
+    // Aucun prestataire branché : on ne confirme QUE si l'enregistrement a réussi
+    if (orderError) { setErr("L'enregistrement n'a pas abouti. Veuillez réessayer ou contacter le support."); return }
     setDone(true)
   }
 

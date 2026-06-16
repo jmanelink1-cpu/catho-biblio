@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { paymentsService } from '@/lib/services/payments'
-import { usersService } from '@/lib/services/users'
 import { usePrice } from '@/lib/usePrice'
 
 type PayMethod = 'mobile' | 'card' | 'paypal' | 'cinetpay'
@@ -14,43 +13,34 @@ export default function PricingClient({ userId, userEmail }: Props) {
   const [payMethod, setPayMethod] = useState<PayMethod>('mobile')
   const [loading,   setLoading]   = useState(false)
   const [success,   setSuccess]   = useState(false)
+  const [error,     setError]     = useState('')
   const [phone,     setPhone]     = useState('')
   const [operator,  setOperator]  = useState('mtn')
 
   const { price: priceAmount, label: price, eurLabel } = usePrice()
 
-  async function recordPayment(method: string) {
-    const { data } = await paymentsService.record({
-      user_id: userId, amount: priceAmount, currency: 'XOF',
-      payment_method: method, plan: 'lifetime', status: 'pending',
-    })
-    return data
-  }
-
-  async function activateAccess() {
-    await usersService.grantLifetime(userId)
-  }
-
   async function handlePay() {
     setLoading(true)
-    const payment = await recordPayment(payMethod === 'mobile' ? operator : payMethod)
+    setError('')
 
-    /* ──────────────────────────────────────────────────────────────────
-       TODO: Connectez votre API de paiement selon payMethod :
-       'mobile'   → CinetPay, Notchpay, Flutterwave, Pawapay
-       'card'     → Stripe PaymentIntent
-       'paypal'   → PayPal Buttons SDK
-       'cinetpay' → CinetPay checkout redirect
-    ────────────────────────────────────────────────────────────────── */
+    // Enregistre le paiement (en attente). L'ACCÈS n'est jamais activé côté
+    // client : il le sera côté serveur par le webhook du prestataire, après
+    // confirmation réelle du paiement.
+    const { data: payment, error } = await paymentsService.record({
+      user_id: userId, amount: priceAmount, currency: 'XOF',
+      payment_method: payMethod === 'mobile' ? operator : payMethod, plan: 'lifetime', status: 'pending',
+    })
 
-    // DEMO — supprimer en production
-    await new Promise(r => setTimeout(r, 1500))
-    if (payment) {
-      await paymentsService.complete(payment.id)
-    }
-    await activateAccess()
-    setSuccess(true)
     setLoading(false)
+
+    if (error || !payment) {
+      setError("L'enregistrement n'a pas abouti. Veuillez réessayer ou contacter le support.")
+      return
+    }
+
+    /* TODO: rediriger vers la page de paiement du prestataire (CinetPay,
+       PayDunya, Stripe…). L'accès sera activé par son webhook. */
+    setSuccess(true)
   }
 
   if (success) {
@@ -63,10 +53,10 @@ export default function PricingClient({ userId, userEmail }: Props) {
             <span className="w-8 h-8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 2v20M2 12h20"/></svg></span>
           </div>
           <h2 className="text-2xl font-extrabold mb-3" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>
-            Accès activé !
+            Paiement enregistré
           </h2>
           <p className="mb-8 leading-relaxed" style={{ color: 'var(--color-muted)' }}>
-            Bienvenue dans votre bibliothèque catholique. Vous avez maintenant accès à tous les livres pour toujours.
+            Merci ! Votre paiement est en cours de traitement. Votre accès sera activé dès sa confirmation, et vous recevrez un email.
           </p>
           <Link href="/library"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-bold text-white text-base w-full"
@@ -198,6 +188,12 @@ export default function PricingClient({ userId, userEmail }: Props) {
               </div>
             )}
 
+            {error && (
+              <div className="mb-3 px-4 py-3 rounded-xl text-sm" style={{ background: '#FEF2F2', color: '#DC2626', border: '1px solid #FCA5A5' }}>
+                ⚠ {error}
+              </div>
+            )}
+
             <button onClick={handlePay} disabled={loading}
                     className="w-full py-4 rounded-full font-extrabold text-white text-base transition-all disabled:opacity-60"
                     style={{ background: 'linear-gradient(135deg, #3B0764, #6D28D9)', fontFamily: 'var(--font-sora)' }}>
@@ -205,7 +201,7 @@ export default function PricingClient({ userId, userEmail }: Props) {
             </button>
 
             <p className="text-center text-xs mt-3" style={{ color: 'var(--color-muted-2)' }}>
-              Paiement sécurisé · Accès activé immédiatement
+              Paiement sécurisé · Accès activé après confirmation
             </p>
           </div>
         </div>
