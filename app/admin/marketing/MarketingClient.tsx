@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { promoService } from '@/lib/services/promoCodes'
 import { Icon as I } from '@/components/Icons'
+import { StatCard } from '@/components/ui/Card'
 import type { ComponentType } from 'react'
 
 type IconC = ComponentType<{ width?: number; height?: number }>
@@ -106,15 +107,7 @@ export default function MarketingClient({ stats, monthlyRevenue, codes: initialC
         <div>
           <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-ink)' }}>Conversion & croissance</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {funnel.map(f => (
-              <div key={f.label} className="rounded-2xl border p-5 flex items-start gap-4" style={card}>
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: f.bg, color: f.fg }}><Glyph icon={f.icon} size={20} /></div>
-                <div>
-                  <div className="text-2xl font-extrabold leading-none mb-1" style={{ fontFamily: 'var(--font-sora)', color: 'var(--color-ink)' }}>{f.value}</div>
-                  <div className="text-xs" style={{ color: 'var(--color-muted)' }}>{f.label}</div>
-                </div>
-              </div>
-            ))}
+            {funnel.map(f => <StatCard key={f.label} icon={f.icon} label={f.label} value={f.value} bg={f.bg} fg={f.fg} />)}
           </div>
         </div>
 
